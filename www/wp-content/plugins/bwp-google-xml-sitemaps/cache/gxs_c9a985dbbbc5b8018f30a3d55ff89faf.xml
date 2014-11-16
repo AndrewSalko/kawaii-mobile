@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://kawaii-mobile.com/wp-content/plugins/bwp-google-xml-sitemaps/xsl/bwp-sitemapindex.xsl"?>
+
+<sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+	http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd"
+	xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+	<sitemap>
+		<loc>http://kawaii-mobile.com/post.xml</loc>
+		<lastmod>2014-09-28T14:59:35+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>http://kawaii-mobile.com/page.xml</loc>
+		<lastmod>2012-08-02T16:15:35+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>http://kawaii-mobile.com/taxonomy_category.xml</loc>
+		<lastmod>2014-09-28T14:59:35+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>http://kawaii-mobile.com/taxonomy_post_tag.xml</loc>
+		<lastmod>2014-09-28T14:59:35+00:00</lastmod>
+	</sitemap>
+</sitemapindex>
+
+<!-- This sitemap was originally generated in 0.025 second(s) (Memory usage: 11.86 MB) - 1 queries - 4 URL(s) listed -->
