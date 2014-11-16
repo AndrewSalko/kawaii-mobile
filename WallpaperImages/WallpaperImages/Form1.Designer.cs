@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this._LabelNameOfAnime = new System.Windows.Forms.Label();
 			this._TextBoxNameOfAnime = new System.Windows.Forms.TextBox();
 			this._GroupBoxCharacters = new System.Windows.Forms.GroupBox();
@@ -50,8 +51,8 @@
 			this._CheckBoxAddPhoneName = new System.Windows.Forms.CheckBox();
 			this._MainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this._ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._PageComposerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._GroupBoxCharacters.SuspendLayout();
 			this._ContextMenuChars.SuspendLayout();
 			this._GroupBoxFiles.SuspendLayout();
@@ -281,19 +282,19 @@
 			this._FileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this._FileToolStripMenuItem.Text = "Файл";
 			// 
-			// _ExitToolStripMenuItem
-			// 
-			this._ExitToolStripMenuItem.Name = "_ExitToolStripMenuItem";
-			this._ExitToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-			this._ExitToolStripMenuItem.Text = "Выход";
-			this._ExitToolStripMenuItem.Click += new System.EventHandler(this._ExitToolStripMenuItem_Click);
-			// 
 			// _PageComposerToolStripMenuItem
 			// 
 			this._PageComposerToolStripMenuItem.Name = "_PageComposerToolStripMenuItem";
 			this._PageComposerToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
 			this._PageComposerToolStripMenuItem.Text = "Компоновка веб-страницы";
 			this._PageComposerToolStripMenuItem.Click += new System.EventHandler(this._PageComposerToolStripMenuItem_Click);
+			// 
+			// _ExitToolStripMenuItem
+			// 
+			this._ExitToolStripMenuItem.Name = "_ExitToolStripMenuItem";
+			this._ExitToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+			this._ExitToolStripMenuItem.Text = "Выход";
+			this._ExitToolStripMenuItem.Click += new System.EventHandler(this._ExitToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -310,6 +311,7 @@
 			this.Controls.Add(this._GroupBoxCharacters);
 			this.Controls.Add(this._TextBoxNameOfAnime);
 			this.Controls.Add(this._LabelNameOfAnime);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this._MainMenuStrip;
 			this.Name = "Form1";
 			this.Text = "Подготовка изображений-обоев для поста на сайт";
