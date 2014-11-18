@@ -71,31 +71,32 @@ namespace WallpaperImages
 				phonePromoText = _PhonePromo.GetPhonePromoText(new Size(dimX, dimY));
 			}
 
-			if (charNamesList.Count > 0)
-			{
-				int indexPhonePromo = _Rnd.Next(0, charNamesList.Count);
+			//if (charNamesList.Count > 0)
+			//{
+			//	int indexPhonePromo = _Rnd.Next(0, charNamesList.Count);
 
-				for (int i = 0; i < charNamesList.Count; i++)
-				{
-					string charName = charNamesList[i];
-					charNames += charName;
+			//	for (int i = 0; i < charNamesList.Count; i++)
+			//	{
+			//		string charName = charNamesList[i];
+			//		charNames += charName;
 
-					if (useRandomPhoneName && indexPhonePromo == i)
-					{						
-						charNames += " ";
-						charNames += phonePromoText;
-						charNames += ".";
+			//		if (useRandomPhoneName && indexPhonePromo == i)
+			//		{						
+			//			charNames += " ";
+			//			charNames += phonePromoText;
+			//			charNames += ".";
 
-						phonePromoText = string.Empty;//очистим, чтобы ниже не добавлять еще раз
-					}
-					else
-					{
-						charNames += ".";
-					}
-				}
-			}
+			//			phonePromoText = string.Empty;//очистим, чтобы ниже не добавлять еще раз
+			//		}
+			//		else
+			//		{
+			//			charNames += ".";
+			//		}
+			//	}
+			//}
 
-			charNames = charNames.Trim('.');
+			//charNames = charNames.Trim('.');
+			charNames = string.Join(" ", charNamesList.ToArray());
 			
 			string ext = System.IO.Path.GetExtension(sourceFileName);
 
@@ -109,7 +110,7 @@ namespace WallpaperImages
 				//если есть имена - добавляем их сразу:
 				if (!string.IsNullOrEmpty(charNames))
 				{
-					result += "."+charNames;
+					result += " "+charNames;
 				}
 
 				if (!string.IsNullOrEmpty(phonePromoText))
@@ -118,7 +119,7 @@ namespace WallpaperImages
 				}
 
 				//после имен - добавляем "разрешение экрана"
-				result += string.Format(".{0}x{1}", dimX,dimY);//добавляем 320x480
+				result += string.Format(" {0}x{1}", dimX,dimY);//добавляем 320x480
 
 				if (counter > 0)
 				{
