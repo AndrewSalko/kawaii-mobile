@@ -800,7 +800,7 @@ a.h2 {
 	text-align: left;
 	letter-spacing: -1px;
 	margin-bottom: 4px;
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	line-height: 19px;
 	margin-right: 10px;
@@ -1051,8 +1051,8 @@ a.h2 {
 
 .post-author {
 	color: #555;
-	font-size: 9px;
-	line-height: 13px;
+	font-size: 12px;
+	line-height: 14px;
 	position: relative;
 	font-weight: bold;
 	letter-spacing: 0;
@@ -1147,6 +1147,18 @@ a.sh2 {
 	font-size: 14px;
 }
 
+/* links in main post body*/
+div#singlentry a
+{
+	font-size: 18px;
+}
+
+div#singlentry div
+{
+	margin: 16px;
+}
+
+
 .single-post-meta-top {
 	text-align: left;
 	color: #999;
@@ -1158,12 +1170,12 @@ a.sh2 {
 .single-post-meta-bottom {
 	text-align: left;
 	color: #666;
-	font-size: 11px;
+	font-size: 14px;
 	border-bottom: 1px solid #adadad;
 	border-top: 1px solid #adadad;
 	padding: 10px;
 	font-weight: bold;
-	line-height: 14px;
+	line-height: 16px;
 	background-color: #e5eff5;
 	margin: 5px -10px;
 	text-shadow: #fafafa 0 1px 1px;

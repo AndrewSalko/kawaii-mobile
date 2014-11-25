@@ -156,11 +156,11 @@ function wptouch_init() {
 function wptouch_include_adsense() {
 	global $wptouch_plugin;
 	$settings = bnc_wptouch_get_settings();
-	if ( bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile' && isset( $settings['adsense-id'] ) && strlen( $settings['adsense-id'] ) && is_single() ) {
+	if ( bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile' /*&& isset( $settings['adsense-id'] ) && strlen( $settings['adsense-id'] )*/ && is_single() ) {
 		global $wptouch_settings;
 		$wptouch_settings = $settings;
 		
-		include( 'include/adsense-new.php' );
+		include( 'include/adsense-kawaii.php' );
 	}
 }
 

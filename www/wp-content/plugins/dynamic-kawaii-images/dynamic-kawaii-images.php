@@ -468,9 +468,9 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$mainLink='<a href="'. $imgURL.'" target="_blank">'.$linkNameCurrent.'</a>';
 
-			$content .= '<br/>';
+			$content .= '<div>';
 			$content .= $mainLink;            		
-			$content .= '<br/>';
+			$content .= '</div>';
 
 			foreach ($resArr as $resName => $resParams)
 			{
@@ -480,8 +480,8 @@ if (!class_exists("DynamicKawaiiImages"))
 					$linkName=$linkName . ' (' . $resParams['description']. ')';
 				}
 
-				//good file name. 
-				$addLink='<a href="'.$postPermLink .'custom-image/'. $imageID .'/'.$resName. '" target="_blank">'.$linkName.'</a><br/>';
+				//good file name.  
+				$addLink='<div><a href="'.$postPermLink .'custom-image/'. $imageID .'/'.$resName. '" target="_blank">'.$linkName.'</a></div>';
 				$content .= $addLink;
 			}
 						

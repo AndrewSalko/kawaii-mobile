@@ -38,7 +38,7 @@ if (!class_exists("KawaiiAddThis"))
 			if($standartButtons===TRUE)
 			{
 				//standart style, mobile or small window
-				$addContent .= '<div class="addthis_toolbox addthis_default_style addthis_16x16_style kawaii_sharing_standart">';
+				$addContent .= '<div class="addthis_toolbox addthis_default_style addthis_32x32_style kawaii_sharing_standart">';
 			}
 			else
 			{
