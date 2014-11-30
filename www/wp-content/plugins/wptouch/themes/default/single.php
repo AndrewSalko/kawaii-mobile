@@ -13,35 +13,32 @@
 
 		<div class="clearer"></div>			
 
-         <div class="post" id="post-<?php the_ID(); ?>">
+        <div class="post" id="post-<?php the_ID(); ?>">
          	<div id="singlentry" class="<?php echo $wptouch_settings['style-text-justify']; ?>">
             	<?php the_content(); ?>				
 			</div>  
 			
-<!-- Categories and Tags post footer -->        
-
-			<?php wptouch_include_adsense(); ?>
-
+			<!-- Categories and Tags post footer -->			
 			<div class="single-post-meta-bottom">
 					<?php wp_link_pages( 'before=<div class="post-page-nav">' . __( "Article Pages", "wptouch-pro" ) . ':&after=</div>&next_or_number=number&pagelink=page %&previouspagelink=&raquo;&nextpagelink=&laquo;' ); ?>          
 			    <?php _e( "Categories", "wptouch" ); ?>: <?php if (the_category(', ')) the_category(); ?>
 			    <?php if (function_exists('get_the_tags')) the_tags('<br />' . __( 'Tags', 'wptouch' ) . ': ', ', ', ''); ?>  
 		    </div>   
 
-		<ul id="post-options">
-		<?php $prevPost = get_previous_post(); if ($prevPost) { ?>
-			<li><a href="<?php $prevPost = get_previous_post(false); $prevURL = get_permalink($prevPost->ID); echo $prevURL; ?>" id="oprev"></a></li>
-		<?php } ?>
-		<li><a href="mailto:?subject=<?php
-bloginfo('name'); ?>- <?php the_title_attribute();?>&body=<?php _e( "Check out this post:", "wptouch" ); ?>%20<?php the_permalink() ?>" onclick="return confirm('<?php _e( "Mail a link to this post?", "kawaii-mobile.com" ); ?>');" id="omail"></a></li>
-
+			<ul id="post-options">
+				<?php $prevPost = get_previous_post(); if ($prevPost) { ?>
+				<li><a href="<?php $prevPost = get_previous_post(false); $prevURL = get_permalink($prevPost->ID); echo $prevURL; ?>" id="oprev"></a></li>
+				<?php } ?>
+				<li><a href="mailto:?subject=<?php bloginfo('name'); ?>- <?php the_title_attribute();?>&body=<?php _e( "Check out this post:", "wptouch" ); ?>%20<?php the_permalink() ?>" onclick="return confirm('<?php _e( "Mail a link to this post?", "kawaii-mobile.com" ); ?>');" id="omail"></a></li>
 		
-		<?php wptouch_twitter_link(); ?>
-		<?php $nextPost = get_next_post(); if ($nextPost) { ?>
-			<li><a href="<?php $nextPost = get_next_post(false); $nextURL = get_permalink($nextPost->ID); echo $nextURL; ?>" id="onext"></a></li>
-		<?php } ?>
-		</ul>
-    </div>
+				<?php wptouch_twitter_link(); ?>
+				<?php $nextPost = get_next_post(); if ($nextPost) { ?>
+				<li><a href="<?php $nextPost = get_next_post(false); $nextURL = get_permalink($nextPost->ID); echo $nextURL; ?>" id="onext"></a></li>
+				<?php } ?>
+			</ul>
+    	</div>
+
+	<?php wptouch_include_adsense(); ?>
 
 <!-- Let's rock the comments -->
 <?php if ( bnc_can_show_comments() ) : ?>
