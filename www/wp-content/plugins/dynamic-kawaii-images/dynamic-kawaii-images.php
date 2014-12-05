@@ -140,12 +140,8 @@ if (!class_exists("DynamicKawaiiImages"))
 			$fileExt=end($nameParts);//extension (jpg)
 
 			$fileNameGood='kawaii-mobile.com.'.$shortFileName.'.'.$resolution.'.'.$fileExt;
-
-			$nowTime = (string)time();
-			$encryptor=new EncryptorKawaii();
-			$secretCode=$encryptor->Encode($nowTime);
             			
-			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;code='.$secretCode.'&amp;id='.$imageID;
+			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID;
 
 			$linkNameCurrent=$resDetector->GetResolutionDescription($imgWidth, $imgHeight);
 
@@ -247,43 +243,15 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 
 			if(array_key_exists('newsize', $_GET)===FALSE ||
-				array_key_exists('code', $_GET)===FALSE ||
 				array_key_exists('id', $_GET)===FALSE
 					)
 			{
 				return;
 			}
 
-			$code=$_GET['code'];
 			$newsize=$_GET['newsize'];
-			$imageID=$_GET['id'];			
-
-			//--- Блок защиты от прямой ссылки на генерируемое изображение			
-			$nowTime = time();
-			$encryptor=new EncryptorKawaii();
-			$timeCode=(int)$encryptor->Decode($code);
-			$timeDiff=$nowTime-$timeCode;
-			//разница в секундах от сгенерированного кода 
-			//при загрузке страницы и текущего времени. Мы
-			//считаем что человек врядли будет "думать" более 2 часов,
-			//поэтому тут будет так - если прошло более 2 часов тебя
-			//редиректят снова на страницу аттача.
-			if($timeDiff>120*60)
-			{
-				//пробуем детектить пост-пермалинк, если дали
-				//правильный ID изображения
-				$testPermLink=post_permalink($imageID);
-				if($testPermLink===FALSE)
-				{
-					return;
-				}
-
-				header("location:".$testPermLink);
-				return;
-			}
-			//--- (end)Блок защиты от прямой ссылки на генерируемое изображение
-			
-
+			$imageID=$_GET['id'];
+		
 			$imageCacheDirBase=WP_CONTENT_DIR . '/imagescache';
 			//check this directory, if need - create it			
 			if(! (is_dir($imageCacheDirBase) || mkdir($imageCacheDirBase)) )
@@ -451,25 +419,20 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 
 			$attWidth=$attMeta['width'];
-			$attHeight=$attMeta['height'];            		
+			$attHeight=$attMeta['height'];
 
 			//get available resolutions for this size:
 			$resDetector=new KawaiiResolutionDetector();
 			$resArr=$resDetector->GetAvailableResolutions($attWidth, $attHeight);
-
-			//secret code generation	
-			$nowTime = (string)time();
-			$encryptor=new EncryptorKawaii();
-			$secretCode=$encryptor->Encode($nowTime);
 				
-			$content.="<p>";	//style='float:right'
+			$content.="<p>";
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
 
-			$mainLink='<a href="'. $imgURL.'" target="_blank">'.$linkNameCurrent.'</a>';
+			$mainLink='<a href="'. $imgURL.'" >'.$linkNameCurrent.'</a>';
 
 			$content .= '<div>';
-			$content .= $mainLink;            		
+			$content .= $mainLink;
 			$content .= '</div>';
 
 			foreach ($resArr as $resName => $resParams)
@@ -481,7 +444,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 
 				//good file name.  
-				$addLink='<div><a href="'.$postPermLink .'custom-image/'. $imageID .'/'.$resName. '" target="_blank">'.$linkName.'</a></div>';
+				$addLink='<div><a href="'.$postPermLink .'custom-image/'. $imageID .'/'.$resName. '" >'.$linkName.'</a></div>';
 				$content .= $addLink;
 			}
 						
