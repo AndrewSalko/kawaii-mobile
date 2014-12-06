@@ -113,7 +113,7 @@ namespace WallpaperImages
 			}
 		}
 
-		public string GetHTML(string[] resolutions)
+		public string GetHTML(string[] resolutions, string wikiLink, string genreText)
 		{
 			string result = string.Empty;
 
@@ -170,6 +170,18 @@ namespace WallpaperImages
 
 			result += "</table>";
 			result += Environment.NewLine;
+
+			if (!string.IsNullOrWhiteSpace(genreText))
+			{
+				result += "Genre: " + genreText;
+			}
+			result += Environment.NewLine;
+
+			if (!string.IsNullOrWhiteSpace(wikiLink))
+			{
+				string linkTemplate = "<a href=\"{0}\" rel=\"nofollow\" target=\"_blank\">{1} on Wikipedia</a>";
+				result += string.Format(linkTemplate, wikiLink, _AnimeName);
+			}
 
 			return result;
 		}

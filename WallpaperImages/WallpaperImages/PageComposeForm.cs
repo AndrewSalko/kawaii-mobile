@@ -76,18 +76,8 @@ namespace WallpaperImages
 				resultResolutions.Add(item.Value);
 			}
 
-			//string result = string.Empty;
-			//foreach (var item in resultResolutions)
-			//{
-			//	if (!string.IsNullOrEmpty(result))
-			//	{
-			//		result += Environment.NewLine;
-			//	}
-			//	result += item;
-			//}
-
 			//теперь подготовим "результат" - HTML-документ:
-			_TextBoxPage.Text = _PageCompose.GetHTML(resultResolutions.ToArray());
+			_TextBoxPage.Text = _PageCompose.GetHTML(resultResolutions.ToArray(), _TextBoxWiki.Text, _TextBoxGenre.Text);
 		}
 
 		private void _CheckedListBoxResolutions_KeyUp(object sender, KeyEventArgs e)
@@ -101,6 +91,16 @@ namespace WallpaperImages
 		}
 
 		private void _CheckedListBoxResolutions_ItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			_UpdateHTMLBody();
+		}
+
+		private void _TextBoxWiki_TextChanged(object sender, EventArgs e)
+		{
+			_UpdateHTMLBody();
+		}
+
+		private void _TextBoxGenre_TextChanged(object sender, EventArgs e)
 		{
 			_UpdateHTMLBody();
 		}

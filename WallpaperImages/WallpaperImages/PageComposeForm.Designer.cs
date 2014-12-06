@@ -32,6 +32,10 @@
 			this._ButtonClose = new System.Windows.Forms.Button();
 			this._OKButton = new System.Windows.Forms.Button();
 			this._TextBoxPage = new System.Windows.Forms.TextBox();
+			this._LabelWiki = new System.Windows.Forms.Label();
+			this._TextBoxWiki = new System.Windows.Forms.TextBox();
+			this._LabelGenre = new System.Windows.Forms.Label();
+			this._TextBoxGenre = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// _CheckedListBoxResolutions
@@ -51,7 +55,7 @@
 			// 
 			this._ButtonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._ButtonClose.Location = new System.Drawing.Point(517, 348);
+			this._ButtonClose.Location = new System.Drawing.Point(549, 401);
 			this._ButtonClose.Name = "_ButtonClose";
 			this._ButtonClose.Size = new System.Drawing.Size(75, 23);
 			this._ButtonClose.TabIndex = 5;
@@ -62,7 +66,7 @@
 			// 
 			this._OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._OKButton.Location = new System.Drawing.Point(436, 348);
+			this._OKButton.Location = new System.Drawing.Point(468, 401);
 			this._OKButton.Name = "_OKButton";
 			this._OKButton.Size = new System.Drawing.Size(75, 23);
 			this._OKButton.TabIndex = 6;
@@ -77,8 +81,48 @@
 			this._TextBoxPage.Location = new System.Drawing.Point(167, 12);
 			this._TextBoxPage.Multiline = true;
 			this._TextBoxPage.Name = "_TextBoxPage";
-			this._TextBoxPage.Size = new System.Drawing.Size(425, 316);
+			this._TextBoxPage.Size = new System.Drawing.Size(457, 328);
 			this._TextBoxPage.TabIndex = 7;
+			// 
+			// _LabelWiki
+			// 
+			this._LabelWiki.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._LabelWiki.AutoSize = true;
+			this._LabelWiki.Location = new System.Drawing.Point(12, 357);
+			this._LabelWiki.Name = "_LabelWiki";
+			this._LabelWiki.Size = new System.Drawing.Size(76, 13);
+			this._LabelWiki.TabIndex = 8;
+			this._LabelWiki.Text = "Wikipedia link:";
+			// 
+			// _TextBoxWiki
+			// 
+			this._TextBoxWiki.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._TextBoxWiki.Location = new System.Drawing.Point(94, 354);
+			this._TextBoxWiki.Name = "_TextBoxWiki";
+			this._TextBoxWiki.Size = new System.Drawing.Size(530, 20);
+			this._TextBoxWiki.TabIndex = 9;
+			this._TextBoxWiki.TextChanged += new System.EventHandler(this._TextBoxWiki_TextChanged);
+			// 
+			// _LabelGenre
+			// 
+			this._LabelGenre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._LabelGenre.AutoSize = true;
+			this._LabelGenre.Location = new System.Drawing.Point(12, 380);
+			this._LabelGenre.Name = "_LabelGenre";
+			this._LabelGenre.Size = new System.Drawing.Size(39, 13);
+			this._LabelGenre.TabIndex = 10;
+			this._LabelGenre.Text = "Genre:";
+			// 
+			// _TextBoxGenre
+			// 
+			this._TextBoxGenre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._TextBoxGenre.Location = new System.Drawing.Point(94, 377);
+			this._TextBoxGenre.Name = "_TextBoxGenre";
+			this._TextBoxGenre.Size = new System.Drawing.Size(530, 20);
+			this._TextBoxGenre.TabIndex = 11;
+			this._TextBoxGenre.TextChanged += new System.EventHandler(this._TextBoxGenre_TextChanged);
 			// 
 			// PageComposeForm
 			// 
@@ -86,7 +130,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this._ButtonClose;
-			this.ClientSize = new System.Drawing.Size(604, 383);
+			this.ClientSize = new System.Drawing.Size(636, 436);
+			this.Controls.Add(this._TextBoxGenre);
+			this.Controls.Add(this._LabelGenre);
+			this.Controls.Add(this._TextBoxWiki);
+			this.Controls.Add(this._LabelWiki);
 			this.Controls.Add(this._TextBoxPage);
 			this.Controls.Add(this._OKButton);
 			this.Controls.Add(this._ButtonClose);
@@ -108,6 +156,10 @@
 		private System.Windows.Forms.Button _ButtonClose;
 		private System.Windows.Forms.Button _OKButton;
 		private System.Windows.Forms.TextBox _TextBoxPage;
+		private System.Windows.Forms.Label _LabelWiki;
+		private System.Windows.Forms.TextBox _TextBoxWiki;
+		private System.Windows.Forms.Label _LabelGenre;
+		private System.Windows.Forms.TextBox _TextBoxGenre;
 
 
 	}
