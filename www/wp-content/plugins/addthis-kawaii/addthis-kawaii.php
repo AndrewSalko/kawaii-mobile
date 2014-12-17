@@ -23,7 +23,6 @@ if (!class_exists("KawaiiAddThis"))
 			$addContent .= '<a class="addthis_button_google_plusone_share"></a>';
 			$addContent .= '<a class="addthis_button_facebook"></a>';
 			$addContent .= '<a class="addthis_button_twitter"></a>';
-			$addContent .= '<a class="addthis_button_pinterest_share"></a>';
 			$addContent .= '<a class="addthis_button_tumblr"></a>';
 			$addContent .= '<a class="addthis_button_linkedin"></a>';
 			$addContent .= '<a class="addthis_button_favorites"></a>';

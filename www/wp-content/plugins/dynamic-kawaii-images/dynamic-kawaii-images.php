@@ -89,7 +89,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$attMeta=wp_get_attachment_metadata($imageID);
             if($attMeta===FALSE)
 			{
-				return;
+				return FALSE;
 			}
 					
 			$attWidth=(int)$attMeta['width'];
@@ -212,8 +212,10 @@ if (!class_exists("DynamicKawaiiImages"))
                 $itPost=get_post($attachID);
 				$parentPost=$itPost;
 				
+				echo '<div class="post">';
+
 				echo '<h1>'.get_the_title($itPost->post_parent). ' wallpaper</h1>';
-				echo '<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>';
+				echo '<a class="sh2" href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>';
 				echo '<h2>Wallpaper size: ' . $resolution . '</h2>';
 
 				$resDetector=new KawaiiResolutionDetector();
@@ -222,17 +224,39 @@ if (!class_exists("DynamicKawaiiImages"))
 				{ 					
 					echo '<p>Background for mobile phones: ' . $mobilePhones. '</p>';
 				}
-	
+
+				echo '</div>';
+
+				global $wptouch_plugin;
+
+				echo '<div class="post">';	
 				echo '<div id="container" class="single-attachment">';
 				echo '	<div id="content" role="main">';
 				echo $imgNode;
 				echo '	</div><!-- #content -->';
 				echo '</div><!-- #container -->';
-				
-				get_sidebar();
-				get_footer();
+				echo '</div><!-- #post -->';
 
-				return;			
+				$mobileMode=false;
+				if(isset ($wptouch_plugin))
+				{				
+					if ( bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile') 
+					{
+						$mobileMode=true;
+					}
+				}
+
+				if($mobileMode)
+				{					
+					wptouch_include_adsense();
+				}
+				else
+				{
+					get_sidebar();
+					get_footer();
+				}
+
+				return;
 			}//if custom-image - special fake page
 			
 
@@ -409,8 +433,6 @@ if (!class_exists("DynamicKawaiiImages"))
 					$shortFileName.=$nameParts[$q];					
 				}				
 			}//if
-			
-			$fileExt=end($nameParts);//extension (jpg)
 
 			$attMeta=wp_get_attachment_metadata($imageID);
 			if($attMeta==FALSE)
@@ -466,7 +488,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				if(count($splittedValues)<3)
 				{
 					//assume 3 items at least:custom-image,attachID,320x240
-					return;
+					return $elements;
 				}
 
 				//take last portion - this is resolution:
@@ -503,6 +525,12 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $elements;
 		}//do_get_title
 
+		function do_wp_head()
+		{
+			//блокируем пинтерест, так как он находится потом поиском google-images
+			//нам это не нужно (потеря траффика)
+			echo '<meta name="pinterest" content="nopin" />';
+		}
 
 		public static function _HasResolutionPart($testLine)
 		{
@@ -536,6 +564,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
 
+	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'));
 }
 
 
