@@ -23,16 +23,6 @@
 			arras_post_aboutauthor();
 		}
         ?>
-
-	<!--
-    <span class="author vcard">
-    <a class="url fn" href="https://plus.google.com/102944501425987450363?rel=author" rel="author" target="_blank">Andrew Salko</a>,
-	<span class="org">Kawaii Mobile</span>
-	<span class="role">Creator</span>
-    </span>
-	-->
-
-
     </div>
 
 	<?php arras_below_post() ?>
