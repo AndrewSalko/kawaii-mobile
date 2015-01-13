@@ -199,12 +199,12 @@ function widget_ara_randomposts_init() {
 		extract($args);
 		$start = ara_microtime_float();
 		echo $before_widget;
-		echo "\n".'<!-- Random Posts Widget: START -->'."\n";
+		//echo "\n".'<!-- Random Posts Widget: START -->'."\n";
 		echo ara_random_posts($before_title, $after_title);
-		echo "\n".'<!-- Random Posts Widget: END -->'."\n";
+		//echo "\n".'<!-- Random Posts Widget: END -->'."\n";
 		echo $after_widget;
 		$end = ara_microtime_float();
-		echo "\n".'<!-- Time taken for the 2 queries to complete is '.($end - $start).' seconds -->'."\n";
+		//echo "\n".'<!-- Time taken for the 2 queries to complete is '.($end - $start).' seconds -->'."\n";
 	}
 
 	// Tell Dynamic Sidebar about our new widget and its control

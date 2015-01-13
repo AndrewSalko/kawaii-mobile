@@ -67,5 +67,5 @@ function wparc_addheader() {
 	echo "<!-- WP-Archives 0.8 by unijimpe -->\n";
 }
 add_action('init', 'wparc_setarchive');
-add_action('wp_head', 'wparc_addheader');
+//add_action('wp_head', 'wparc_addheader');
 ?>
