@@ -525,11 +525,52 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $elements;
 		}//do_get_title
 
+		// ѕолучить изображение дл€ поста
+		static function GetFeaturedImage($pageID)
+		{
+			if ($pageID != '' && function_exists('has_post_thumbnail'))
+			{
+				if (has_post_thumbnail( $pageID ))
+				{
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $pageID ), 'single-post-thumbnail' );
+					if ($image !='')
+						return $image[0];
+					else
+						return false;
+				}
+				else
+				{
+					//no thumbnail image
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
 		function do_wp_head()
 		{
 			//блокируем пинтерест, так как он находитс€ потом поиском google-images
 			//нам это не нужно (потер€ траффика)
-			echo '<meta name="pinterest" content="nopin" />';
+			echo '<meta name="pinterest" content="nopin" />'. "\n";
+
+			if(is_single() || is_page())
+			{
+				//Reset query to double sure that it gives ID
+				wp_reset_query();
+				$currentPage = get_the_ID();
+
+				$image = DynamicKawaiiImages::GetFeaturedImage($currentPage);
+				if ($image != '' && $image != false)
+				{
+					echo '<meta property="og:image" content="'. $image .'" />'."\n";
+				}
+
+
+			}
 		}
 
 		public static function _HasResolutionPart($testLine)

@@ -50,12 +50,11 @@ if (DISQUS_DEBUG) {
     var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
     var disqus_title = <?php echo cf_json_encode(dsq_title_for_post($post)); ?>;
     var disqus_config = function () {
-        var config = this; // Access to the config object
-        config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';
+        var config = this;
+        config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';        
+        <?php do_action( 'disqus_config' ); /* Add the ability to add javascript callbacks */ ?>
 
-        /* Add the ability to add javascript callbacks */
-        <?php do_action( 'disqus_config' ); ?>
-
+		<?php
         /*
            All currently supported events:
             * preData — fires just before we request for initial data
@@ -64,14 +63,13 @@ if (DISQUS_DEBUG) {
             * afterRender - fires when template is rendered but before we show it
             * onReady - everything is done
          */
+		?>
 
-        config.callbacks.preData.push(function() {
-            // clear out the container (its filled for SEO/legacy purposes)
+        config.callbacks.preData.push(function() {            
             document.getElementById(disqus_container_id).innerHTML = '';
         });
         <?php if (!get_option('disqus_manual_sync')): ?>
-        config.callbacks.onReady.push(function() {
-            // sync comments in the background so we don't block the page
+        config.callbacks.onReady.push(function() {            
             var script = document.createElement('script');
             script.async = true;
             script.src = '?cf_action=sync_comments&post_id=<?php echo $post->ID; ?>';
