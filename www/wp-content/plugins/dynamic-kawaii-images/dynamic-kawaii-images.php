@@ -557,19 +557,40 @@ if (!class_exists("DynamicKawaiiImages"))
 			//нам это не нужно (потер€ траффика)
 			echo '<meta name="pinterest" content="nopin" />'. "\n";
 
-			if(is_single() || is_page())
+			global $post;
+			$imgURL='';//картинка дл€ og:image
+
+			if( is_attachment())
 			{
-				//Reset query to double sure that it gives ID
-				wp_reset_query();
-				$currentPage = get_the_ID();
-
-				$image = DynamicKawaiiImages::GetFeaturedImage($currentPage);
-				if ($image != '' && $image != false)
+				//страница файла-изображени€.  артинка дл€ него - он сам
+				$imageID=$post->ID;
+				$imgURL=wp_get_attachment_url($imageID);
+			}
+			else
+			{
+				//случай когда мы "дома" (дом.страница)
+				if(is_home())
 				{
-					echo '<meta property="og:image" content="'. $image .'" />'."\n";
+					//дл€ главной страницы подставим картинку из последнего поста
+					$recent_posts = wp_get_recent_posts( array( 'numberposts' => '1' ) );
+					$postID = $recent_posts[0]['ID'];
+					$imgURL = DynamicKawaiiImages::GetFeaturedImage($postID);
 				}
+				else
+				{
+					if(is_single() || is_page())
+					{
+						//Reset query to double sure that it gives ID
+						wp_reset_query();
+						$postID = get_the_ID();
+						$imgURL = DynamicKawaiiImages::GetFeaturedImage($postID);
+					}
+				}
+			}//else
 
-
+			if ($imgURL != '' && $imgURL != false)
+			{
+				echo '<meta property="og:image" content="'. $imgURL .'" />'."\n";
 			}
 		}
 

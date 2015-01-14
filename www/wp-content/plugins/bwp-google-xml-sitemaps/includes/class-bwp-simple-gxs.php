@@ -1276,6 +1276,31 @@ if (!empty($page))
 		return true;
 	}
 
+	//Find files by mask images-sitemap-*.xml
+	//This is image-sitemap, add return XML-parts for each
+	/*
+	function _GetImageSitemap()
+	{
+		$resXML="";
+
+		$srvRoot=$_SERVER["DOCUMENT_ROOT"];//get_home_path()?
+
+		$schemaFiles = glob($srvRoot. '/'.'images-sitemap-*.xml');
+		if($schemaFiles!=FALSE && is_array($schemaFiles) && count($schemaFiles)>0)
+		{
+			foreach($schemaFiles as $schFile)
+			{
+				$mTime=filemtime($schFile);
+				$timeStr=date("c", $mTime);
+				$fullURL=site_url(basename($schFile));
+
+				$resXML.=$this->generate_sitemap_item($fullURL, $timeStr);
+			}
+		}
+		return $resXML;
+	}
+	*/
+
 	function generate_sitemap_index($output = array())
 	{
 		$xml = '<' . '?xml version="1.0" encoding="UTF-8"?'.'>' . "\n";
@@ -1294,6 +1319,10 @@ if (!empty($page))
 			$xml .= $this->generate_sitemap_item(htmlspecialchars($sitemap['location']), $sitemap['lastmod']);
 			unset($sitemap);
 		}
+		//add custom sitemap for images
+		//Если дать открытую карту изображений, это сильно упростит
+		//врагам их выкачку. Пока это закрыто комментом.
+		//$xml .= $this->_GetImageSitemap();
 
 		$xml .= "\n" . '</sitemapindex>';
 		$this->output = $xml;

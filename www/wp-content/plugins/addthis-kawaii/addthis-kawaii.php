@@ -123,35 +123,17 @@ if (!class_exists("KawaiiAddThis"))
 
 		}//do_image_sitemap_generate
 
-		public static function IsImageSitemapWritable($filename)
-		{
-			if(!is_writable($filename))
-			{
-				if(!@chmod($filename, 0666))
-				{
-					$pathtofilename = dirname($filename);
-					if(!is_writable($pathtofilename))
-					{
-						if(!@chmod($pathtofilename, 0666))
-						{
-							return false;
-						}
-					}
-				}
-			}
-			return true;
-		}
-
 		public static function Generate()
 		{
-			$srvRoot=$_SERVER["DOCUMENT_ROOT"];
-			if(KawaiiAddThis::IsImageSitemapWritable($srvRoot)===false)
+			$imageCacheDirBase=WP_CONTENT_DIR . '/imagescache';
+			//check this directory, if need - create it
+			if(! (is_dir($imageCacheDirBase) || mkdir($imageCacheDirBase)) )
 			{
 				return false;
 			}
 
 			//return an array fileName=>XML body
-			$xmlFiles=KawaiiSiteMap::Generate($srvRoot);
+			$xmlFiles=KawaiiSiteMap::Generate($imageCacheDirBase);
 			if($xmlFiles===false)
 				return false;
 

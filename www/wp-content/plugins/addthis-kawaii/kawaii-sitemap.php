@@ -21,7 +21,7 @@ class KawaiiSiteMap
 		file_put_contents($image_sitemap_url, $xmlBody);
 	}
 
-	public static function Generate($serverRootFolder)
+	public static function Generate($sitemapFolder)
 	{
 		$nl="\n";
 		global $wpdb;
@@ -52,11 +52,9 @@ class KawaiiSiteMap
 				{
 					//сформировать имя, сохранить файл
 					$fileNameXML="images-sitemap-".$curYear.".xml";
-
 					$fullXml=$headerXML=KawaiiSiteMap::_GetXMLHeader() . $xml;
 					$fullXml.='</urlset>';
-					KawaiiSiteMap::_SaveXMLSiteMap($serverRootFolder,$fileNameXML, $fullXml);
-
+					KawaiiSiteMap::_SaveXMLSiteMap($sitemapFolder,$fileNameXML, $fullXml);
 					$xml="";
 				}
 
@@ -98,6 +96,18 @@ class KawaiiSiteMap
 			$xml .= "\t"."</url>".$nl;
 
 		}//foreach
+
+		if($curYear!=1979 && $xml!="")
+		{
+			//сформировать имя, сохранить файл
+			$fileNameXML="images-sitemap-".$curYear.".xml";
+			$fullXml=$headerXML=KawaiiSiteMap::_GetXMLHeader() . $xml;
+			$fullXml.='</urlset>';
+			KawaiiSiteMap::_SaveXMLSiteMap($sitemapFolder,$fileNameXML, $fullXml);
+			$xml="";
+		}
+
+
 
 		return true;
 	}//function
