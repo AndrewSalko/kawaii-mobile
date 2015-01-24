@@ -62,7 +62,7 @@ class KawaiiSiteMap
 			}
 
 			//найдем все изображения поста, если они в нем были
-			$imageAttaches = $wpdb->get_results("SELECT post_title,post_excerpt,post_parent,guid FROM $wpdb->posts
+			$imageAttaches = $wpdb->get_results("SELECT id,post_title,post_excerpt,post_parent,guid FROM $wpdb->posts
 				 			WHERE post_type = 'attachment'
 							AND post_mime_type like 'image%'
 							AND post_parent =".$postID."
@@ -75,11 +75,14 @@ class KawaiiSiteMap
 
 			$postURL=get_permalink($itpost->id);
 
-			$xml .= "\t"."<url>".$nl;
-			$xml .= "\t\t"."<loc>".htmlspecialchars($postURL)."</loc>".$nl;
-
 			foreach($imageAttaches as $itAttach)
 			{
+				//URL to attach page
+				$attURL=get_permalink($itAttach->id);
+
+				$xml .= "\t"."<url>".$nl;
+				$xml .= "\t\t"."<loc>".htmlspecialchars($attURL)."</loc>".$nl;
+
 				$xml .= "\t\t"."<image:image>".$nl;
 				$xml .= "\t\t\t"."<image:loc>".htmlspecialchars($itAttach->guid)."</image:loc>".$nl;
 
@@ -91,9 +94,9 @@ class KawaiiSiteMap
 
 				$xml .= "\t\t\t"."<image:title>".htmlspecialchars($itAttach->post_title)."</image:title>".$nl;
 				$xml .= "\t\t"."</image:image>".$nl;
-			}
 
-			$xml .= "\t"."</url>".$nl;
+				$xml .= "\t"."</url>".$nl;
+			}
 
 		}//foreach
 
