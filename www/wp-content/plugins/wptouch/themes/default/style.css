@@ -772,6 +772,7 @@ img.head-close {
 	height: 200px;
 }
 
+/* post arrow*/
 a.post-arrow {
 	width: 22px;
 	height: 21px;
@@ -793,16 +794,17 @@ a.post-arrow-down {
 }
 
 a.h2 {
+
 	color: #222;
 	text-decoration: none;
-	display: block;
+	display: block;/* this */
 	margin-top: 2px;
 	text-align: left;
 	letter-spacing: -1px;
 	margin-bottom: 4px;
-	font-size: 16px;
+	font-size: 24px;
 	font-weight: bold;
-	line-height: 19px;
+	line-height: 26px;
 	margin-right: 10px;
 }
 
@@ -1051,8 +1053,8 @@ a.h2 {
 
 .post-author {
 	color: #555;
-	font-size: 12px;
-	line-height: 14px;
+	font-size: 16px;
+	line-height: 16px;
 	position: relative;
 	font-weight: bold;
 	letter-spacing: 0;
@@ -1061,6 +1063,11 @@ a.h2 {
 	float: left;
 	padding-top: 2px;
 	padding-bottom: 1px;
+}
+
+.post-author a
+{
+	padding: 4px;	
 }
 
 .post-author span.lead {
