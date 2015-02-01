@@ -4,8 +4,18 @@
 /* globals */
 body					{ background-color: #F0F0F0; color: #333; font: 12px 'Lucida Grande',Arial,Helvetica,sans-serif;}
 
-a, a:link, a:visited	{ color: #313428; text-decoration: none; }
+a, a:link, a:visited	{ color: #313428; }
 a:hover					{ color: #CC0000; }
+
+.single-post-attachment div
+{
+	padding: 4px;
+}
+
+.single-post-attachment div a
+{
+	font-size: 14px;
+}
 
 blockquote				{ border-left: 2px solid #CCC; color: #666; padding: 5px 10px 1px; margin: 10px; font-style: normal; }
 code					{ background: #EAEAEA; color: #333; font-family: Consolas, Monaco, Courier, monospace; font-size: 11px; margin: 1px 0; padding: 1px 3px; }

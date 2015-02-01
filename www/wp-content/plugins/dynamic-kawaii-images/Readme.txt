@@ -1,3 +1,28 @@
+
+Не сработало
+http://kawaii-mobile.org/2012/11/hagure-yuusha-no-estetica/aesthetica-of-a-rogue-hero-hagure-yuusha-no-estetica-kuzuha-doumoto-360x640/
+
+
+
+Fate Stay Night Unlimited Blade Works Rider.Sony Xperia Z wallpaper 1080x1920
+Seitokai Yakuindomo Shino Amakusa Aria Shichijou Suzu Hagimura.Android wallpaper 2160x1920
+Kore wa Zombie desu ka Of the Dead.Eucliwood Hellscythe.Haruna.Mael Strom Tomonori.Saras Sarasvati .320x480
+School Days.Kotonoha Katsura.Sekai Saionji Android wallpaper.Setsuna Kiyoura.2160x1920 (1)
+Rosario to Vampire.Moka Akashiya.Mizore Shirayuki.360x640
+
+Как сделать альт-текст?
+1) взять название главного поста и добавить разрешение (крайний случай)
+
+1) удалить слова,которые есть в названии главного поста
+2) найти блок со словом wallpaper (если такой есть через .) и удалить целиком
+3) удалить часть "разрешение" (360x640) но это сложно
+3) еще есть что-то? это alt-текст
+
+1) Другой путь: взять у поста Tags - привести к тексту,
+поискать среди вхождений - если есть это alt 
+
+
+
 <?php
 $img = 'myimage.png';
 $img = imagecreatefrompng($img);

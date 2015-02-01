@@ -82,9 +82,11 @@ if (!class_exists("DynamicKawaiiImages"))
 
 		// Creates fake attach file name from real post ID
 		// Returns FALSE if failed
-		// Out params:
-		public static function CreateImageElement($imageID, $resolution, &$shortDescription)
+		// Out params: $characters - имена персонажей
+		public static function CreateImageElement($imageID, $resolution, &$characters)
 		{
+			$characters="";
+
 			//check resolution
 			$attMeta=wp_get_attachment_metadata($imageID);
             if($attMeta===FALSE)
@@ -143,17 +145,92 @@ if (!class_exists("DynamicKawaiiImages"))
             			
 			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID;
 
-			$linkNameCurrent=$resDetector->GetResolutionDescription($imgWidth, $imgHeight);
+			$itPost=get_post($imageID);
+			$itPostMainID=$itPost->post_parent;
+			$mainTitle=get_the_title($itPostMainID);
 
-			//prepare ALT text for image. Just use fileName,replace '-' chars with spaces
-			$fileNameForALT=str_replace('-', ' ', $shortFileName);
+			$imgTitle=$itPost->post_title;
 
-			$imgAlt=$fileNameForALT .' '. $linkNameCurrent;
-			
+			//получаем у поста его "теги" - там будут имена персонажей
+			$imgAlt="";//подставить сюда имена персонажей
+			$tagNames = get_the_tags($itPostMainID);
+
+			//теги (части) которые нужно пропустить (не имена персонажей)
+			$skipTags=array("wallpaper","iphone","nokia","android","1920","720");
+
+			if(!empty($tagNames))
+			{
+				$foundCharCount=0;
+				$foundCharacters=array();
+
+				foreach($tagNames as $itName)
+				{
+					//проверим, есть ли такое имя (тег) в названии родит.поста
+					if(strpos($imgTitle, $itName->name)===false)
+						continue;
+
+					if($mainTitle==$itName->name)
+						continue;
+
+					//проверим запрещенные теги
+					$skipThis=false;
+					foreach ($skipTags as $testTag)
+					{
+						if(stripos($itName->name,$testTag)!==false)
+						{
+							$skipThis=true;
+							break;
+						}
+					}
+					if($skipThis===true)
+						continue;
+
+
+					$foundCharacters[$foundCharCount]=$itName->name;
+					$foundCharCount++;
+				}//foreach
+
+				//теперь сформируем красиво надпись. Если 1 - то его сразу и все,
+				//если ровно 2 - то напишем "Имя1 and Имя2"
+				//если больше - через запятую
+				if($foundCharCount>0)
+				{
+					if($foundCharCount==1)
+					{
+						$imgAlt=$foundCharacters[0];
+					}
+					else
+					{
+						if($foundCharCount==2)
+						{
+							$imgAlt=$foundCharacters[0].' and '.$foundCharacters[1];
+						}
+						else
+						{
+							for($i=0; $i<$foundCharCount; $i++)
+							{
+								if($imgAlt!="")
+									$imgAlt.=", ";
+								$imgAlt.=$foundCharacters[$i];
+							}
+						}//else
+					}
+				}//if
+
+			}//!empty
+
+			//если не получии теги, или не нашлось, даем тайтл главного поста
+			if($imgAlt=="")
+			{
+				$imgAlt=$mainTitle;
+			}
+			else
+			{
+				//мы вернем найденных персонажей
+				$characters=$imgAlt;
+			}
+
 			$imgNode='<a href="'.$imgLink.'"><img src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
-
-			$shortDescription=$imgAlt;
-
 			return $imgNode;
 
 		}//CreateImageElement
@@ -162,12 +239,6 @@ if (!class_exists("DynamicKawaiiImages"))
 		function do_template_redirect()
 		{	
 			global $wp_query;
-
-			/*					
-		    if(is_404()===FALSE)
-			{
-				return;	
-			}*/
 
 			$url = $_SERVER['REQUEST_URI'];
 
@@ -197,8 +268,8 @@ if (!class_exists("DynamicKawaiiImages"))
 					return;
 				}
 
-				$shortDescr;
-				$imgNode=DynamicKawaiiImages::CreateImageElement($attachID, $resolution, $shortDescr);
+				$characters="";
+				$imgNode=DynamicKawaiiImages::CreateImageElement($attachID, $resolution, $characters);
 				if($imgNode===FALSE)
 				{
 					return;
@@ -211,31 +282,49 @@ if (!class_exists("DynamicKawaiiImages"))
                 
                 $itPost=get_post($attachID);
 				$parentPost=$itPost;
-				
-				echo '<div class="post">';
 
-				echo '<h1>'.get_the_title($itPost->post_parent). ' wallpaper</h1>';
-				echo '<a class="sh2" href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>';
-				echo '<h2>Wallpaper size: ' . $resolution . '</h2>';
+				echo '<div id="content">';
+
+				// class=post необходим для wp-toch режима
+				echo '<div class="post attachment type-attachment status-inherit hentry clearfix single-post">';
+				echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
+				echo '[<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>]';
+				echo '</h1>';
 
 				$resDetector=new KawaiiResolutionDetector();
 				$mobilePhones=$resDetector->GetResolutionMobilePhones($resolution);
 				if($mobilePhones!=NULL)
-				{ 					
-					echo '<p>Background for mobile phones: ' . $mobilePhones. '</p>';
+				{
+					$prefixWall='Wallpaper';
+					if($characters!="")
+						$prefixWall=$characters.' wallpaper';
+
+					//добавить имя персонажей перед словом Wallpaper
+					echo '<p>'.$prefixWall.' for mobile phones: ' . $mobilePhones. '</p>';
 				}
+
+				//добавить персонажа (типа Saber image size:) но если там два слова
+				$sizePrefix="Image";
+				if($characters!="")
+				{
+					$sizePrefix=$characters." image";
+				}
+
+				echo '<h2>'.$sizePrefix.' size: ' . $resolution . '</h2>';
 
 				echo '</div>';
 
 				global $wptouch_plugin;
 
-				echo '<div class="post">';	
+				echo '<div class="post">';
 				echo '<div id="container" class="single-attachment">';
 				echo '	<div id="content" role="main">';
 				echo $imgNode;
 				echo '	</div><!-- #content -->';
 				echo '</div><!-- #container -->';
 				echo '</div><!-- #post -->';
+
+				echo '</div>';// id="content"
 
 				$mobileMode=false;
 				if(isset ($wptouch_plugin))
