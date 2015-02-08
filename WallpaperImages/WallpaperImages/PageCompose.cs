@@ -151,13 +151,6 @@ namespace WallpaperImages
 				bodiesHTML.Add(body);
 			}
 
-			//добавляем начало таблицы:
-			result+="<table border=\"0\" width=\"100%\">";
-			result+=Environment.NewLine;
-
-			result += "<tbody>";
-			result += Environment.NewLine;
-
 			//добавляем блоки шаблонов внутри:
 			foreach (var item in bodiesHTML)
 			{
@@ -165,15 +158,9 @@ namespace WallpaperImages
 				result += Environment.NewLine;
 			}
 
-			result += "</tbody>";
-			result += Environment.NewLine;
-
-			result += "</table>";
-			result += Environment.NewLine;
-
 			if (!string.IsNullOrWhiteSpace(genreText))
 			{
-				result += "Genre: " + genreText;
+				result += "<p>Genre: " + genreText + "</p>";
 			}
 			result += Environment.NewLine;
 
