@@ -85,14 +85,6 @@ class KawaiiSiteMap
 
 				$xml .= "\t\t"."<image:image>".$nl;
 				$xml .= "\t\t\t"."<image:loc>".htmlspecialchars($itAttach->guid)."</image:loc>".$nl;
-
-				$postCapt=htmlspecialchars($itAttach->post_excerpt);
-				if(strlen($postCapt)>0)
-				{
-					$xml .= "\t\t\t"."<image:caption>".$postCapt."</image:caption>".$nl;
-				}
-
-				$xml .= "\t\t\t"."<image:title>".htmlspecialchars($itAttach->post_title)."</image:title>".$nl;
 				$xml .= "\t\t"."</image:image>".$nl;
 
 				$xml .= "\t"."</url>".$nl;
