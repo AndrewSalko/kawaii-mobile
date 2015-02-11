@@ -15,6 +15,19 @@ jQuery(document).ready(function() {
 		var domain = hrefArray[2];
 		var downloadTracked = false;
 	
+		//----add tracking custom image resolutions
+		if(url.indexOf("custom-image")>=0)
+		{
+			var urlParts=url.split('/').reverse();
+			var resolut=urlParts[0];
+
+			a.click(function() 
+			{
+				_gaq.push(['_trackEvent', resolut, 'custom-image', url]);
+			});
+		}
+		//----
+
 	 	// If the link is a download
 		if (jQuery.inArray(extension,analyticsFileTypes) != -1) {
 			// Mark the link as already tracked
