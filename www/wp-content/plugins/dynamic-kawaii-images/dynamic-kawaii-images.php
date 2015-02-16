@@ -696,6 +696,17 @@ if (!class_exists("DynamicKawaiiImages"))
 			return false;
 		}
 
+		// WordPress changes text (for example, 1080x1920 - char 'x'
+		// will be converted. We don't need this, so use this filter.
+		function do_no_texturize_tags($defaultTags)
+		{
+			$defaultTags['a']='a';
+			$defaultTags['h2']='h2';
+			$defaultTags['h1']='h1';
+
+			return $defaultTags;
+		}
+
 	}//class
 
 	if (class_exists("DynamicKawaiiImages")) 
@@ -714,6 +725,8 @@ if (isset($pluginDynamicKawaiiImages))
 	add_filter('the_content', array('DynamicKawaiiImages', 'do_content'),1);
 
 	add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
+
+	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
 	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'));
 }
