@@ -22,8 +22,8 @@ class KawaiiResolutionDetector
 							'description'=>'Android Wallpaper 960x800'),
 
 		'1080x1920' => array('width' =>1080, 'height'=>1920, 
-							'description'=>'iPhone 6 Plus, Galaxy S4, HTC, Xperia',
-							'mobilephones'=>'iPhone 6 Plus, Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
+							'description'=>'Galaxy S4, HTC, Xperia',
+							'mobilephones'=>'Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
 
 		'750x1334'  => array('width' =>750, 'height'=>1334, 
 							'title'=>'iPhone 6',
@@ -219,15 +219,27 @@ class KawaiiResolutionDetector
 			{
 				continue;
 			}		
-		
+
+			//проверим "андроид-случай": когда ширина больше высоты, обычно
+			//это характерно дл€ андроид-обоев (параллакс).
+			//Ќормально получить красивые обои в таком случае можно только из
+			//аналогичных изображений, т.е.андроид-обои будут ресайзитс€ только в такие же
+			//но не в "портретные"
+			if($srcWidth>$srcHeight)
+			{
+				if($itWidth<$itHeight)
+					continue;
+			}
+			else
+			{
+				//» обратно: дл€ портретных обоев нельз€ делать преобразование
+				//в андроид-обои - скорее всего выйдет не очень
+				if($itWidth>$itHeight)
+					continue;
+			}
+
 			$arrResult[$resName]=$resParams;
 
-			//ѕроверим разницу "коэффициентов", разница незначительна? 
-			//–азница незначительна€: можно сделать ресайз и  ќЌ≈÷.
-			//значительна€: идем далее на "интеллект"
-			//if($koeff-$koeffDest<=0.01)
-			//{
-			//}			
 		}//foreach
 			
 		return $arrResult;

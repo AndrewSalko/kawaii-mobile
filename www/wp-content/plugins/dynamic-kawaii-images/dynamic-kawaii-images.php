@@ -12,6 +12,7 @@ if (!class_exists("DynamicKawaiiImages"))
 	include ('kawaii-resolution.php');
 	include ('encryptor-kawaii.php');
 	include ('simpleimage.php');
+	include ('kawaii-characters.php');
 
 	class DynamicKawaiiImages
 	{
@@ -145,79 +146,9 @@ if (!class_exists("DynamicKawaiiImages"))
             			
 			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID;
 
-			$itPost=get_post($imageID);
-			$itPostMainID=$itPost->post_parent;
-			$mainTitle=get_the_title($itPostMainID);
-
-			$imgTitle=$itPost->post_title;
-
-			//получаем у поста его "теги" - там будут имена персонажей
-			$imgAlt="";//подставить сюда имена персонажей
-			$tagNames = get_the_tags($itPostMainID);
-
-			//теги (части) которые нужно пропустить (не имена персонажей)
-			$skipTags=array("wallpaper","iphone","nokia","android","1920","720");
-
-			if(!empty($tagNames))
-			{
-				$foundCharCount=0;
-				$foundCharacters=array();
-
-				foreach($tagNames as $itName)
-				{
-					//проверим, есть ли такое имя (тег) в названии родит.поста
-					if(strpos($imgTitle, $itName->name)===false)
-						continue;
-
-					if($mainTitle==$itName->name)
-						continue;
-
-					//проверим запрещенные теги
-					$skipThis=false;
-					foreach ($skipTags as $testTag)
-					{
-						if(stripos($itName->name,$testTag)!==false)
-						{
-							$skipThis=true;
-							break;
-						}
-					}
-					if($skipThis===true)
-						continue;
-
-
-					$foundCharacters[$foundCharCount]=$itName->name;
-					$foundCharCount++;
-				}//foreach
-
-				//теперь сформируем красиво надпись. Если 1 - то его сразу и все,
-				//если ровно 2 - то напишем "Имя1 and Имя2"
-				//если больше - через запятую
-				if($foundCharCount>0)
-				{
-					if($foundCharCount==1)
-					{
-						$imgAlt=$foundCharacters[0];
-					}
-					else
-					{
-						if($foundCharCount==2)
-						{
-							$imgAlt=$foundCharacters[0].' and '.$foundCharacters[1];
-						}
-						else
-						{
-							for($i=0; $i<$foundCharCount; $i++)
-							{
-								if($imgAlt!="")
-									$imgAlt.=", ";
-								$imgAlt.=$foundCharacters[$i];
-							}
-						}//else
-					}
-				}//if
-
-			}//!empty
+			$mainTitle="";
+			$charactersCount=0;
+			$imgAlt=KawaiiCharacters::GetCharacters($imageID, $mainTitle, $charactersCount);//подставить сюда имена персонажей
 
 			//если не получии теги, или не нашлось, даем тайтл главного поста
 			if($imgAlt=="")
@@ -452,9 +383,6 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			DynamicKawaiiImages::SendBaseImageHeaders($attFileName);
 
-			//header("HTTP/1.0 200 OK");
-			//header($contentType);
-
 			//тут имя файла для сохранения в кеш
 			$fileNameForSave=$imageCacheDir.'/'.$filePrefix.'.'.$fileExt;
 
@@ -535,7 +463,33 @@ if (!class_exists("DynamicKawaiiImages"))
 			//get available resolutions for this size:
 			$resDetector=new KawaiiResolutionDetector();
 			$resArr=$resDetector->GetAvailableResolutions($attWidth, $attHeight);
-				
+			$resName=sprintf("%sx%s", $attWidth, $attHeight);
+			$uniqTitle=$resDetector->GetUniqTitleOnAttachID($resName,$imageID);
+
+			//получаем персонажей
+			$mainPostTitle="";
+			$charactersCount=0;
+			$charactersNames=KawaiiCharacters::GetCharacters($imageID, $mainPostTitle, $charactersCount);
+
+			$singleCharacterName="";//имя персонажа - если он единственный
+			if($charactersCount==1 || $charactersCount==2)
+			{
+				$singleCharacterName=" ". $charactersNames;
+			}
+
+			$descriptiveContent="";
+			if($charactersNames=="")
+			{
+				$descriptiveContent=$mainPostTitle ." wallpaper";
+			}
+			else
+			{
+				$descriptiveContent=$charactersNames ." ". $uniqTitle;
+			}
+
+			$cont2=sprintf("Select the resolution and model of your device below, and download the appropriate %s image.",$mainPostTitle);
+			$content.="<p>".$descriptiveContent.". ".$cont2."</p>";
+
 			$content.="<p>";
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
@@ -551,7 +505,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				$linkName=$resName;
 				if (array_key_exists('description', $resParams))
 				{
-					$linkName=$linkName . ' (' . $resParams['description']. ')';
+					$linkName=$linkName . $singleCharacterName . ' (' . $resParams['description']. ')';
 				}
 
 				//good file name.  
