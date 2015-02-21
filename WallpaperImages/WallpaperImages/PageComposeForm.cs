@@ -77,7 +77,7 @@ namespace WallpaperImages
 			}
 
 			//теперь подготовим "результат" - HTML-документ:
-			_TextBoxPage.Text = _PageCompose.GetHTML(resultResolutions.ToArray(), _TextBoxWiki.Text, _TextBoxGenre.Text);
+			_TextBoxPage.Text = _PageCompose.GetHTML(resultResolutions.ToArray(), _TextBoxWiki.Text, _TextBoxGenre.Text, _CheckBoxTable.Checked);
 		}
 
 		private void _CheckedListBoxResolutions_KeyUp(object sender, KeyEventArgs e)
@@ -101,6 +101,11 @@ namespace WallpaperImages
 		}
 
 		private void _TextBoxGenre_TextChanged(object sender, EventArgs e)
+		{
+			_UpdateHTMLBody();
+		}
+
+		private void _CheckBoxTable_CheckedChanged(object sender, EventArgs e)
 		{
 			_UpdateHTMLBody();
 		}

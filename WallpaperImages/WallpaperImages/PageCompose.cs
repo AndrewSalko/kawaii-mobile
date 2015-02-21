@@ -113,7 +113,15 @@ namespace WallpaperImages
 			}
 		}
 
-		public string GetHTML(string[] resolutions, string wikiLink, string genreText)
+		/// <summary>
+		/// Получить HTML-тело поста
+		/// </summary>
+		/// <param name="resolutions">Массив разрешений</param>
+		/// <param name="wikiLink">Ссылка на англ википедию</param>
+		/// <param name="genreText">Жанр</param>
+		/// <param name="useHTMLTableFormat">Оформить тело поста в виде HTML таблицы</param>
+		/// <returns></returns>
+		public string GetHTML(string[] resolutions, string wikiLink, string genreText, bool useHTMLTableFormat)
 		{
 			string result = string.Empty;
 
@@ -151,11 +159,34 @@ namespace WallpaperImages
 				bodiesHTML.Add(body);
 			}
 
+			if (useHTMLTableFormat)
+			{
+				result += "<table border=\"0\" width=\"100%\">" + Environment.NewLine;
+				result += "<tbody>" + Environment.NewLine;
+			}
+
 			//добавляем блоки шаблонов внутри:
 			foreach (var item in bodiesHTML)
 			{
-				result += item;
-				result += Environment.NewLine;
+				if (useHTMLTableFormat)
+				{
+					result += "<tr>" + Environment.NewLine;
+					result += "<td>" + Environment.NewLine;
+				}
+
+				result += item + Environment.NewLine;
+
+				if (useHTMLTableFormat)
+				{
+					result += "</tr>" + Environment.NewLine;
+					result += "</td>" + Environment.NewLine;
+				}		
+			}
+
+			if (useHTMLTableFormat)
+			{
+				result += "</tbody>" + Environment.NewLine;
+				result += "</table>" + Environment.NewLine;				
 			}
 
 			if (!string.IsNullOrWhiteSpace(genreText))

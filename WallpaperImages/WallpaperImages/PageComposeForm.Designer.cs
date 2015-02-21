@@ -36,6 +36,7 @@
 			this._TextBoxWiki = new System.Windows.Forms.TextBox();
 			this._LabelGenre = new System.Windows.Forms.Label();
 			this._TextBoxGenre = new System.Windows.Forms.TextBox();
+			this._CheckBoxTable = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// _CheckedListBoxResolutions
@@ -45,7 +46,7 @@
 			this._CheckedListBoxResolutions.FormattingEnabled = true;
 			this._CheckedListBoxResolutions.Location = new System.Drawing.Point(12, 12);
 			this._CheckedListBoxResolutions.Name = "_CheckedListBoxResolutions";
-			this._CheckedListBoxResolutions.Size = new System.Drawing.Size(149, 319);
+			this._CheckedListBoxResolutions.Size = new System.Drawing.Size(149, 289);
 			this._CheckedListBoxResolutions.TabIndex = 4;
 			this._CheckedListBoxResolutions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this._CheckedListBoxResolutions_ItemCheck);
 			this._CheckedListBoxResolutions.KeyUp += new System.Windows.Forms.KeyEventHandler(this._CheckedListBoxResolutions_KeyUp);
@@ -81,14 +82,14 @@
 			this._TextBoxPage.Location = new System.Drawing.Point(167, 12);
 			this._TextBoxPage.Multiline = true;
 			this._TextBoxPage.Name = "_TextBoxPage";
-			this._TextBoxPage.Size = new System.Drawing.Size(457, 328);
+			this._TextBoxPage.Size = new System.Drawing.Size(457, 305);
 			this._TextBoxPage.TabIndex = 7;
 			// 
 			// _LabelWiki
 			// 
 			this._LabelWiki.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._LabelWiki.AutoSize = true;
-			this._LabelWiki.Location = new System.Drawing.Point(12, 357);
+			this._LabelWiki.Location = new System.Drawing.Point(12, 327);
 			this._LabelWiki.Name = "_LabelWiki";
 			this._LabelWiki.Size = new System.Drawing.Size(76, 13);
 			this._LabelWiki.TabIndex = 8;
@@ -98,7 +99,7 @@
 			// 
 			this._TextBoxWiki.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._TextBoxWiki.Location = new System.Drawing.Point(94, 354);
+			this._TextBoxWiki.Location = new System.Drawing.Point(94, 324);
 			this._TextBoxWiki.Name = "_TextBoxWiki";
 			this._TextBoxWiki.Size = new System.Drawing.Size(530, 20);
 			this._TextBoxWiki.TabIndex = 9;
@@ -108,7 +109,7 @@
 			// 
 			this._LabelGenre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._LabelGenre.AutoSize = true;
-			this._LabelGenre.Location = new System.Drawing.Point(12, 380);
+			this._LabelGenre.Location = new System.Drawing.Point(12, 350);
 			this._LabelGenre.Name = "_LabelGenre";
 			this._LabelGenre.Size = new System.Drawing.Size(39, 13);
 			this._LabelGenre.TabIndex = 10;
@@ -118,11 +119,25 @@
 			// 
 			this._TextBoxGenre.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._TextBoxGenre.Location = new System.Drawing.Point(94, 377);
+			this._TextBoxGenre.Location = new System.Drawing.Point(94, 347);
 			this._TextBoxGenre.Name = "_TextBoxGenre";
 			this._TextBoxGenre.Size = new System.Drawing.Size(530, 20);
 			this._TextBoxGenre.TabIndex = 11;
 			this._TextBoxGenre.TextChanged += new System.EventHandler(this._TextBoxGenre_TextChanged);
+			// 
+			// _CheckBoxTable
+			// 
+			this._CheckBoxTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._CheckBoxTable.AutoSize = true;
+			this._CheckBoxTable.Checked = true;
+			this._CheckBoxTable.CheckState = System.Windows.Forms.CheckState.Checked;
+			this._CheckBoxTable.Location = new System.Drawing.Point(94, 373);
+			this._CheckBoxTable.Name = "_CheckBoxTable";
+			this._CheckBoxTable.Size = new System.Drawing.Size(199, 17);
+			this._CheckBoxTable.TabIndex = 12;
+			this._CheckBoxTable.Text = "Шаблон страницы в виде таблицы";
+			this._CheckBoxTable.UseVisualStyleBackColor = true;
+			this._CheckBoxTable.CheckedChanged += new System.EventHandler(this._CheckBoxTable_CheckedChanged);
 			// 
 			// PageComposeForm
 			// 
@@ -131,6 +146,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this._ButtonClose;
 			this.ClientSize = new System.Drawing.Size(636, 436);
+			this.Controls.Add(this._CheckBoxTable);
 			this.Controls.Add(this._TextBoxGenre);
 			this.Controls.Add(this._LabelGenre);
 			this.Controls.Add(this._TextBoxWiki);
@@ -160,6 +176,7 @@
 		private System.Windows.Forms.TextBox _TextBoxWiki;
 		private System.Windows.Forms.Label _LabelGenre;
 		private System.Windows.Forms.TextBox _TextBoxGenre;
+		private System.Windows.Forms.CheckBox _CheckBoxTable;
 
 
 	}
