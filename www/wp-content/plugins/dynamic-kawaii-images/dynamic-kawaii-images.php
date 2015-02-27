@@ -218,9 +218,9 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				// class=post необходим для wp-toch режима
 				echo '<div class="post attachment type-attachment status-inherit hentry clearfix single-post">';
-				echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
+				//echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
 				echo '[<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>]';
-				echo '</h1>';
+				//echo '</h1>';
 
 				$resDetector=new KawaiiResolutionDetector();
 				$mobilePhones=$resDetector->GetResolutionMobilePhones($resolution);
@@ -241,7 +241,7 @@ if (!class_exists("DynamicKawaiiImages"))
 					$sizePrefix=$characters." image";
 				}
 
-				echo '<h2>'.$sizePrefix.' size: ' . $resolution . '</h2>';
+				echo '<h1>'.$sizePrefix.' size: ' . $resolution . '</h1>';
 
 				echo '</div>';
 
@@ -678,7 +678,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('the_content', array('DynamicKawaiiImages', 'do_content'),1);
 
-	add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
+	//add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
 
 	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
