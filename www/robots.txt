@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /wp-admin/
+Disallow: */trackback/
+Disallow: */feed/
+Disallow: /?feed*
+Disallow: /xmlrpc.php*
+Disallow: /?p=*
+Disallow: /wp-content/plugins/dynamic-kawaii-images/
+
+Sitemap: http://kawaii-mobile.com/sitemapindex.xml

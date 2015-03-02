@@ -21,8 +21,7 @@
 		
 		<div class="footer-message">
 		<?php echo stripslashes(arras_get_option('footer_message')); ?>	
-		 <a href="https://plus.google.com/+Kawaiimobilecom" rel="publisher">Kawaii Mobile on Google+</a> | 	
-		 Hosted in <a target='_blank' rel="nofollow" style='font-weight:bold;text-decoration:underline' href='https://www.digitalocean.com/?refcode=3a2a2bb76e2c'>DigitalOcean Cloud. Get $10 bonus upon signup. </a>
+		 <a href="https://plus.google.com/+Kawaiimobilecom" rel="publisher">Kawaii Mobile on Google+</a>
 		</div><!-- .footer-message -->
     </div>
 </div><!-- #wrapper -->

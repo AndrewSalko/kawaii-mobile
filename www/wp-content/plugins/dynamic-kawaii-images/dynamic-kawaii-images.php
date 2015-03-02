@@ -13,6 +13,7 @@ if (!class_exists("DynamicKawaiiImages"))
 	include ('encryptor-kawaii.php');
 	include ('simpleimage.php');
 	include ('kawaii-characters.php');
+	include ('advert.php');
 
 	class DynamicKawaiiImages
 	{
@@ -217,7 +218,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<div id="content">';
 
 				// class=post необходим для wp-toch режима
-				echo '<div class="post attachment type-attachment status-inherit hentry clearfix single-post">';
+				echo '<div class="post attachment type-attachment status-inherit clearfix single-post">';
 				//echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
 				echo '[<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>]';
 				//echo '</h1>';
@@ -637,6 +638,12 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 		}
 
+		function do_wp_footer()
+		{
+			//добавляем рекламные ссылки и кастом-баннеры
+			KawaiiAdvert::Footer();
+		}
+
 		public static function _HasResolutionPart($testLine)
 		{
 			$rDetect=new KawaiiResolutionDetector();
@@ -683,6 +690,8 @@ if (isset($pluginDynamicKawaiiImages))
 	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
 	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'));
+
+	add_filter('wp_footer', array('DynamicKawaiiImages', 'do_wp_footer'),1);
 }
 
 
