@@ -501,6 +501,13 @@ if (!class_exists("DynamicKawaiiImages"))
 			$content .= $mainLink;
 			$content .= '</div>';
 
+			//AD part
+			$content .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+			$content .= '<!-- Kawaii-banner for attach page -->';
+			$content .= '<ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="4991551174"></ins>';
+			$content .= '<script>(adsbygoogle = window.adsbygoogle || []).push({});';
+			$content .= '</script>';
+
 			foreach ($resArr as $resName => $resParams)
 			{
 				$linkName=$resName;
