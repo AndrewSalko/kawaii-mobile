@@ -38,8 +38,6 @@
 			</ul>
     	</div>
 
-	<?php wptouch_include_adsense(); ?>
-
 <!-- Let's rock the comments -->
 <?php if ( bnc_can_show_comments() ) : ?>
 	<?php comments_template(); ?>

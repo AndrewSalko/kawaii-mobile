@@ -502,11 +502,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$content .= '</div>';
 
 			//AD part
-			$content .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-			$content .= '<!-- Kawaii-banner for attach page -->';
-			$content .= '<ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="4991551174"></ins>';
-			$content .= '<script>(adsbygoogle = window.adsbygoogle || []).push({});';
-			$content .= '</script>';
+			$content = DynamicKawaiiImages::_AdSense($content);
 
 			foreach ($resArr as $resName => $resParams)
 			{
@@ -525,6 +521,40 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $content;
 		}//do_content
 
+		static function _AdSense($content)
+		{
+			global $wptouch_plugin;
+
+			$mobileMode=false;
+			if(isset ($wptouch_plugin))
+			{
+				//$mobileMode=true;
+
+				if (bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile')
+				{
+					$mobileMode=true;
+				}
+			}
+
+			$content .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+
+			if($mobileMode)
+			{
+				//позже унифицировать (баннер из wptouch)
+				$content .= '<!-- Kawaii-banner mobile 320x50 for attach page -->';
+				$content .= '<ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="3749152772"></ins>';
+			}
+			else
+			{
+				$content .= '<!-- Kawaii-banner 468x60 for attach page -->';
+				$content .= '<ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="4991551174"></ins>';
+			}
+
+			$content .= '<script>(adsbygoogle = window.adsbygoogle || []).push({});';
+			$content .= '</script>';
+
+			return $content;
+		}
 
 		function do_get_title($elements)
 		{
