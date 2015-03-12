@@ -250,14 +250,8 @@ if (!function_exists('arras_tapestry_quick')) {
 			<?php echo apply_filters('arras_tapestry_quick_postheader', arras_generic_postheader('quick-preview') ) ?>
 			<div class="entry-summary">
 				<div class="entry-info">
-					<abbr class="published updated" title="<?php the_time('c') ?>"><?php printf( __('Posted on %s', 'arras'), get_the_time(get_option('date_format')) ) ?></abbr>by
-					<span class="entry-author">
-						<span class="author vcard">
-						<a class="url fn n" href="https://plus.google.com/102944501425987450363?rel=author" rel="author" target="_blank">Andrew</a>
-						</span>
-					</span> | <a href="<?php comments_link() ?>"><?php comments_number() ?></a>
-
-
+					<abbr class="published updated" title="<?php the_time('c') ?>"><?php printf( __('Posted on %s', 'arras'), get_the_time(get_option('date_format')) ) ?></abbr>
+					 <a href="<?php comments_link() ?>"><?php comments_number() ?></a>
 				</div>
 
 				<?php echo get_the_excerpt() ?>

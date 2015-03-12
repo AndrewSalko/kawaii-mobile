@@ -705,6 +705,15 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $defaultTags;
 		}
 
+		// WordPress добавляет к каждому посту набор "классов" (стилей)
+		// некоторые могут быть НЕ нужны (так мы отрубим hentry класс
+		// в случае если хотим убрать микроданные
+		function do_post_class($classes, $class, $postID)
+		{
+			$classes = array_diff($classes, array('hentry','entry-title','entry-summary','entry-comments'));
+			return $classes;
+		}
+
 	}//class
 
 	if (class_exists("DynamicKawaiiImages")) 
@@ -729,6 +738,8 @@ if (isset($pluginDynamicKawaiiImages))
 	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'));
 
 	add_filter('wp_footer', array('DynamicKawaiiImages', 'do_wp_footer'),1);
+
+	add_filter('post_class', array('DynamicKawaiiImages', 'do_post_class'),1);
 }
 
 

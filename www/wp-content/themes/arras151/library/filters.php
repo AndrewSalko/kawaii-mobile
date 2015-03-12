@@ -36,14 +36,11 @@ function arras_postheader() {
 	
 		if ( arras_get_option('post_author') ) 
 		{
-//			$postheader .= sprintf( __('<div class="entry-author">By %s</div>', 'arras'), '<address class="author vcard"><a class="url fn n" href="' . get_author_posts_url( get_the_author_meta('ID') ) . '" title="' . esc_attr(get_the_author()) . '">' . get_the_author() . '</a></address>' );
-
-			$postheader .= '<div class="entry-author"><address class="author vcard"><a class="url fn n" href="https://plus.google.com/102944501425987450363?rel=author" rel="author" target="_blank">Andrew Salko</a></address></div>';
-
+			//$postheader .= '<div class="entry-author"><address class="author vcard"><a class="url fn n" href="https://plus.google.com/102944501425987450363?rel=author" rel="author" target="_blank">Andrew Salko</a></address></div>';
 		}
 		
 		if ( arras_get_option('post_date') ) {
-			$postheader .= ' &ndash; <abbr class="published post-date updated" title="' . get_the_time('c') . '">' . get_the_time(get_option('date_format')) . '</abbr>';
+			$postheader .= '<abbr class="post-date" title="' . get_the_time('c') . '">' . get_the_time(get_option('date_format')) . '</abbr>';
 		}
 		
 		if (current_user_can('edit_post')) {
