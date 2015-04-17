@@ -89,6 +89,24 @@ class KawaiiResolutionDetector
 		'240x320' => array('width' =>240, 'height'=>320, 'description'=>'Fly, Nokia Asha'),
 		);
 
+
+	public function  GetPhoneTitle($resolutionName)
+	{
+		$prefixPhone="";
+
+		if(array_key_exists($resolutionName, $this->resolutions)==TRUE)
+		{
+			$resolItem=$this->resolutions[$resolutionName];
+			//now check the title
+			if(array_key_exists('title', $resolItem)==TRUE)
+			{
+				$prefixPhone=$resolItem['title'];
+			}
+		}
+
+		return $prefixPhone;
+	}
+
 	// Resolution (like 320x480) and attach ID for permanent
 	// but uniq title
 	public function GetUniqTitleOnAttachID($resolutionName, $attID)

@@ -14,6 +14,7 @@ if (!class_exists("DynamicKawaiiImages"))
 	include ('simpleimage.php');
 	include ('kawaii-characters.php');
 	include ('advert.php');
+	include ('kawaii-content.php');
 
 	class DynamicKawaiiImages
 	{
@@ -207,6 +208,10 @@ if (!class_exists("DynamicKawaiiImages"))
 					return;
 				}
 
+				$kawCont=new KawaiiContent();
+				$descrText="";//описательный текст для страницы
+				$attTitle=$kawCont->GetAttachTitleAndDescription($resolution, $attachID, $descrText);
+
 				$wp_query->is_404 = false;
 				status_header('200');
 
@@ -219,20 +224,18 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				// class=post необходим для wp-toch режима
 				echo '<div class="post attachment type-attachment status-inherit clearfix single-post">';
-				//echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
+				echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
 				echo '[<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>]';
-				//echo '</h1>';
+				echo '</h1>';
 
 				$resDetector=new KawaiiResolutionDetector();
 				$mobilePhones=$resDetector->GetResolutionMobilePhones($resolution);
 				if($mobilePhones!=NULL)
 				{
-					$prefixWall='Wallpaper';
-					if($characters!="")
-						$prefixWall=$characters.' wallpaper';
-
+					//описательный текст: персонажи, и прочее
+					echo '<p>'. $descrText. ' ';
 					//добавить имя персонажей перед словом Wallpaper
-					echo '<p>'.$prefixWall.' for mobile phones: ' . $mobilePhones. '</p>';
+					echo 'This image is best suited to those phone models: ' . $mobilePhones. '</p>';
 				}
 
 				//добавить персонажа (типа Saber image size:) но если там два слова
@@ -242,7 +245,7 @@ if (!class_exists("DynamicKawaiiImages"))
 					$sizePrefix=$characters." image";
 				}
 
-				echo '<h1>'.$sizePrefix.' size: ' . $resolution . '</h1>';
+				echo '<h2>'.$sizePrefix.' size: ' . $resolution . '</h2>';
 
 				echo '</div>';
 
@@ -488,9 +491,8 @@ if (!class_exists("DynamicKawaiiImages"))
 				$descriptiveContent=$charactersNames ." ". $uniqTitle;
 			}
 
-			$cont2=sprintf("Select the resolution and model of your device below, and download the appropriate %s image.",$mainPostTitle);
+			$cont2=sprintf("Click on the links below to download the best suitable size images for your smartphone, and download the appropriate %s wallpaper. You may use this anime wallpaper for lock screen, or home screen background.",$mainPostTitle);
 			$content.="<p>".$descriptiveContent.". ".$cont2."</p>";
-
 			$content.="<p>";
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
@@ -580,26 +582,11 @@ if (!class_exists("DynamicKawaiiImages"))
 				//split title with dots.
 				$splValues=explode('.',$parentTitle);
 
-				$cleanTitle=get_the_title($itPost->post_parent);
-				if(count($splValues)>0)
-				{
-					$tmpTitle="";
-				   	//the part of resolution (in form 320x480) should be removed
-					foreach($splValues as $splItemKey => $splItemValue)
-					{
-						if(DynamicKawaiiImages::_HasResolutionPart($splItemValue)===false)
-						{
-							$tmpTitle .= $splItemValue;
-                            $tmpTitle .= " ";
-						}
-					}
-					
-					$cleanTitle=$tmpTitle;
-				}
+				$kawCont=new KawaiiContent();
+				$descrText="";//описательный текст для страницы
+				$attTitle=$kawCont->GetAttachTitleAndDescription($resolution, $attachID, $descrText);
 
-				$rDetect=new KawaiiResolutionDetector();
-				$uniqTitle=	$rDetect->GetUniqTitleOnAttachID($resolution, $attachID);
-				return $cleanTitle. " " . $resolution. " " . $uniqTitle;
+				return $attTitle;
 			}
 
 			//do nothing,default
@@ -731,7 +718,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('the_content', array('DynamicKawaiiImages', 'do_content'),1);
 
-	//add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
+	add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
 
 	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
