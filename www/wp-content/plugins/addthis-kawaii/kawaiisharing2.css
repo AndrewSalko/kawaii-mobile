@@ -1,0 +1,53 @@
+.sharing-bar
+{
+    display: inline-block;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    flex-flow: column nowrap;
+}
+
+    .sharing-bar div
+    {
+        margin: 5px;
+    }
+
+@media only screen and (min-width: 1181px)
+{
+    .sharing-bar
+    {
+        position: fixed;
+        left: 15px;
+        top: 145px;
+        text-align: center;
+    }
+
+        .sharing-bar > div
+        {
+            display: block;
+        }
+}
+
+@media only screen and (max-width: 1180px)
+{
+    .sharing-bar
+    {
+        padding: 4px;
+    }
+
+        .sharing-bar div
+        {
+            vertical-align: top;
+            display: inline;
+        }
+
+        .sharing-bar span
+        {
+            vertical-align: top !important;
+        }
+
+		.sharing-bar p
+		{
+			display: inline;
+		}
+
+}

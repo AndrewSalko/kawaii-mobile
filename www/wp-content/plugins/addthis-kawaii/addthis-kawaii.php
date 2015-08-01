@@ -19,64 +19,61 @@ if (!class_exists("KawaiiAddThis"))
 			
 		}
 
-		public static function GetInnerButtons()
+		public static function GetSharingHtml()
+		{
+			$addContent='';	
+
+			$addContent .='<div id="fb-root"></div>';
+            $addContent .='<div class="sharing-bar">';
+            $addContent .='<div><g:plusone width="60" size="tall"></g:plusone></div>';
+			$addContent .='<div class="fb-like" data-layout="box_count" data-action="like" data-show-faces="false" data-share="true"></div>';
+            $addContent .='<div><a class="twitter-share-button" data-count="vertical" href="https://twitter.com/intent/tweet"></a></div>';
+            $addContent .='<div>';
+            $addContent .='<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>lang: en_US</script>';
+            $addContent .='<script type="IN/Share" data-counter="top"></script>';
+
+			$addContent .='<div>';
+			$addContent .='<script type="text/javascript" src="//www.redditstatic.com/button/button2.js"></script>';
+			$addContent .='</div>';
+
+			$addContent .='<su:badge layout="5"></su:badge>';
+
+            $addContent .='</div>';
+            $addContent .='</div>';
+
+			return $addContent;
+		}
+
+		function GetSocialScriptLoader()
 		{
 			$addContent='';
-			$addContent .= '<a class="addthis_button_google_plusone_share"></a>';
-			$addContent .= '<a class="addthis_button_facebook"></a>';
-			$addContent .= '<a class="addthis_button_twitter"></a>';
-			$addContent .= '<a class="addthis_button_tumblr"></a>';
-			$addContent .= '<a class="addthis_button_linkedin"></a>';
-			$addContent .= '<a class="addthis_button_favorites"></a>';
-			$addContent .= '<a class="addthis_counter addthis_bubble_style"></a>';
-			return $addContent;
-		}
+			$sharing_script=plugins_url('kawaiisharing.js', __FILE__);
+			$addContent .= '<script type="text/javascript" src="'. $sharing_script .'" async defer></script>';
 
-		public static function GetScript($standartButtons)
-		{
-			$addContent='';	
-
-			if($standartButtons===TRUE)
-			{
-				//standart style, mobile or small window
-				$addContent .= '<div class="addthis_toolbox addthis_default_style addthis_32x32_style kawaii_sharing_standart">';
-			}
-			else
-			{
-				//float style,for desktop
-				$addContent .= '<div class="addthis_toolbox addthis_floating_style addthis_32x32_style kawaii_sharing_float">';
-			}
-
-			$addContent .= KawaiiAddThis::GetInnerButtons();
-			$addContent .= '</div>';
-			return $addContent;
-		}
-
-		function GetAddThisScriptLoader()
-		{
-			$addContent='';	
-			$addContent .= '<script type="text/javascript">var addthis_config = { "data_track_addressbar": false };</script>';
-			$addContent .= '<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52ac5aea586b25eb"></script>';
 			return $addContent;
 		}
 
 		function do_wp_footer()
 		{	
-			//add floating bar (vertical)					
-			echo KawaiiAddThis::GetScript(FALSE);			
-			echo KawaiiAddThis::GetAddThisScriptLoader();
+			//if it's main page, load script because do_content not used in such case
+			if(is_home())
+			{
+				echo KawaiiAddThis::GetSharingHtml();
+			}
+			//add sharing script (at bottom)
+			echo KawaiiAddThis::GetSocialScriptLoader();
 		}
 
 		function do_add_stylesheet()
 		{		  
-			wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing.css', __FILE__) );
+			wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing2.css', __FILE__) );
 			wp_enqueue_style( 'kawaiisharing' );			
 		}
 
 		function do_content($content)
 		{
 			//add standart bar to content
-			$addContent=KawaiiAddThis::GetScript(TRUE);
+			$addContent=KawaiiAddThis::GetSharingHtml();
 
 			return  $content . $addContent;
 		}

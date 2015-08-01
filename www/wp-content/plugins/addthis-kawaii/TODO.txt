@@ -1,11 +1,18 @@
- <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-          <a class="addthis_button_preferred_1"></a>
-          <a class="addthis_button_preferred_2"></a>
-          <a class="addthis_button_preferred_3"></a>
-          <a class="addthis_button_compact"></a>
-        </div>        
-      </div>
+
+Reddit:
 
 
-display: none;
-visibility: hidden;
+StumbleUpon:
+
+
+<!-- Place this tag where you want the su badge to render -->
+<su:badge layout="5"></su:badge>
+
+<!-- Place this snippet wherever appropriate -->
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
