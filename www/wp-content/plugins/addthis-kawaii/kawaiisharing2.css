@@ -6,10 +6,17 @@
     flex-flow: column nowrap;
 }
 
-    .sharing-bar div
+    .sharing-bar div, div#singlentry .sharing-bar div 
     {
-        margin: 5px;
+        margin: 5px !important;
     }
+.post .sharing-bar iframe  {
+	width: 55px !important;
+	height: 70px;
+}
+.post .sharing-bar  iframe.twitter-share-button  {
+	margin-bottom: 30px !important;
+}
 
 @media only screen and (min-width: 1181px)
 {
