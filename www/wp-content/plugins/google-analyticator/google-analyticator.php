@@ -886,7 +886,7 @@ function ga_outgoing_links()
 				# Display page tracking if user is not an admin
 				if ( ( get_option(key_ga_admin) == ga_enabled || !ga_current_user_is(get_option(key_ga_admin_role)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' )
 				{
-					add_action('wp_print_scripts', 'ga_external_tracking_js');
+					add_action('wp_enqueue_scripts', 'ga_external_tracking_js');
 				}
 			}
 		}
@@ -898,7 +898,7 @@ function ga_outgoing_links()
  **/
 function ga_external_tracking_js()
 {
-	wp_enqueue_script('ga-external-tracking', plugins_url('/google-analyticator/external-tracking.min.js'), array('jquery'), GOOGLE_ANALYTICATOR_VERSION);
+	wp_enqueue_script('ga-external-tracking', plugins_url('/google-analyticator/external-tracking.min.js'), array('jquery'), GOOGLE_ANALYTICATOR_VERSION, true);
 }
 
 /**
