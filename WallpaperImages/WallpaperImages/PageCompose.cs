@@ -177,9 +177,9 @@ namespace WallpaperImages
 				result += item + Environment.NewLine;
 
 				if (useHTMLTableFormat)
-				{
-					result += "</tr>" + Environment.NewLine;
+				{					
 					result += "</td>" + Environment.NewLine;
+					result += "</tr>" + Environment.NewLine;
 				}		
 			}
 
