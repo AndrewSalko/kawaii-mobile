@@ -163,7 +163,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				$characters=$imgAlt;
 			}
 
-			$imgNode='<a href="'.$imgLink.'"><img src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
+			$imgNode='<a href="'.$imgLink.'"><img class="image-autosize" src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
 			return $imgNode;
 
 		}//CreateImageElement

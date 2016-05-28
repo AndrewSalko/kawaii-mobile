@@ -1,3 +1,9 @@
+.image-autosize
+{
+	max-width:98.5%;
+	height: auto;
+}
+
 .sharing-bar
 {
     display: inline-block;
