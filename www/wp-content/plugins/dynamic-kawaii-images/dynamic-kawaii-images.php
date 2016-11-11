@@ -659,6 +659,17 @@ if (!class_exists("DynamicKawaiiImages"))
 			if ($imgURL != '' && $imgURL != false)
 			{
 				echo '<meta property="og:image" content="'. $imgURL .'" />'."\n";
+				echo '<meta property="twitter:image" content="'. $imgURL .'" />'."\n";
+
+				echo '<meta name="twitter:card" content="summary_large_image" />'."\n";
+				echo '<meta name="twitter:site" content="@KawaiiMobile" />'."\n";
+				echo '<meta name="twitter:creator" content="@KawaiiMobile" />'."\n";
+
+				$tc_title = get_the_title();
+			    $tc_description = get_the_excerpt();
+
+				echo '<meta name="twitter:description" content="'. $tc_description .'" />'."\n";
+				echo '<meta name="twitter:title" content="'. $tc_title .'" />'."\n";
 			}
 		}
 
@@ -722,7 +733,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
-	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'));
+	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'), 70);
 
 	add_filter('wp_footer', array('DynamicKawaiiImages', 'do_wp_footer'),1);
 
