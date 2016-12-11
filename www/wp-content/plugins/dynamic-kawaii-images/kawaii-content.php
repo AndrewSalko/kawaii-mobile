@@ -6,6 +6,28 @@
 class KawaiiContent
 {
 
+	public function GetAttachAdditionalDescription($attID)
+	{
+		//доп.текст
+		$addText = array(0 => "anime phone wallpapers",//2966
+			1 => "anime wallpaper phone",			//2431
+			2 => "ecchi wallpaper",					//236			
+			3 => "wallpaper anime android", 		//1010
+			4 => "anime wallpaper hd for android",	//650
+			5 => "anime phone wallpaper",			//1552			
+			6 => "anime wallpaper for android",		//1000
+			7 => "anime wallpaper android",			//953
+			8 => "anime mobile wallpaper",			//605
+			9 => "anime wallpaper hd for android"	//650
+		);
+
+		$strID=strval($attID);
+		$lastChar=substr($strID, -1);
+		$lastID=intval($lastChar);
+
+		return $addText[$lastID];
+	}
+
 	public function GetAttachTitleAndDescription($resolutionName, $attID, &$description)
 	{
 		//получить персонажей, если таковые есть, или тайтл главного поста
@@ -44,21 +66,22 @@ class KawaiiContent
 		//теперь добавим случайно ключевые слова - они войдут и в тайтл, и в контент
 		$wallpaperText="wallpaper";//текст "по умолчанию"(обои)
 
+		$strID=strval($attID);
+		$lastChar=substr($strID, -1);
+		$lastID=intval($lastChar);
+		
+		$addContent=$mainTitle." ".$this->GetAttachAdditionalDescription($attID).".";
+
 		if($phoneTitle!="")
 		{
 			$wallpaperText="wallpaper"; //получится типа 'android wallpaper', 'iPhone 5 wallpaper'
-			$description="Download ".$mainTitle." ". $phoneTitle. " wallpaper for your smartphone.";
+			$description="Download ".$mainTitle." ". $phoneTitle. " wallpaper for your smartphone. ". $addContent;
 		}
 		else
 		{
 			//нет тайтла для телефона. Это все тогда будет идти по случ.тексту
-			$strID=strval($attID);
-			$lastChar=substr($strID, -1);
-			$lastID=intval($lastChar);
-
 			$wallpaperText=$titles[$lastID];
-
-			$description="Download ".$mainTitle." ". $wallpaperText. ".";
+			$description="Download ".$mainTitle." ". $wallpaperText. ". " . $addContent;
 		}
 
 
