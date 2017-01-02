@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+
+	"name": "Kawaii Counter-Notice DCMA",
+	"description": "This extension allows easy fill counter-DCMA request.",
+	"version": "1.0",
+
+	"content_scripts": 
+	[
+		{
+    		"matches": [ "*://support.google.com/legal/contact/*" ],
+    		"css": ["styles.css"],			
+      		"js": [ "jquery.min.js", "content_script.js" ]
+		}
+	],
+
+  	"permissions":[ "activeTab","https://ajax.googleapis.com/"]
+	
+}
