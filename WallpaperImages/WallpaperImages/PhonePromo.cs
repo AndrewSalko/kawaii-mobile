@@ -97,7 +97,7 @@ namespace WallpaperImages
 			#endregion
 
 			#region iPhone 6
-			string[] iPhone6 = new string[] { "iPhone 6" };
+			string[] iPhone6 = new string[] { "iPhone 6", "iPhone 7" };
 			_ScreenToPhones["750x1334"] = iPhone6;
 
 			#endregion
@@ -152,8 +152,9 @@ namespace WallpaperImages
 
 			#region 1080x1920
 			string[] phones1080x1920 = new string[] 
-			{
+			{				
 				"iPhone 6 Plus",
+				"iPhone 7 Plus",
 				"Magic THL W8",
 				"Magic THL W9",
 				"Magic THL W300",
