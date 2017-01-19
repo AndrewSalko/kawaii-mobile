@@ -160,7 +160,7 @@ function wptouch_include_adsense() {
 		global $wptouch_settings;
 		$wptouch_settings = $settings;
 		
-		include( 'include/adsense-kawaii.php' );
+
 	}
 }
 
