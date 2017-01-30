@@ -120,8 +120,9 @@ namespace WallpaperImages
 		/// <param name="wikiLink">Ссылка на англ википедию</param>
 		/// <param name="genreText">Жанр</param>
 		/// <param name="useHTMLTableFormat">Оформить тело поста в виде HTML таблицы</param>
+		/// <param name="addReviewBlock">Добавить блок обзора (review)</param>
 		/// <returns></returns>
-		public string GetHTML(string[] resolutions, string wikiLink, string genreText, bool useHTMLTableFormat)
+		public string GetHTML(string[] resolutions, string wikiLink, string genreText, bool useHTMLTableFormat, bool addReviewBlock)
 		{
 			string result = string.Empty;
 
@@ -131,6 +132,11 @@ namespace WallpaperImages
 			Random rnd = new Random(Environment.TickCount);
 			
 			List<string> bodiesHTML=new List<string>();
+
+			if(addReviewBlock)
+			{
+				result += "<p><a href=\"#review\">Review</a></p>" + Environment.NewLine;
+			}
 
 			foreach (var res in resolutions)
 			{
@@ -163,6 +169,18 @@ namespace WallpaperImages
 			{
 				result += "<table border=\"0\" width=\"100%\">" + Environment.NewLine;
 				result += "<tbody>" + Environment.NewLine;
+			}
+
+			if(addReviewBlock)
+			{
+				result += "<tr>" + Environment.NewLine;
+				result += "<td>" + Environment.NewLine;
+
+				result += "<a name=\"review\"></a>" + Environment.NewLine;
+				result += string.Format("<h2>{0} Review</h2>", _AnimeName) + Environment.NewLine;
+
+				result += "</td>" + Environment.NewLine;
+				result += "</tr>" + Environment.NewLine;
 			}
 
 			//добавляем блоки шаблонов внутри:

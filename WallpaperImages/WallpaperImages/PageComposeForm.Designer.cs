@@ -37,6 +37,7 @@
 			this._LabelGenre = new System.Windows.Forms.Label();
 			this._TextBoxGenre = new System.Windows.Forms.TextBox();
 			this._CheckBoxTable = new System.Windows.Forms.CheckBox();
+			this._CheckBoxReview = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// _CheckedListBoxResolutions
@@ -139,6 +140,18 @@
 			this._CheckBoxTable.UseVisualStyleBackColor = true;
 			this._CheckBoxTable.CheckedChanged += new System.EventHandler(this._CheckBoxTable_CheckedChanged);
 			// 
+			// _CheckBoxReview
+			// 
+			this._CheckBoxReview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._CheckBoxReview.AutoSize = true;
+			this._CheckBoxReview.Location = new System.Drawing.Point(359, 373);
+			this._CheckBoxReview.Name = "_CheckBoxReview";
+			this._CheckBoxReview.Size = new System.Drawing.Size(89, 17);
+			this._CheckBoxReview.TabIndex = 13;
+			this._CheckBoxReview.Text = "Review-блок";
+			this._CheckBoxReview.UseVisualStyleBackColor = true;
+			this._CheckBoxReview.CheckedChanged += new System.EventHandler(this._CheckBoxReview_CheckedChanged);
+			// 
 			// PageComposeForm
 			// 
 			this.AcceptButton = this._OKButton;
@@ -146,6 +159,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this._ButtonClose;
 			this.ClientSize = new System.Drawing.Size(636, 436);
+			this.Controls.Add(this._CheckBoxReview);
 			this.Controls.Add(this._CheckBoxTable);
 			this.Controls.Add(this._TextBoxGenre);
 			this.Controls.Add(this._LabelGenre);
@@ -177,7 +191,6 @@
 		private System.Windows.Forms.Label _LabelGenre;
 		private System.Windows.Forms.TextBox _TextBoxGenre;
 		private System.Windows.Forms.CheckBox _CheckBoxTable;
-
-
+		private System.Windows.Forms.CheckBox _CheckBoxReview;
 	}
 }
