@@ -543,23 +543,6 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 			}
 
-			$content .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-
-			if($mobileMode)
-			{
-				//позже унифицировать (баннер из wptouch)
-				$content .= '<!-- Kawaii-banner mobile 320x50 for attach page -->';
-				$content .= '<ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="3749152772"></ins>';
-			}
-			else
-			{
-				$content .= '<!-- Kawaii-banner 468x60 for attach page -->';
-				$content .= '<ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-6472729866072930" data-ad-slot="4991551174"></ins>';
-			}
-
-			$content .= '<script>(adsbygoogle = window.adsbygoogle || []).push({});';
-			$content .= '</script>';
-
 			return $content;
 		}
 
@@ -623,6 +606,16 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 		}
 
+		// ќтрезает до первого перевода каретки,т.к.обычно
+		// все что далее нам не интересно (в первой строке будет норм.описание)
+		// а ниже будет уже оглавление разрешений и прочее
+		static function GetTwitterDescription($rawDescription)
+		{
+			$splittedValues=explode(PHP_EOL, $rawDescription);
+
+			return $splittedValues[0];
+		}
+
 
 		function do_wp_head()
 		{
@@ -633,11 +626,20 @@ if (!class_exists("DynamicKawaiiImages"))
 			global $post;
 			$imgURL='';//картинка дл€ og:image
 
+			$tc_title = get_the_title();//тайтл дл€ твиттер-кард
+			$tc_description ='';//описание дл€ твиттер-кард
+
 			if( is_attachment())
 			{
 				//страница файла-изображени€.  артинка дл€ него - он сам
 				$imageID=$post->ID;
 				$imgURL=wp_get_attachment_url($imageID);
+
+				$kawCont=new KawaiiContent();
+
+				//спец.дл€ аттача более "надежный" метод описани€ дл€ твиттер-карточки
+				//в моб.режиме там была беда с get_the_excerpt()
+				$tc_description = $tc_title . ' '. $kawCont->GetAttachAdditionalDescription($imageID);
 			}
 			else
 			{
@@ -669,9 +671,14 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<meta name="twitter:card" content="summary_large_image" />'."\n";
 				echo '<meta name="twitter:site" content="@KawaiiMobile" />'."\n";
 				echo '<meta name="twitter:creator" content="@KawaiiMobile" />'."\n";
+                				
 
-				$tc_title = get_the_title();
-			    $tc_description = get_the_excerpt();
+				if($tc_description=='')
+				{
+			    	$tc_description = get_the_excerpt();
+				}
+
+				$tc_description=DynamicKawaiiImages::GetTwitterDescription($tc_description);
 
 				echo '<meta name="twitter:description" content="'. $tc_description .'" />'."\n";
 				echo '<meta name="twitter:title" content="'. $tc_title .'" />'."\n";
