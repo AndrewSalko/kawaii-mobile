@@ -9,7 +9,7 @@ class KawaiiAdvert
 	//чтобы реклама не мешалась роботу
 	public static function Footer()
 	{
-		$scriptPath= plugins_url('kawaii-ads.js', __FILE__);
-		echo '<script type="text/javascript" src="'.$scriptPath.'"></script>';
+		//$scriptPath= plugins_url('kawaii-ads.js', __FILE__);
+		//echo '<script type="text/javascript" src="'.$scriptPath.'"></script>';
 	}
 }
