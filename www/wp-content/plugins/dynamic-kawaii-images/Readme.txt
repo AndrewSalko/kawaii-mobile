@@ -1,3 +1,14 @@
+			//adsense account activation
+			echo '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>' . "\n";
+			echo '<script>' . "\n";
+			echo '(adsbygoogle = window.adsbygoogle || []).push({'."\n";
+			echo 'google_ad_client: "ca-pub-2908292943805064",'."\n";
+			echo 'enable_page_level_ads: true'."\n";
+			echo '});'."\n";
+			echo '</script>'."\n";
+
+
+
 Формирование тайтла для кастом-страницы:
 $cleanTitle. " " . $resolution. " " . $uniqTitle;
 
