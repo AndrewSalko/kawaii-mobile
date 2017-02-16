@@ -231,34 +231,12 @@ if (function_exists('load_plugin_textdomain')) {
 			}
 		}
 		
-		/*
-		
-		echo trim($_SERVER['REQUEST_URI'],'/');
-		$currenturl = trim($_SERVER['REQUEST_URI'],'/');
-		echo "<br /><br />";
-		
-		echo $aioseop_options['aiosp_ex_pages'];
-		
-		echo "<br /><br />";
-		
-		$excludedstuff = explode(',',$aioseop_options['aiosp_ex_pages']);
-		foreach($excludedstuff as $exedd){
-			echo $exedd;
-			//echo "<br /><br />substring: ". stristr($currenturl,trim($exedd)) . "<br />";
-			if(stristr($currenturl, trim($exedd))){
-				echo "<br />match, should not display<br /><br />";
-			}else{
-				echo "<br />( " . $exedd . " was not found in " . $currenturl . " ) - no match<br /><br />";
-			}
-		}
-		//print_r($excludedstuff);
-		*/
-		echo "\n<!-- All in One SEO Pack $this->version by Michael Torbert of Semper Fi Web Design";
-		if ($this->ob_start_detected) {
-			echo "ob_start_detected ";
-		}
-		echo "[$this->title_start,$this->title_end] ";
-		echo "-->\n";
+		//echo "\n<!-- All in One SEO Pack $this->version by Michael Torbert of Semper Fi Web Design";
+		//if ($this->ob_start_detected) {
+		//	echo "ob_start_detected ";
+		//}
+		//echo "[$this->title_start,$this->title_end] ";
+		//echo "-->\n";
 		if ((is_home() && $aioseop_options['aiosp_home_keywords'] && !$this->is_static_posts_page()) || $this->is_static_front_page()) {
 			$keywords = trim($this->internationalize($aioseop_options['aiosp_home_keywords']));
 		} elseif($this->is_static_posts_page() && !$aioseop_options['aiosp_dynamic_postspage_keywords']){  // and if option = use page set keywords instead of keywords from recent posts
@@ -378,7 +356,7 @@ if (function_exists('load_plugin_textdomain')) {
 				}
 			}
 		
-			echo "<!-- /all in one seo pack -->\n";
+			//echo "<!-- /all in one seo pack -->\n";
 		}
 
 		// Thank you, Yoast de Valk, for much of this code.	
