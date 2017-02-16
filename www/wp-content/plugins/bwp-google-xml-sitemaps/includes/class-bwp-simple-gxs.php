@@ -1278,7 +1278,6 @@ if (!empty($page))
 
 	//Find files by mask images-sitemap-*.xml
 	//This is image-sitemap, add return XML-parts for each
-	/*
 	function _GetImageSitemap()
 	{
 		$resXML="";
@@ -1299,7 +1298,6 @@ if (!empty($page))
 		}
 		return $resXML;
 	}
-	*/
 
 	function generate_sitemap_index($output = array())
 	{
