@@ -1,26 +1,27 @@
 === Akismet ===
-Contributors: matt, ryan, andy, mdawaffe, tellyworth, josephscott, lessbloat, eoigal, cfinke, automattic
+Contributors: matt, ryan, andy, mdawaffe, tellyworth, josephscott, lessbloat, automattic
 Tags: akismet, comments, spam
-Requires at least: 3.1
-Tested up to: 4.0
-Stable tag: 3.0.2
+Requires at least: 3.0
+Tested up to: 3.1
+Stable tag: 2.5.3
 License: GPLv2 or later
 
-Akismet checks your comments against the Akismet Web service to see if they look like spam or not.
+Akismet checks your comments against the Akismet web service to see if they look like spam or not.
 
 == Description ==
 
-Akismet checks your comments against the Akismet Web service to see if they look like spam or not and lets you review the spam it catches under your blog's "Comments" admin screen.
+Akismet checks your comments against the Akismet web service to see if they look like spam or not and lets you
+review the spam it catches under your blog's "Comments" admin screen.
 
-Major features in Akismet include:
+Major new features in Akismet 2.5 include:
 
-* Automatically checks all comments and filters out the ones that look like spam.
-* Each comment has a status history, so you can easily see which comments were caught or cleared by Akismet and which were spammed or unspammed by a moderator.
-* URLs are shown in the comment body to reveal hidden or misleading links.
-* Moderators can see the number of approved comments for each user.
-* A discard feature that outright blocks the worst spam, saving you disk space and speeding up your site.
+* A comment status history, so you can easily see which comments were caught or cleared by Akismet, and which were spammed or unspammed by a moderator
+* Links are highlighted in the comment body, to reveal hidden or misleading links
+* If your web host is unable to reach Akismet's servers, the plugin will automatically retry when your connection is back up
+* Moderators can see the number of approved comments for each user
+* Spam and Unspam reports now include more information, to help improve accuracy
 
-PS: You'll need an [Akismet.com API key](http://akismet.com/get/) to use it.  Keys are free for personal blogs; paid subscriptions are available for businesses and commercial sites.
+PS: You'll need an [Akismet.com API key](http://akismet.com/get/) to use it.  Keys are free for personal blogs, with paid subscriptions available for businesses and commercial sites.
 
 == Installation ==
 
@@ -29,80 +30,6 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 1, 2, 3: You're done!
 
 == Changelog ==
-
-= 3.0.2 =
-* Performance improvements.
-* Fixed a bug that could truncate the comment data being sent to Akismet for checking.
-
-= 3.0.1 =
-* Removed dependency on PHP's fsockopen function
-* Fix spam/ham reports to work when reported outside of the WP dashboard, e.g., from Notifications or the WP app
-* Remove jQuery dependency for comment form JavaScript
-* Remove unnecessary data from some Akismet comment meta
-* Suspended keys will now result in all comments being put in moderation, not spam.
-
-= 3.0.0 =
-* Move Akismet to Settings menu
-* Drop Akismet Stats menu
-* Add stats snapshot to Akismet settings
-* Add Akismet subscription details and status to Akismet settings
-* Add contextual help for each page
-* Improve Akismet setup to use Jetpack to automate plugin setup
-* Fix "Check for Spam" to use AJAX to avoid page timing out
-* Fix Akismet settings page to be responsive
-* Drop legacy code
-* Tidy up CSS and Javascript
-* Replace the old discard setting with a new "discard pervasive spam" feature.
-
-= 2.6.0 =
-* Add ajax paging to the check for spam button to handle large volumes of comments
-* Optimize javascript and add localization support 
-* Fix bug in link to spam comments from right now dashboard widget
-* Fix bug with deleting old comments to avoid timeouts dealing with large volumes of comments
-* Include X-Pingback-Forwarded-For header in outbound WordPress pingback verifications
-* Add pre-check for pingbacks, to stop spam before an outbound verification request is made
-
-= 2.5.9 =
-* Update 'Already have a key' link to redirect page rather than depend on javascript
-* Fix some non-translatable strings to be translatable
-* Update Activation banner in plugins page to redirect user to Akismet config page
-
-= 2.5.8 =
-* Simplify the activation process for new users
-* Remove the reporter_ip parameter
-* Minor preventative security improvements
-
-= 2.5.7 =
-* FireFox Stats iframe preview bug
-* Fix mshots preview when using https
-* Add .htaccess to block direct access to files
-* Prevent some PHP notices
-* Fix Check For Spam return location when referrer is empty
-* Fix Settings links for network admins
-* Fix prepare() warnings in WP 3.5
-
-= 2.5.6 =
-* Prevent retry scheduling problems on sites where wp_cron is misbehaving
-* Preload mshot previews
-* Modernize the widget code
-* Fix a bug where comments were not held for moderation during an error condition
-* Improve the UX and display when comments are temporarily held due to an error
-* Make the Check For Spam button force a retry when comments are held due to an error
-* Handle errors caused by an invalid key
-* Don't retry comments that are too old
-* Improve error messages when verifying an API key
-
-= 2.5.5 =
-* Add nonce check for comment author URL remove action
-* Fix the settings link
-
-= 2.5.4 =
-* Limit Akismet CSS and Javascript loading in wp-admin to just the pages that need it
-* Added author URL quick removal functionality
-* Added mShot preview on Author URL hover
-* Added empty index.php to prevent directory listing
-* Move wp-admin menu items under Jetpack, if it is installed
-* Purge old Akismet comment meta data, default of 15 days
 
 = 2.5.3 = 
 * Specify the license is GPL v2 or later
