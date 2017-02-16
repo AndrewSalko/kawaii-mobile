@@ -1,16 +1,17 @@
 <tr><td>
-<div style='width:300px;'>
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6472729866072930";
-/* kawaii-bottom */
-google_ad_slot = "6364477292";
-google_ad_width = 300;
-google_ad_height = 250;
-//-->
+<div style='width:auto;'>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Kawaii-banner image -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:468px;height:60px"
+     data-ad-client="ca-pub-6472729866072930"
+     data-ad-slot="4991551174"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+
+
 </div>
 
 </td></tr>

@@ -1,0 +1,3 @@
+<tr><td>
+<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-na.amazon-adsystem.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fkawaiimobile-20%2F8010%2F386186dc-c660-4445-a8a2-6071f7e449eb&Operation=GetScriptTemplate"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-na.amazon-adsystem.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fkawaiimobile-20%2F8010%2F386186dc-c660-4445-a8a2-6071f7e449eb&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+</td></tr>
