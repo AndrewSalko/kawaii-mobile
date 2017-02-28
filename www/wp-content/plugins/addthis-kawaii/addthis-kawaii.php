@@ -22,6 +22,7 @@ if (!class_exists("KawaiiAddThis"))
 		public static function GetSharingHtml()
 		{
 			$addContent='';	
+			$nl="\n";
 
 			$addContent .='<div id="fb-root"></div>';
             $addContent .='<div class="sharing-bar">';
@@ -32,9 +33,14 @@ if (!class_exists("KawaiiAddThis"))
             $addContent .='<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>lang: en_US</script>';
             $addContent .='<script type="IN/Share" data-counter="top"></script>';
 
-			$addContent .='<div>';
-			$addContent .='<script type="text/javascript" src="//www.redditstatic.com/button/button2.js"></script>';
-			$addContent .='</div>';
+			$addContent .='<div>' .$nl;
+			
+			$addContent .='<script type="text/javascript">' .$nl;
+			$addContent .='var write_string="<iframe height=\"69\" width=\"51\" scrolling=\'no\' frameborder=\'0\' src=\"//www.redditstatic.com/button/button2.html?url="+encodeURIComponent(window.location.href)+"\"></iframe>";' .$nl;
+			$addContent .='document.write(write_string);' .$nl;
+			$addContent .='</script>' .$nl;
+
+			$addContent .='</div>' .$nl;
 
 			$addContent .='<su:badge layout="5"></su:badge>';
 
