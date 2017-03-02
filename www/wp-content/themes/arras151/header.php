@@ -37,10 +37,12 @@
 
 <?php
 wp_enqueue_script('jquery');
-wp_enqueue_script('jquery-ui-tabs', null, array('jquery-ui-core', 'jquery'), null, false); 
+//commented by Andrew (not used) 01.03.2017
+//wp_enqueue_script('jquery-ui-tabs', null, array('jquery-ui-core', 'jquery'), null, false); 
 
 if ( is_home() || is_front_page() ) {
-	wp_enqueue_script('jquery-cycle', get_template_directory_uri() . '/js/jquery.cycle.min.js', 'jquery', null, true);
+	//commented by Andrew (not used) 01.03.2017
+	//wp_enqueue_script('jquery-cycle', get_template_directory_uri() . '/js/jquery.cycle.min.js', 'jquery', null, true);
 }
 
 //Commented by Andrew (speed optimization)
