@@ -52,12 +52,35 @@ if (!class_exists("KawaiiAddThis"))
 
 		function GetSocialScriptLoader()
 		{
-			$addContent='';
+			$addContent=''.$nl;
 			$sharing_script=plugins_url('kawaiisharing.js', __FILE__);
-			$addContent .= '<script type="text/javascript" src="'. $sharing_script .'" async defer></script>';
+			$addContent .= $nl.'<script type="text/javascript" src="'. $sharing_script .'" async defer></script>'.$nl;
 
 			return $addContent;
 		}
+
+
+		function GetEventsScriptLoader()
+		{
+			$nl="\n";
+			$addContent=''.$nl;
+			$events_script=plugins_url('kawaii-events.js', __FILE__);
+			$addContent .= '<script type="text/javascript" src="'. $events_script .'" async defer></script>'.$nl;
+
+			return $addContent;
+		}
+
+
+
+		function do_wp_head()
+		{
+?>
+<script type="text/javascript">
+<?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
+</script>
+<?php
+		}
+
 
 		function do_wp_footer()
 		{	
@@ -68,6 +91,8 @@ if (!class_exists("KawaiiAddThis"))
 			}
 			//add sharing script (at bottom)
 			echo KawaiiAddThis::GetSocialScriptLoader();
+			//add Google Analytics event tracking on custom images
+			echo KawaiiAddThis::GetEventsScriptLoader();
 		}
 
 		function do_add_stylesheet()
@@ -163,4 +188,6 @@ if (isset($pluginKawaiiAddThis))
 	add_filter('the_content', array('KawaiiAddThis', 'do_content'),1);
 
 	add_action('admin_menu', array('KawaiiAddThis', 'do_image_sitemap'),1);
+
+	add_action('wp_head', array('KawaiiAddThis', 'do_wp_head'), 9999);
 }
