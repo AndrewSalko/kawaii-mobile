@@ -1,4 +1,7 @@
 
+User-agent: SiteExplorer
+Disallow: /
+
 User-agent: SemrushBot
 Disallow: / 
 
