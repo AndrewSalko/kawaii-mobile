@@ -502,28 +502,29 @@ if (!class_exists("DynamicKawaiiImages"))
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
 
-			$mainLink='<a href="'. $imgURL.'" >'.$linkNameCurrent.'</a>';
-
-			$content .= '<div>';
-			$content .= $mainLink;
-			$content .= '</div>';
-
 			//AD part
 			$content = DynamicKawaiiImages::_AdSense($content);
+
+
+			$content .= '<select id="screenResolutionSelectorID" style="width:100%;max-width:90%;" onchange="location = this.options[this.selectedIndex].value;">';
+    		$content .= '<option disabled selected>Select wallpaper size</option>';
+
+			//добавим основную ссылку тоже, для общности
+			$content .= '<option value="'.$imgURL.'">'.$linkNameCurrent.'</option>';
 
 			foreach ($resArr as $resName => $resParams)
 			{
 				$linkName=$resName;
 				if (array_key_exists('description', $resParams))
 				{
-					$linkName=$linkName . $singleCharacterName . ' (' . $resParams['description']. ')';
+					$linkName=$linkName . ' (' . $resParams['description']. ')';
 				}
 
-				//good file name.  
-				$addLink='<div><a href="'.$postPermLink .'custom-image/'. $imageID .'/'.$resName. '" >'.$linkName.'</a></div>';
-				$content .= $addLink;
+				$linkURL=$postPermLink .'custom-image/'. $imageID .'/'.$resName;
+				$content .= '<option value="'.$linkURL.'">'.$linkName.'</option>';
 			}
-						
+
+			$content .= '</select>';
 			$content.="</p>";
 			return $content;
 		}//do_content
