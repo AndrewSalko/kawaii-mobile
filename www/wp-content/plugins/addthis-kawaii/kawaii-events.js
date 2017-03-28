@@ -1,5 +1,14 @@
 jQuery(document).ready(function() 
 {
+    jQuery('#screenResolutionSelectorID').change(function()
+	{
+		//add tracking custom image resolutions
+		var resID=jQuery(this).children(":selected").data("id");
+		var resURL=jQuery(this).children(":selected").val();
+
+		ga('send', 'event', resID, resURL);
+	});
+
 	jQuery('a').each(function() 
 	{
 		var a = jQuery(this);
@@ -16,16 +25,6 @@ jQuery(document).ready(function()
 		var domain = hrefArray[2];
 	
 		//add tracking custom image resolutions
-		if(url.indexOf("custom-image")>=0)
-		{
-			var urlParts=url.split('/').reverse();
-			var resolut=urlParts[0];
-
-			a.click(function() 
-			{				
-				ga('send', 'event', resolut, 'custom-image', url);
-			});
-		}
 
 		// If the link is external
 	 	if ( ( href.match(/^http/) ) && ( !href.match(document.domain) )  ) 

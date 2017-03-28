@@ -510,7 +510,7 @@ if (!class_exists("DynamicKawaiiImages"))
     		$content .= '<option disabled selected>Select wallpaper size</option>';
 
 			//добавим основную ссылку тоже, для общности
-			$content .= '<option value="'.$imgURL.'">'.$linkNameCurrent.'</option>';
+			$content .= '<option data-id="'.$resName.'" value="'.$imgURL.'">'.$linkNameCurrent.'</option>';
 
 			foreach ($resArr as $resName => $resParams)
 			{
@@ -521,7 +521,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 
 				$linkURL=$postPermLink .'custom-image/'. $imageID .'/'.$resName;
-				$content .= '<option value="'.$linkURL.'">'.$linkName.'</option>';
+				$content .= '<option data-id="'.$resName.'" value="'.$linkURL.'">'.$linkName.'</option>';
 			}
 
 			$content .= '</select>';
