@@ -36,10 +36,10 @@
 			this._LabelURL = new System.Windows.Forms.Label();
 			this._BackgroundWorkerSitemapLoad = new System.ComponentModel.BackgroundWorker();
 			this._GroupBoxMainTweeting = new System.Windows.Forms.GroupBox();
-			this._LabelLastPost = new System.Windows.Forms.Label();
-			this._LabelNextPostTime = new System.Windows.Forms.Label();
-			this._ButtonStartTweeting = new System.Windows.Forms.Button();
 			this._ButtonStopTweeting = new System.Windows.Forms.Button();
+			this._ButtonStartTweeting = new System.Windows.Forms.Button();
+			this._LabelNextPostTime = new System.Windows.Forms.Label();
+			this._LabelLastPost = new System.Windows.Forms.Label();
 			this._BackgroundWorkerTweeting = new System.ComponentModel.BackgroundWorker();
 			this._GroupBoxSitemap.SuspendLayout();
 			this._GroupBoxMainTweeting.SuspendLayout();
@@ -106,9 +106,9 @@
 			this._LabelURL.AutoSize = true;
 			this._LabelURL.Location = new System.Drawing.Point(6, 19);
 			this._LabelURL.Name = "_LabelURL";
-			this._LabelURL.Size = new System.Drawing.Size(98, 13);
+			this._LabelURL.Size = new System.Drawing.Size(105, 13);
 			this._LabelURL.TabIndex = 0;
-			this._LabelURL.Text = "URL карты сайта:";
+			this._LabelURL.Text = "Файл карты сайта:";
 			// 
 			// _BackgroundWorkerSitemapLoad
 			// 
@@ -133,23 +133,16 @@
 			this._GroupBoxMainTweeting.TabStop = false;
 			this._GroupBoxMainTweeting.Text = "Автоматическое размещение твитов";
 			// 
-			// _LabelLastPost
+			// _ButtonStopTweeting
 			// 
-			this._LabelLastPost.AutoSize = true;
-			this._LabelLastPost.Location = new System.Drawing.Point(6, 28);
-			this._LabelLastPost.Name = "_LabelLastPost";
-			this._LabelLastPost.Size = new System.Drawing.Size(92, 13);
-			this._LabelLastPost.TabIndex = 0;
-			this._LabelLastPost.Text = "Последний пост:";
-			// 
-			// _LabelNextPostTime
-			// 
-			this._LabelNextPostTime.AutoSize = true;
-			this._LabelNextPostTime.Location = new System.Drawing.Point(6, 61);
-			this._LabelNextPostTime.Name = "_LabelNextPostTime";
-			this._LabelNextPostTime.Size = new System.Drawing.Size(95, 13);
-			this._LabelNextPostTime.TabIndex = 1;
-			this._LabelNextPostTime.Text = "Следующий пост:";
+			this._ButtonStopTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._ButtonStopTweeting.Location = new System.Drawing.Point(90, 113);
+			this._ButtonStopTweeting.Name = "_ButtonStopTweeting";
+			this._ButtonStopTweeting.Size = new System.Drawing.Size(75, 23);
+			this._ButtonStopTweeting.TabIndex = 3;
+			this._ButtonStopTweeting.Text = "Стоп";
+			this._ButtonStopTweeting.UseVisualStyleBackColor = true;
+			this._ButtonStopTweeting.Click += new System.EventHandler(this._ButtonStopTweeting_Click);
 			// 
 			// _ButtonStartTweeting
 			// 
@@ -162,16 +155,23 @@
 			this._ButtonStartTweeting.UseVisualStyleBackColor = true;
 			this._ButtonStartTweeting.Click += new System.EventHandler(this._ButtonStartTweeting_Click);
 			// 
-			// _ButtonStopTweeting
+			// _LabelNextPostTime
 			// 
-			this._ButtonStopTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._ButtonStopTweeting.Location = new System.Drawing.Point(90, 113);
-			this._ButtonStopTweeting.Name = "_ButtonStopTweeting";
-			this._ButtonStopTweeting.Size = new System.Drawing.Size(75, 23);
-			this._ButtonStopTweeting.TabIndex = 3;
-			this._ButtonStopTweeting.Text = "Стоп";
-			this._ButtonStopTweeting.UseVisualStyleBackColor = true;
-			this._ButtonStopTweeting.Click += new System.EventHandler(this._ButtonStopTweeting_Click);
+			this._LabelNextPostTime.AutoSize = true;
+			this._LabelNextPostTime.Location = new System.Drawing.Point(6, 61);
+			this._LabelNextPostTime.Name = "_LabelNextPostTime";
+			this._LabelNextPostTime.Size = new System.Drawing.Size(95, 13);
+			this._LabelNextPostTime.TabIndex = 1;
+			this._LabelNextPostTime.Text = "Следующий пост:";
+			// 
+			// _LabelLastPost
+			// 
+			this._LabelLastPost.AutoSize = true;
+			this._LabelLastPost.Location = new System.Drawing.Point(6, 28);
+			this._LabelLastPost.Name = "_LabelLastPost";
+			this._LabelLastPost.Size = new System.Drawing.Size(92, 13);
+			this._LabelLastPost.TabIndex = 0;
+			this._LabelLastPost.Text = "Последний пост:";
 			// 
 			// _BackgroundWorkerTweeting
 			// 
