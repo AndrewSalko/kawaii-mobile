@@ -115,8 +115,9 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
 <div id="headerbar">
 	<div id="headerbar-title">
 		<!-- This fetches the admin selection logo icon for the header, which is also the bookmark icon -->
+		<a href="<?php bloginfo('url'); ?>">
 		<img id="logo-icon" src="<?php echo bnc_get_title_image(); ?>" alt="<?php $str = bnc_get_header_title(); echo stripslashes($str); ?>" />
-		<a href="<?php bloginfo('url'); ?>"><?php wptouch_core_body_sitetitle(); ?></a>
+		<?php wptouch_core_body_sitetitle(); ?></a>
 	</div>
 	<div id="headerbar-menu">
 		    <a href="javascript:return false;"></a>
