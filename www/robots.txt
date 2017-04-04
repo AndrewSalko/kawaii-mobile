@@ -1,4 +1,7 @@
 
+User-agent: spbot
+Disallow: /
+
 User-agent: SiteExplorer
 Disallow: /
 
