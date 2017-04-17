@@ -237,29 +237,24 @@ namespace SalkoDev.KawaiiTwitter
 				//если это имя заполнено, то сделать пост с этим изображением и ссылкой
 				string fileImgName = null;
 
-				//TODO@:проверим что там с размером изображения-twitter:image
-				//На сайте есть много страниц где изображение слишком "портретное" для твиттера не сойдет
+				//берем twitter:image - всегда. Твиттер-кард себя не оправдал, пост с изображением 100% лучше
 				string imgURL=page.GetTwitterImageFileURL();
-				//размер который пригоден для твитте-тумбочки 2160x1920, 1440x1280
 				if(!string.IsNullOrWhiteSpace(imgURL))
 				{
-					if(!imgURL.Contains("2160x1920") && !imgURL.Contains("1440x1280"))
-					{
-						//надо сделать просто пост с картинкой, а не классический
-						ImageDownloader imgDown = new ImageDownloader(imgURL);
-						int tryCount = 3;
+					//надо сделать просто пост с картинкой, а не классический
+					ImageDownloader imgDown = new ImageDownloader(imgURL);
+					int tryCount = 3;
 						
-						while (tryCount > 0)
+					while (tryCount > 0)
+					{
+						if (imgDown.FileName != null)
 						{
-							if (imgDown.FileName != null)
-							{
-								fileImgName = imgDown.FileName;
-								break;
-							}
-
-							tryCount--;
-							imgDown = new ImageDownloader(imgURL);
+							fileImgName = imgDown.FileName;
+							break;
 						}
+
+						tryCount--;
+						imgDown = new ImageDownloader(imgURL);
 					}
 				}								
 
