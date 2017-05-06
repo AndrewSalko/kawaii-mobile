@@ -75,8 +75,28 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 		internal string CreateTwitterText()
 		{
 			//формируем текст для твита данной страницы
-			string msg = string.Format("{0}{1}{2}", URL, Environment.NewLine, _GetRandomHashTags());
-			return msg;
+			string urlAndTags = string.Format("{0}{1}{2}", URL, Environment.NewLine, _GetRandomHashTags());
+			string complexText = string.Empty;
+			if (!string.IsNullOrWhiteSpace(Title))
+				complexText = Title;
+
+			complexText += " ";
+			complexText += urlAndTags;
+			if (complexText.Length < 140)
+			{
+				return complexText;
+			}
+			else
+			{
+				//проверим, может без хеш-тегов выйдет?
+				string complexText2 = string.Format("{0} {1}", Title, URL);
+				if(complexText2.Length<140)
+				{
+					return complexText2;
+				}
+			}
+			
+			return urlAndTags;
 		}
 
 		string _GetRandomHashTags()
