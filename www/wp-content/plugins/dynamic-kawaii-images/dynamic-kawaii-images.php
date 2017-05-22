@@ -544,6 +544,15 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 			}
 
+			if($mobileMode)
+			{
+				$content.='<!-- Banner-adaptive (for custom attach) -->';
+				$content.='<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2908292943805064"';
+				$content.=' data-ad-slot="2563835433"';
+				$content.=' data-ad-format="auto"></ins>';
+				$content.='<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
+			}
+
 			return $content;
 		}
 
@@ -622,7 +631,7 @@ if (!class_exists("DynamicKawaiiImages"))
 		{
 			//блокируем пинтерест, так как он находится потом поиском google-images
 			//нам это не нужно (потеря траффика)
-			echo '<meta name="pinterest" content="nopin" />'. "\n";
+			echo "\n".'<meta name="pinterest" content="nopin" />'. "\n";
 
 			global $post;
 			$imgURL='';//картинка для og:image
