@@ -89,22 +89,35 @@ if (!class_exists("KawaiiAddThis"))
 			{
 				echo KawaiiAddThis::GetSharingHtml();
 			}
-			//add sharing script (at bottom)
-			echo KawaiiAddThis::GetSocialScriptLoader();
+
+			if(!is_attachment())
+			{
+				//add sharing script (at bottom)
+				echo KawaiiAddThis::GetSocialScriptLoader();
+			}
+
 			//add Google Analytics event tracking on custom images
 			echo KawaiiAddThis::GetEventsScriptLoader();
 		}
 
 		function do_add_stylesheet()
 		{		  
-			wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing2.css', __FILE__) );
-			wp_enqueue_style( 'kawaiisharing' );			
+			if(!is_attachment())
+			{
+				wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing2.css', __FILE__) );
+				wp_enqueue_style( 'kawaiisharing' );
+			}
 		}
 
 		function do_content($content)
 		{
+			$addContent="";
+			
 			//add standart bar to content
-			$addContent=KawaiiAddThis::GetSharingHtml();
+			if(!is_attachment())
+			{
+				$addContent=KawaiiAddThis::GetSharingHtml();
+			}
 
 			return  $content . $addContent;
 		}
