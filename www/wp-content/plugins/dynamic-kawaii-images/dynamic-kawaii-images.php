@@ -496,8 +496,9 @@ if (!class_exists("DynamicKawaiiImages"))
 				$descriptiveContent=$charactersNames ." ". $uniqTitle;
 			}
 
-			$cont2=sprintf("Click on the links below to download the best suitable size images for your smartphone, and download the appropriate %s wallpaper. You may use this anime wallpaper for lock screen, or home screen background.",$mainPostTitle);
-			$content.="<p>".$descriptiveContent.". ".$cont2." ". $addContent ."</p>";
+			//$cont2=sprintf("Click on the links below to download the best suitable size images for your smartphone, and download the appropriate %s wallpaper. You may use this anime wallpaper for lock screen, or home screen background.",$mainPostTitle);
+			//$content.="<p>".$descriptiveContent.". ".$cont2." ". $addContent ."</p>";
+			$content.="<p>".$descriptiveContent."</p>";
 			$content.="<p>";
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
