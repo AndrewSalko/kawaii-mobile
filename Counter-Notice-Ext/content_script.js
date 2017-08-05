@@ -1,7 +1,7 @@
 ﻿(function()
 {	
 	var urls=[
-		"http://kawaii-mobile.com/2014/06/divergence-eve/divergence-eve-misaki-kureha-ipod-5-wallpaper-640x1136-2/"
+		"http://kawaii-mobile.com/2014/06/divergence-eve/divergence-eve-misaki-kureha-htc-one-wallpaper-kiri-marialate-1080x1920/custom-image/10538/750x1334"
 	];
 
 
@@ -46,7 +46,7 @@
 		firstNameInput.val('ANDRII SALKO');
 
 		addrText=$('textarea#address');
-		addrText.val('Biblika street, 2-G, fl.105, Kharkiv, Ukraine');
+		addrText.val('2-G, Biblika street, 105, Kharkiv, Ukraine, 61115');
 
 		emailInput=$('#contact_email_noprefill');
 		emailInput.val('andrewsalko@gmail.com');
