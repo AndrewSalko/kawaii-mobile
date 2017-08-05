@@ -41,8 +41,12 @@
 			this._LabelNextPostTime = new System.Windows.Forms.Label();
 			this._LabelLastPost = new System.Windows.Forms.Label();
 			this._BackgroundWorkerTweeting = new System.ComponentModel.BackgroundWorker();
+			this._GroupBoxLoadImages = new System.Windows.Forms.GroupBox();
+			this._ButtonLoadImages = new System.Windows.Forms.Button();
+			this._BackgroundWorkerLoadImages = new System.ComponentModel.BackgroundWorker();
 			this._GroupBoxSitemap.SuspendLayout();
 			this._GroupBoxMainTweeting.SuspendLayout();
+			this._GroupBoxLoadImages.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _GroupBoxSitemap
@@ -119,24 +123,22 @@
 			// 
 			// _GroupBoxMainTweeting
 			// 
-			this._GroupBoxMainTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this._GroupBoxMainTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._GroupBoxMainTweeting.Controls.Add(this._ButtonStopTweeting);
 			this._GroupBoxMainTweeting.Controls.Add(this._ButtonStartTweeting);
 			this._GroupBoxMainTweeting.Controls.Add(this._LabelNextPostTime);
 			this._GroupBoxMainTweeting.Controls.Add(this._LabelLastPost);
-			this._GroupBoxMainTweeting.Location = new System.Drawing.Point(3, 81);
+			this._GroupBoxMainTweeting.Location = new System.Drawing.Point(3, 167);
 			this._GroupBoxMainTweeting.Name = "_GroupBoxMainTweeting";
-			this._GroupBoxMainTweeting.Size = new System.Drawing.Size(481, 142);
+			this._GroupBoxMainTweeting.Size = new System.Drawing.Size(481, 114);
 			this._GroupBoxMainTweeting.TabIndex = 1;
 			this._GroupBoxMainTweeting.TabStop = false;
 			this._GroupBoxMainTweeting.Text = "Автоматическое размещение твитов";
 			// 
 			// _ButtonStopTweeting
 			// 
-			this._ButtonStopTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._ButtonStopTweeting.Location = new System.Drawing.Point(90, 113);
+			this._ButtonStopTweeting.Location = new System.Drawing.Point(90, 85);
 			this._ButtonStopTweeting.Name = "_ButtonStopTweeting";
 			this._ButtonStopTweeting.Size = new System.Drawing.Size(75, 23);
 			this._ButtonStopTweeting.TabIndex = 3;
@@ -146,8 +148,7 @@
 			// 
 			// _ButtonStartTweeting
 			// 
-			this._ButtonStartTweeting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._ButtonStartTweeting.Location = new System.Drawing.Point(9, 113);
+			this._ButtonStartTweeting.Location = new System.Drawing.Point(9, 85);
 			this._ButtonStartTweeting.Name = "_ButtonStartTweeting";
 			this._ButtonStartTweeting.Size = new System.Drawing.Size(75, 23);
 			this._ButtonStartTweeting.TabIndex = 2;
@@ -180,19 +181,51 @@
 			this._BackgroundWorkerTweeting.DoWork += new System.ComponentModel.DoWorkEventHandler(this._BackgroundWorkerTweeting_DoWork);
 			this._BackgroundWorkerTweeting.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._BackgroundWorkerTweeting_RunWorkerCompleted);
 			// 
+			// _GroupBoxLoadImages
+			// 
+			this._GroupBoxLoadImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._GroupBoxLoadImages.Controls.Add(this._ButtonLoadImages);
+			this._GroupBoxLoadImages.Location = new System.Drawing.Point(3, 85);
+			this._GroupBoxLoadImages.Name = "_GroupBoxLoadImages";
+			this._GroupBoxLoadImages.Size = new System.Drawing.Size(481, 76);
+			this._GroupBoxLoadImages.TabIndex = 2;
+			this._GroupBoxLoadImages.TabStop = false;
+			this._GroupBoxLoadImages.Text = "Загрузить новые внешние изображения с диска";
+			// 
+			// _ButtonLoadImages
+			// 
+			this._ButtonLoadImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this._ButtonLoadImages.Location = new System.Drawing.Point(230, 19);
+			this._ButtonLoadImages.Name = "_ButtonLoadImages";
+			this._ButtonLoadImages.Size = new System.Drawing.Size(245, 23);
+			this._ButtonLoadImages.TabIndex = 0;
+			this._ButtonLoadImages.Text = "Загрузить новые изображения с диска";
+			this._ButtonLoadImages.UseVisualStyleBackColor = true;
+			this._ButtonLoadImages.Click += new System.EventHandler(this._ButtonLoadImages_Click);
+			// 
+			// _BackgroundWorkerLoadImages
+			// 
+			this._BackgroundWorkerLoadImages.WorkerReportsProgress = true;
+			this._BackgroundWorkerLoadImages.WorkerSupportsCancellation = true;
+			this._BackgroundWorkerLoadImages.DoWork += new System.ComponentModel.DoWorkEventHandler(this._BackgroundWorkerLoadImages_DoWork);
+			this._BackgroundWorkerLoadImages.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._BackgroundWorkerLoadImages_RunWorkerCompleted);
+			// 
 			// SitePagesTweetControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this._GroupBoxLoadImages);
 			this.Controls.Add(this._GroupBoxMainTweeting);
 			this.Controls.Add(this._GroupBoxSitemap);
 			this.Name = "SitePagesTweetControl";
-			this.Size = new System.Drawing.Size(487, 226);
+			this.Size = new System.Drawing.Size(487, 297);
 			this.Load += new System.EventHandler(this.SitePagesTweetControl_Load);
 			this._GroupBoxSitemap.ResumeLayout(false);
 			this._GroupBoxSitemap.PerformLayout();
 			this._GroupBoxMainTweeting.ResumeLayout(false);
 			this._GroupBoxMainTweeting.PerformLayout();
+			this._GroupBoxLoadImages.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -212,5 +245,8 @@
 		private System.Windows.Forms.Label _LabelLastPost;
 		private System.Windows.Forms.Button _ButtonStopTweeting;
 		private System.ComponentModel.BackgroundWorker _BackgroundWorkerTweeting;
+		private System.Windows.Forms.GroupBox _GroupBoxLoadImages;
+		private System.Windows.Forms.Button _ButtonLoadImages;
+		private System.ComponentModel.BackgroundWorker _BackgroundWorkerLoadImages;
 	}
 }

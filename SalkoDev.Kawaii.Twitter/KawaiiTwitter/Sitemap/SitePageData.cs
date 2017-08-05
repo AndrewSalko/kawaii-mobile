@@ -21,5 +21,17 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 				return this.GetTable<SitePage>();
 			}
 		}
+
+		/// <summary>
+		/// Найти пост по его URL
+		/// </summary>
+		/// <param name="searchURL">Должен быть в формате /akame-ga-kill/</param>
+		/// <returns></returns>
+		public SitePage[] GetPostByURLSlug(string searchURL)
+		{
+			var postInDB = (from p in Pages where p.URL.EndsWith(searchURL) select p).ToArray();
+			return postInDB;
+		}
+
 	}
 }

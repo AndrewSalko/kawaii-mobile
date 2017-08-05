@@ -86,7 +86,12 @@
     </Compile>
     <Compile Include="ILog.cs" />
     <Compile Include="ImageDownloader.cs" />
+    <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\ImageData.cs" />
     <Compile Include="IMain.cs" />
+    <Compile Include="IMediaImage.cs" />
+    <Compile Include="ITwittable.cs" />
+    <Compile Include="PostText.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />

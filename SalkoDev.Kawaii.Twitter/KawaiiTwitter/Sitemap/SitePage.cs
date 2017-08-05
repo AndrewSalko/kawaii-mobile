@@ -12,7 +12,7 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 	/// Страница сайта
 	/// </summary>
 	[Table(Name = "Pages")]
-	class SitePage
+	class SitePage: ITwittable
 	{
 		[Column(Name = "id", IsPrimaryKey = true, CanBeNull = false, IsDbGenerated = true)]
 		public long id
@@ -68,59 +68,6 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 			set;
 		}
 
-		/// <summary>
-		/// Генерирует текст для твита для данной страницы
-		/// </summary>
-		/// <returns></returns>
-		internal string CreateTwitterText()
-		{
-			//формируем текст для твита данной страницы
-			string urlAndTags = string.Format("{0}{1}{2}", URL, Environment.NewLine, _GetRandomHashTags());
-			string complexText = string.Empty;
-			if (!string.IsNullOrWhiteSpace(Title))
-				complexText = Title;
-
-			complexText += " ";
-			complexText += urlAndTags;
-			if (complexText.Length < 140)
-			{
-				return complexText;
-			}
-			else
-			{
-				//проверим, может без хеш-тегов выйдет?
-				string complexText2 = string.Format("{0} {1}", Title, URL);
-				if(complexText2.Length<140)
-				{
-					return complexText2;
-				}
-			}
-			
-			return urlAndTags;
-		}
-
-		string _GetRandomHashTags()
-		{
-			string[] animeHashTags = new string[] { "#anime", "#animewallpaper", "#animegirl" };
-			string[] hashTags = new string[] { "#otaku", "#animelover", "#smartphonewallpaper", "#iphone", "#smartphone" };
-			Random rnd = new Random(Environment.TickCount);
-
-			List<string> resultList = new List<string>();
-			
-			int ind = rnd.Next(animeHashTags.Length);
-			string tag = animeHashTags[ind];
-			resultList.Add(tag);
-			
-			//один хеш тег из одного списка, второй из другого
-			ind = rnd.Next(hashTags.Length);
-			tag = hashTags[ind];
-			resultList.Add(tag);
-
-			string result = string.Join(" ", resultList.ToArray());
-
-			return result;
-		}
-
 		internal string GetTwitterImageFileURL()
 		{
 			string result = null;
@@ -150,6 +97,69 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 			{
 			}
 			return result;
+		}
+
+		public string CreateTwitterText()
+		{
+			PostText text = new PostText(URL, Title);
+			return text.CreateTwitterText();
+		}
+
+		string _TwitterImageURL;
+		bool _TwitterImageURLDone;
+
+		public bool HasImage
+		{
+			get
+			{
+				if (!_TwitterImageURLDone)
+				{
+					_TwitterImageURLDone = true;
+					_TwitterImageURL = GetTwitterImageFileURL();
+				}
+
+				return !string.IsNullOrWhiteSpace(_TwitterImageURL);
+			}
+		}
+
+		string _ImageFileOnDisk;
+
+		/// <summary>
+		/// Картинка (путь на нашем локальном диске, готова для работы). 
+		/// null если нет или не загрузилась или другие проблемы
+		/// </summary>
+		public string ImageFileName
+		{
+			get
+			{
+				if (!HasImage)
+					return null;
+
+				if (_ImageFileOnDisk == null)
+				{
+					//скачать на диск файл-картинку, вернуть путь к ней
+					ImageDownloader imgDown = new ImageDownloader(_TwitterImageURL);
+					int tryCount = 3;
+					while (tryCount > 0)
+					{
+						if (imgDown.FileName != null)
+						{
+							_ImageFileOnDisk = imgDown.FileName;
+							break;
+						}
+
+						tryCount--;
+						imgDown = new ImageDownloader(_TwitterImageURL);
+					}
+				}
+
+				return _ImageFileOnDisk;
+			}
+		}
+
+		public override string ToString()
+		{
+			return URL;
 		}
 	}
 }
