@@ -28,11 +28,6 @@ if (!class_exists("KawaiiAddThis"))
             $addContent .='<div class="sharing-bar">';
             $addContent .='<div><g:plusone width="60" size="tall"></g:plusone></div>';
 			$addContent .='<div class="fb-like" data-layout="box_count" data-action="like" data-show-faces="false" data-share="true"></div>';
-            $addContent .='<div><a class="twitter-share-button" data-count="vertical" href="https://twitter.com/intent/tweet"></a></div>';
-            $addContent .='<div>';
-            $addContent .='<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>lang: en_US</script>';
-            $addContent .='<script type="IN/Share" data-counter="top"></script>';
-
 			$addContent .='<div>' .$nl;
 			
 			$addContent .='<script type="text/javascript">' .$nl;
