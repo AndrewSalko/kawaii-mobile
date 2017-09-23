@@ -28,18 +28,15 @@ if (!class_exists("KawaiiAddThis"))
             $addContent .='<div class="sharing-bar">';
             $addContent .='<div><g:plusone width="60" size="tall"></g:plusone></div>';
 			$addContent .='<div class="fb-like" data-layout="box_count" data-action="like" data-show-faces="false" data-share="true"></div>';
-			$addContent .='<div>' .$nl;
+			
 			
 			$addContent .='<script type="text/javascript">' .$nl;
 			$addContent .='var write_string="<iframe height=\"69\" width=\"51\" scrolling=\'no\' frameborder=\'0\' src=\"//www.redditstatic.com/button/button2.html?url="+encodeURIComponent(window.location.href)+"\"></iframe>";' .$nl;
 			$addContent .='document.write(write_string);' .$nl;
 			$addContent .='</script>' .$nl;
 
-			$addContent .='</div>' .$nl;
-
 			$addContent .='<su:badge layout="5"></su:badge>';
 
-            $addContent .='</div>';
             $addContent .='</div>';
 
 			return $addContent;
