@@ -21,6 +21,19 @@ class KawaiiResolutionDetector
 							'title'=>'android',
 							'description'=>'Android Wallpaper 960x800'),
 
+		'2160x3840'=> array('width' =>2160, 'height'=>3840, 
+							'title'=>'4K UHD',
+							'description'=>'4K resolution'),
+				
+		'1440x2560'=> array('width' =>1440, 'height'=>2560, 
+							'title'=>'QHD Quad HD',
+							'description'=>'Quad HD resolution'),
+				
+		'1125x2436'=> array('width' =>1125, 'height'=>2436, 
+							'title'=>'iPhone X',
+							'description'=>'iPhone X resolution'),
+
+
 		'1080x1920' => array('width' =>1080, 'height'=>1920, 
 							'description'=>'iPhone 7 Plus, HTC, Xperia',
 							'mobilephones'=>'Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
