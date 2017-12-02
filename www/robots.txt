@@ -35,6 +35,14 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
+User-agent: proximic
+Disallow: /
+
+User-agent: grapeshot
+Disallow: /
+
+
+
 User-agent: *
 Disallow: /wp-admin/
 Disallow: */trackback/
