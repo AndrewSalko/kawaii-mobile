@@ -51,4 +51,4 @@ Disallow: /?feed*
 Disallow: /xmlrpc.php*
 Disallow: /?p=*
 
-Sitemap: http://kawaii-mobile.com/sitemapindex.xml
+Sitemap: https://kawaii-mobile.com/sitemapindex.xml
