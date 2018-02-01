@@ -88,7 +88,6 @@
     <Compile Include="ImageDownloader.cs" />
     <Compile Include="Images\Image.cs" />
     <Compile Include="Images\ImageData.cs" />
-    <Compile Include="IMain.cs" />
     <Compile Include="IMediaImage.cs" />
     <Compile Include="ITwittable.cs" />
     <Compile Include="PostText.cs" />
@@ -98,11 +97,11 @@
     <Compile Include="Sitemap\SitemapLoader.cs" />
     <Compile Include="Sitemap\SitePage.cs" />
     <Compile Include="Sitemap\SitePageData.cs" />
-    <Compile Include="SitePagesTweetControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="UpdateSitemapForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SitePagesTweetControl.Designer.cs">
-      <DependentUpon>SitePagesTweetControl.cs</DependentUpon>
+    <Compile Include="UpdateSitemapForm.Designer.cs">
+      <DependentUpon>UpdateSitemapForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AuthForm.resx">
       <DependentUpon>AuthForm.cs</DependentUpon>
@@ -120,8 +119,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SitePagesTweetControl.resx">
-      <DependentUpon>SitePagesTweetControl.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateSitemapForm.resx">
+      <DependentUpon>UpdateSitemapForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
