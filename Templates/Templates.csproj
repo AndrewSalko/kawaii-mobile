@@ -54,6 +54,7 @@
     <Compile Include="Algorithms.cs" />
     <Compile Include="Arrays.cs" />
     <Compile Include="Disposable.cs" />
+    <Compile Include="IO\StreamCopy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sets.cs" />
   </ItemGroup>

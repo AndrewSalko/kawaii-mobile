@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateSitemapForm));
 			this._ButtonCancel = new System.Windows.Forms.Button();
 			this._ButtonOK = new System.Windows.Forms.Button();
 			this._LabelMain = new System.Windows.Forms.Label();
@@ -40,9 +41,9 @@
 			// 
 			this._ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._ButtonCancel.Location = new System.Drawing.Point(305, 135);
+			this._ButtonCancel.Location = new System.Drawing.Point(324, 93);
 			this._ButtonCancel.Name = "_ButtonCancel";
-			this._ButtonCancel.Size = new System.Drawing.Size(94, 23);
+			this._ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this._ButtonCancel.TabIndex = 0;
 			this._ButtonCancel.Text = "Скасувати";
 			this._ButtonCancel.UseVisualStyleBackColor = true;
@@ -50,9 +51,9 @@
 			// _ButtonOK
 			// 
 			this._ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._ButtonOK.Location = new System.Drawing.Point(203, 135);
+			this._ButtonOK.Location = new System.Drawing.Point(243, 93);
 			this._ButtonOK.Name = "_ButtonOK";
-			this._ButtonOK.Size = new System.Drawing.Size(96, 23);
+			this._ButtonOK.Size = new System.Drawing.Size(75, 23);
 			this._ButtonOK.TabIndex = 1;
 			this._ButtonOK.Text = "OK";
 			this._ButtonOK.UseVisualStyleBackColor = true;
@@ -79,7 +80,7 @@
 			// _LabelProgress
 			// 
 			this._LabelProgress.AutoSize = true;
-			this._LabelProgress.Location = new System.Drawing.Point(9, 62);
+			this._LabelProgress.Location = new System.Drawing.Point(12, 62);
 			this._LabelProgress.Name = "_LabelProgress";
 			this._LabelProgress.Size = new System.Drawing.Size(93, 13);
 			this._LabelProgress.TabIndex = 4;
@@ -98,16 +99,18 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this._ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(411, 170);
+			this.ClientSize = new System.Drawing.Size(411, 128);
 			this.Controls.Add(this._LabelProgress);
 			this.Controls.Add(this._TextBoxURL);
 			this.Controls.Add(this._LabelMain);
 			this.Controls.Add(this._ButtonOK);
 			this.Controls.Add(this._ButtonCancel);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "UpdateSitemapForm";
 			this.Text = "Оновлення сторінок з карти сайту";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UpdateSitemapForm_FormClosing);
+			this.Load += new System.EventHandler(this.UpdateSitemapForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

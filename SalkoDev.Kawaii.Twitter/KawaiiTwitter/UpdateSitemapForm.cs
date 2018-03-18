@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -20,46 +22,68 @@ namespace SalkoDev.KawaiiTwitter
 		{
 			get;
 			set;
-		}
-
+		}		
 
 		private void _BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			//TODO@: загрузить (скачать) с сервера sitemap - XML
-			MessageBox.Show(this, "НЕ реалізовано повністю", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			return;			
+			string url = (string)e.Argument;
 
-			string fileNameSitemap=string.Empty;//TODO@: этот файл уже должен быть или на диске или загружен с сети
-
-			Sitemap.SitemapLoader loader = new Sitemap.SitemapLoader(fileNameSitemap);
-			loader.DelayIntervalTitleRequest = 1000;
-			loader.DoWork(_BackgroundWorker, this);
-
-			if (_BackgroundWorker.CancellationPending)
-				return;
-
-			//теперь добавим все в базу
-			var foundPages = loader.Pages;
-			if (foundPages == null || foundPages.Length == 0)
-				return;
-
-			foreach (var pg in foundPages)
+			string fileNameSitemap = null;
+			try
 			{
-				//проверим, для каждой страницы есть ли она такая уже, если нет - добавим
-				//TODO@: пока не учитываем "обновление" оно не критично
-
-				var foundInDB = (from page in Data.Pages where page.URL == pg.URL select page).ToArray();
-				if (foundInDB == null || foundInDB.Length == 0)
+				//загрузить (скачать) с сервера sitemap - XML
+				var req = WebRequest.Create(url);
+				using (var resp = req.GetResponse())
 				{
-					//нет такой в базе, добавляем
-					Data.Pages.InsertOnSubmit(pg);
-					Data.SubmitChanges();
+					using (var srcStream = resp.GetResponseStream())
+					{
+						fileNameSitemap = Path.GetTempFileName() + ".sitemap.xml";
+
+						using (var dstStream = File.Create(fileNameSitemap))
+						{
+							Templates.IO.StreamCopy.Copy(srcStream, dstStream);
+						}
+					}
 				}
+
+				Sitemap.SitemapLoader loader = new Sitemap.SitemapLoader(fileNameSitemap);
+				loader.DelayIntervalTitleRequest = 1000;
+				loader.DoWork(_BackgroundWorker, this);
 
 				if (_BackgroundWorker.CancellationPending)
 					return;
 
-			}//foreach
+				//теперь добавим все в базу
+				var foundPages = loader.Pages;
+				if (foundPages == null || foundPages.Length == 0)
+					return;
+
+				foreach (var pg in foundPages)
+				{
+					//проверим, для каждой страницы есть ли она такая уже, если нет - добавим
+					//TODO@: пока не учитываем "обновление" оно не критично
+
+					var foundInDB = (from page in Data.Pages where page.URL == pg.URL select page).ToArray();
+					if (foundInDB == null || foundInDB.Length == 0)
+					{
+						//нет такой в базе, добавляем
+						Data.Pages.InsertOnSubmit(pg);
+						Data.SubmitChanges();
+					}
+
+					if (_BackgroundWorker.CancellationPending)
+						return;
+
+				}//foreach
+
+			}
+			finally
+			{
+				if (fileNameSitemap != null)
+				{
+					File.Delete(fileNameSitemap);
+				}
+			}
 
 		}
 
@@ -105,6 +129,9 @@ namespace SalkoDev.KawaiiTwitter
 			}
 
 			_ButtonOK.Enabled = false;
+
+			string url = _TextBoxURL.Text;
+			_BackgroundWorker.RunWorkerAsync(url);
 		}
 
 		private void UpdateSitemapForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -113,6 +140,11 @@ namespace SalkoDev.KawaiiTwitter
 			{
 				_BackgroundWorker.CancelAsync();
 			}
+		}
+
+		private void UpdateSitemapForm_Load(object sender, EventArgs e)
+		{
+			_LabelProgress.Text = string.Empty;
 		}
 	}
 }
