@@ -521,7 +521,7 @@ if (!class_exists("DynamicKawaiiImages"))
 					$linkName=$linkName . ' (' . $resParams['description']. ')';
 				}
 
-				$linkURL=$postPermLink .'custom-image/'. $imageID .'/'.$resName;
+				$linkURL=$postPermLink .'custom-image/'. $imageID .'/'.$resName .'/';
 				$content .= '<option data-id="'.$resName.'" value="'.$linkURL.'">'.$linkName.'</option>';
 			}
 
@@ -627,6 +627,13 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $splittedValues[0];
 		}
 
+		static function EndsWith($haystack, $needle)
+		{
+			$length = strlen($needle);
+		
+			return $length === 0 || 
+			(substr($haystack, -$length) === $needle);
+		}
 
 		function do_wp_head()
 		{
@@ -639,6 +646,48 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$tc_title = get_the_title();//тайтл для твиттер-кард
 			$tc_description ='';//описание для твиттер-кард
+
+			$url = $_SERVER['REQUEST_URI'];
+			if (strpos($url,'/custom-image/') == true) 
+			{
+				if(is_404())
+				{
+					return;
+				}
+
+				//TODO@: duplicate code for attachid extraction!
+				$trimmedURL=trim($url,'/');
+
+				$splittedValues=explode('/',$trimmedURL);
+				if(count($splittedValues)<3)
+				{
+					return;
+				}
+
+				//assume 3 items at least:custom-image,attachID,320x240
+				//take last portion - this is resolution:
+				$resolution=end($splittedValues);
+				$attachID=prev($splittedValues);
+
+				//check if we have such attachID in our base:
+				$testPermLink=post_permalink($attachID);
+				if($testPermLink===FALSE)
+				{
+					return;
+				}
+
+				echo '<!-- canonical url for custom page -->';
+				//need validate full url for this page
+				$fullCanonicalURL=get_site_url().$url;
+				//url must end with '/' slash
+				$fullCanonicalURL=trim($fullCanonicalURL,'\\');
+				if(!DynamicKawaiiImages::EndsWith($fullCanonicalURL,'/'))
+				{
+					$fullCanonicalURL.='/';
+				}
+
+				echo "\n".'<link rel="canonical" href="'.$fullCanonicalURL.'"/>'."\n";
+			}
 
 			if( is_attachment())
 			{
