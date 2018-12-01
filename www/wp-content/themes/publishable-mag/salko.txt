@@ -1,0 +1,76 @@
+
+/* green hover salko */
+#navigation a .hover
+{
+	color: #00ff00;
+}
+
+.entry-cat a:hover 
+{
+	border-bottom: solid 1px #bebebe;
+}
+
+
+
+235 ??? высота блока?
+
+
+//
+// Change the excerpt length
+function kawaii_excerpt_length( $length ) 
+{
+  return 15;
+}
+
+add_filter( 'excerpt_length', 'kawaii_excerpt_length', 999 );
+
+
+--------------------
+//salko
+//try to detect table start and dont show it
+function kawaii_get_the_excerpt($excerpt) 
+{
+	if (is_admin()) 
+	{
+		return $excerpt;
+	}
+
+	//Android wallpapers 2160x1920
+	//$excerpt = str_replace( array('rain', 'wind', 'scanty flame of the lamps'), 'DINOSAURS', $excerpt );
+	return $excerpt;
+}
+add_filter( 'get_the_excerpt', 'kawaii_get_the_excerpt', 999 );
+--------------------
+
+
+
+<article class="post excerpt">
+	<header>                        
+		<h2 class="title">
+			<a href="https://kawaii-mobile.net/2018/10/halloween-2018/" title="Halloween 2018" rel="bookmark">Halloween 2018</a>
+    	</h2>
+
+   	</header><!--.header salko-->
+
+	<a href="https://kawaii-mobile.net/2018/10/halloween-2018/" title="Halloween 2018" id="featured-thumbnail">
+		<div class="featured-thumbnail">
+				<!-- publishable-mag-featured -->
+				<img width="450" height="400" src="https://kawaii-mobile.net/wp-content/uploads/2018/10/Halloween-anime-2160x1920-3.jpg" 
+					class="attachment-publishable-mag-featured size-publishable-mag-featured wp-post-image" 
+					alt="Halloween anime 2160x1920" title="" 
+					srcset="https://kawaii-mobile.net/wp-content/uploads/2018/10/Halloween-anime-2160x1920-3.jpg 2160w, 
+							https://kawaii-mobile.net/wp-content/uploads/2018/10/Halloween-anime-2160x1920-3-300x266.jpg 300w, 
+							https://kawaii-mobile.net/wp-content/uploads/2018/10/Halloween-anime-2160x1920-3-1024x910.jpg 1024w" 
+							sizes="(max-width: 450px) 100vw, 450px" />    					    				
+		</div>
+	</a>
+
+	<div class="post-content">
+ 	Halloween anime wallpapers for iPhone and android smartphones. Halloween wallpapers 2160x1920 Halloween 4K HD wallpapers [&hellip;]
+	</div>
+
+   	<div class="readMore">
+  		<a href="https://kawaii-mobile.net/2018/10/halloween-2018/" title="Halloween 2018">Read More</a>
+    	</div>
+</article>
+
