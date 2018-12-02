@@ -251,6 +251,10 @@ if (!class_exists("DynamicKawaiiImages"))
 					echo 'This image is best suited to those phone models: ' . $mobilePhones. '</p>';
 				}
 
+				//Banner-adaptive (for custom attach) - только для кастом-аттача
+				//вещь весьма результативная, 2018.12.02 поменял место проверим как оно будет
+				include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
+
 				//добавить персонажа (типа Saber image size:) но если там два слова
 				$sizePrefix="Image";
 				if($characters!="")
@@ -264,7 +268,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
                 echo '</div>';    //single_post
 				echo '</div>';    //attachment
-				
+	
 				echo '</article>';
 
 				get_sidebar();
