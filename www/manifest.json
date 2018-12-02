@@ -1,0 +1,35 @@
+{
+  "short_name": "KawaiiMobile",
+  "name": "Kawaii Mobile",
+  "icons": [
+    {
+      "src": "mao-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "mao-64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "mao-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "mao-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "mao-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#212121",
+  "display": "standalone",
+  "theme_color": "#212121"
+}
