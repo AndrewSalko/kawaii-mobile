@@ -1,3 +1,0 @@
-[05-May-2011 06:42:10] PHP Warning:  Invalid argument supplied for foreach() in /home/salkoor/public_html/kawaii-mobile.com/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
-[05-May-2011 06:51:37] PHP Warning:  Invalid argument supplied for foreach() in /home/salkoor/public_html/kawaii-mobile.com/wp-content/plugins/google-analyticator/google-analytics-stats-widget.php on line 105
-[05-May-2011 17:40:53] WordPress database error Table 'salkoor_kawaii.wp_mobilepress' doesn't exist for query SELECT option_value, option_value_2 FROM wp_mobilepress WHERE option_name='version' made by activate_plugin, include_once, require_once, mopr_get_option

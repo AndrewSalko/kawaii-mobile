@@ -216,16 +216,29 @@ if (!class_exists("DynamicKawaiiImages"))
 				status_header('200');
 
 				get_header();
-                
+
                 $itPost=get_post($attachID);
 				$parentPost=$itPost;
+                
+				echo '<div id="page" class="single">';
+				echo '<div class="content">';
 
-				echo '<div id="content">';
+				echo '<div class="breadcrumb">'; 
 
-				// class=post необходим для wp-toch режима
-				echo '<div class="post attachment type-attachment status-inherit clearfix single-post">';
+					echo '<span><a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a></span>';	
+					echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
+					echo '<span>'. $characters. '</span>';
+
+				echo '</div>'; /* breadcrumb */
+
+				echo '<article class="article">';
+
+
+				echo '<div class="post attachment type-attachment status-inherit">';
+				echo '<div class="single_post">';
+
 				echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
-				echo '[<a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a>]';
+				
 				echo '</h1>';
 
 				$resDetector=new KawaiiResolutionDetector();
@@ -247,38 +260,21 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				echo '<h2>'.$sizePrefix.' size: ' . $resolution . '</h2>';
 
-				echo '</div>';
-
-				global $wptouch_plugin;
-
-				echo '<div class="post">';
-				echo '<div id="container" class="single-attachment">';
-				echo '	<div id="content" role="main">';
 				echo $imgNode;
-				echo '	</div><!-- #content -->';
-				echo '</div><!-- #container -->';
-				echo '</div><!-- #post -->';
 
-				echo '</div>';// id="content"
+                echo '</div>';    //single_post
+				echo '</div>';    //attachment
+				
+				echo '</article>';
 
-				$mobileMode=false;
-				if(isset ($wptouch_plugin))
-				{				
-					if ( bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile') 
-					{
-						$mobileMode=true;
-					}
-				}
+				get_sidebar();
 
-				if($mobileMode)
-				{					
-					wptouch_include_adsense();
-				}
-				else
-				{
-					get_sidebar();
-					get_footer();
-				}
+				echo '</div>';// div content
+				echo '</div>';// div page single
+
+				
+				get_footer();
+
 
 				return;
 			}//if custom-image - special fake page
@@ -640,6 +636,10 @@ if (!class_exists("DynamicKawaiiImages"))
 			//блокируем пинтерест, так как он находится потом поиском google-images
 			//нам это не нужно (потеря траффика)
 			echo "\n".'<meta name="pinterest" content="nopin" />'. "\n";
+
+			echo '<link rel="manifest" href="/manifest.json">';
+			echo '<meta name="theme-color" content="#212121">';
+
 
 			global $post;
 			$imgURL='';//картинка для og:image

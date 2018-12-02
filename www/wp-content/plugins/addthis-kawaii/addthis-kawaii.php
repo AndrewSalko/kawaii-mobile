@@ -70,6 +70,13 @@ if (!class_exists("KawaiiAddThis"))
 <script type="text/javascript">
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
 </script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2908292943805064",
+    enable_page_level_ads: true
+  });
+</script>
 <?php
 		}
 
@@ -79,13 +86,13 @@ if (!class_exists("KawaiiAddThis"))
 			//if it's main page, load script because do_content not used in such case
 			if(is_home())
 			{
-				echo KawaiiAddThis::GetSharingHtml();
+				//echo KawaiiAddThis::GetSharingHtml();
 			}
 
 			if(!is_attachment())
 			{
 				//add sharing script (at bottom)
-				echo KawaiiAddThis::GetSocialScriptLoader();
+				//echo KawaiiAddThis::GetSocialScriptLoader();
 			}
 
 			//add Google Analytics event tracking on custom images
@@ -108,7 +115,7 @@ if (!class_exists("KawaiiAddThis"))
 			//add standart bar to content
 			if(!is_attachment())
 			{
-				$addContent=KawaiiAddThis::GetSharingHtml();
+				//$addContent=KawaiiAddThis::GetSharingHtml();
 			}
 
 			return  $content . $addContent;
