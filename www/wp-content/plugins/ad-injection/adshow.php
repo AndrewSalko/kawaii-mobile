@@ -4,11 +4,11 @@ Part of the Ad Injection plugin for WordPress
 http://www.reviewmylife.co.uk/
 */
 
+// TODO set cookies here as well so blocking / showing works without JS
+
 if (!defined('ADINJ_NO_CONFIG_FILE')){
 $adinj_dir = dirname(__FILE__);
-if (file_exists($adinj_dir.'/ad-injection-config.php')){
-	include_once($adinj_dir.'/ad-injection-config.php');
-} else if (file_exists($adinj_dir.'/../../ad-injection-config.php')) {
+if (file_exists($adinj_dir.'/../../ad-injection-config.php')) {
 	include_once($adinj_dir.'/../../ad-injection-config.php');
 } else {
 	echo '<!--ADINJ DEBUG: ad-injection-config.php could not be found. Re-save your settings to re-generate it.-->';
@@ -20,15 +20,18 @@ if (file_exists($adinj_dir.'/ad-injection-config.php')){
 if (!function_exists('adshow_functions_exist')){
 // Used to downgrade fatal errors to printed errors to make debugging easier
 // and so that a problem doesn't disable the whole website. 
+// TODO can't just add new checks to here as Ad Injection might now get run before config
+// file is regenerated - e.g. if cached versions of pages are served
 function adshow_functions_exist(){
 	if (!defined('ADINJ_NO_CONFIG_FILE')){
-		if (!adshow_functions_exist_impl('adinj_config_add_tags_rnd')){ return false; } //TODO delete
-		if (!adshow_functions_exist_impl('adinj_config_add_tags_top')){ return false; } //TODO delete
-		if (!adshow_functions_exist_impl('adinj_config_add_tags_bottom')){ return false; } //TODO delete
-		if (!adshow_functions_exist_impl('adinj_config_sevisitors_only')){ return false; }
-		if (!adshow_functions_exist_impl('adinj_config_search_engine_referrers')){ return false; }
-		//if (!adshow_functions_exist_impl('adinj_config_block_ips')){ return false; } // TODO enable
-		if (!adshow_functions_exist_impl('adinj_config_blocked_ips')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_allow_referrers')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_allowed_referrers_list')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_block_ips')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_blocked_ips_list')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_block_referrers')){ return false; }
+		if (!adshow_functions_exist_impl('adinj_config_blocked_referrers_list')){ return false; }
+		//if (!adshow_functions_exist_impl('adinj_config_block_hours')){ return false; }
+		//if (!adshow_functions_exist_impl('adinj_config_block_after_ad_click')){ return false; }
 		if (!adshow_functions_exist_impl('adinj_config_debug_mode')){ return false; }
 	}
 	return true;
@@ -43,22 +46,41 @@ function adshow_functions_exist_impl($function){
 }
 
 if (defined('ADINJ_NO_CONFIG_FILE')){
-function adinj_config_sevisitors_only() { 
+function adinj_config_allow_referrers() { 
 	return adinj_ticked('sevisitors_only');
 }
 
-function adinj_config_search_engine_referrers() {
+function adinj_config_allowed_referrers_list() {
 	$list = adinj_quote_list('ad_referrers');
 	return preg_split("/[,'\s]+/", $list, -1, PREG_SPLIT_NO_EMPTY);
 }
 
-function adinj_config_block_ips() { // TODO use this
+function adinj_config_block_ips() {
 	return adinj_ticked('block_ips');
 }
 
-function adinj_config_blocked_ips() { 
+function adinj_config_blocked_ips_list() { 
 	$list = adinj_quote_list('blocked_ips');
 	return preg_split("/[,'\s]+/", $list, -1, PREG_SPLIT_NO_EMPTY);
+}
+
+function adinj_config_block_referrers() {
+	return adinj_ticked('block_keywords');
+}
+
+function adinj_config_blocked_referrers_list() { 
+	$list = adinj_quote_list('blocked_keywords');
+	return preg_split("/[,'\s]+/", $list, -1, PREG_SPLIT_NO_EMPTY);
+}
+
+function adinj_config_block_hours() {  // if blocked by referrer
+	$ops = adinj_options();
+	return $ops['block_ads_for_hours'];
+}
+
+function adinj_config_block_after_ad_click() {
+	return false;
+	//return adinj_ticked('block_after_ad_click'); //TODO maybe this should be checking something else
 }
 
 function adinj_config_debug_mode() { 
@@ -211,20 +233,107 @@ function adshow_add_formatting($ad, $ops = array()){
 
 //////////////////////////////////////////////////////////////////////////////
 
-if (!function_exists('adshow_fromasearchengine')){
-function adshow_fromasearchengine(){
+if (!function_exists('adshow_show_adverts')){
+function adshow_show_adverts(){
 	if (!adshow_functions_exist()){ return false; }
+	//echo 'ref:'.$_SERVER['HTTP_REFERER'];
+	//if (adinj_config_block_after_ad_click() && adshow_clicked_ad()) return "click_blocked"; //TODO
+	
+	$adlogblocked_cookie = isset($_COOKIE["adlogblocked"]) ? $_COOKIE["adlogblocked"] : 0;
+	if ($adlogblocked_cookie==1) {
+		if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: no ads because adlogblocked cookie set-->\n"; }
+		return "click_blocked";
+	}
+	
+	if (adinj_config_block_ips() && adshow_blocked_ip()) return "blocked_ip";
+	
+	$adinj_cookie = isset($_COOKIE["adinj"]) ? $_COOKIE["adinj"] : 0;
+	if ($adinj_cookie==1) {
+		if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: blocked check ignored because adinj cookie set-->\n"; }
+		return true;
+	}
+	
+	$adinjblocked_cookie = isset($_COOKIE["adinjblocked"]) ? $_COOKIE["adinjblocked"] : 0;
+	if ($adinjblocked_cookie==1) {
+		if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: no ads because adinjblocked cookie set-->\n"; }
+		return "blocked_referrer";
+	}
+	
+	if (adinj_config_block_referrers() && adshow_blocked_referrer()) return "blocked_referrer";
+	if (adinj_config_block_referrers() && adshow_blocked_referrer()){
+		if (!headers_sent()){
+			setcookie('adinjblocked', '1', time()+adinj_config_block_hours()*3600, '/');
+		}
+		return "blocked_referrer";
+	}
+	
+	if (adinj_config_allow_referrers() && !adshow_allowed_referrer()) return "not_an_allowed_referrer";
+	
+	//Set cookie
+	if (!headers_sent()){
+		setcookie('adinj', '1', time()+3600, '/');
+	}
+	return true;
+}
+}
 
+// Redirect new config method to old config methods until the config file gets re-generated.
+// TODO test!
+if (!function_exists('adinj_config_allow_referrers') && function_exists('adinj_config_sevisitors_only')){ 
+function adinj_config_allow_referrers() { return adinj_config_sevisitors_only(); }
+}
+if (!function_exists('adinj_config_allowed_referrers_list') && function_exists('adinj_config_search_engine_referrers')){ 
+function adinj_config_allowed_referrers_list() { return adinj_config_search_engine_referrers(); }
+}
+//
+if (!function_exists('adinj_config_block_referrers') && function_exists('adinj_config_block_keywords')){ 
+function adinj_config_block_referrers() { return adinj_config_block_keywords(); }
+}
+if (!function_exists('adinj_config_blocked_referrers_list') && function_exists('adinj_config_blocked_keywords')){ 
+function adinj_config_blocked_referrers_list() { return adinj_config_blocked_keywords(); }
+}
+//
+if (!function_exists('adinj_config_blocked_ips_list') && function_exists('adinj_config_blocked_ips')){ 
+function adinj_config_blocked_ips_list() { return adinj_config_blocked_ips(); }
+}
+
+if (!function_exists('adshow_allowed_referrer')){
+function adshow_allowed_referrer(){
+	if (!adshow_functions_exist()){ return false; }
+	
+	// return true if the visitor has recently come from a search engine
+	// and has the adinj cookie set.
+	if ($_COOKIE["adinj"]==1) {
+		if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: adinj cookie set-->\n"; }
+		return true;
+	}
+	
 	$referrer = $_SERVER['HTTP_REFERER'];
-	$searchengines = adinj_config_search_engine_referrers();
-	foreach ($searchengines as $se) {
-		if (stripos($referrer, $se) !== false) {
+	$allowedreferrers = adinj_config_allowed_referrers_list();
+	foreach ($allowedreferrers as $allowed) {
+		if (stripos($referrer, $allowed) !== false) {
 			return true;
 		}
 	}
-	// Also return true if the visitor has recently come from a search engine
-	// and has the adinj cookie set.
-	return ($_COOKIE["adinj"]==1);
+	return false;
+}
+}
+
+if (!function_exists('adshow_blocked_referrer')){
+function adshow_blocked_referrer(){
+	if (!adshow_functions_exist()){ return false; }
+
+	$referrer = $_SERVER['HTTP_REFERER'];
+	if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: referrer=$referrer-->\n"; }
+
+	$blocked = adinj_config_blocked_referrers_list();
+	foreach ($blocked as $bl) {
+		if (stripos($referrer, $bl) !== false) {
+			if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: ads blocked - referrer contains $bl -->\n"; }
+			return true;
+		}
+	}
+	return false;
 }
 }
 
@@ -233,19 +342,19 @@ function adshow_blocked_ip(){
 	if (!adshow_functions_exist()){ return false; }
 
 	$visitorIP = $_SERVER['REMOTE_ADDR'];
-	return in_array($visitorIP, adinj_config_blocked_ips());
+	return in_array($visitorIP, adinj_config_blocked_ips_list());
 }
 }
 
-if (!function_exists('adshow_show_adverts')){
-function adshow_show_adverts(){
+if (!function_exists('adshow_clicked_ad')){
+function adshow_clicked_ad(){
 	if (!adshow_functions_exist()){ return false; }
 
-	if (adshow_blocked_ip()) return "blockedip";
-	if (adinj_config_sevisitors_only()){
-		if (!adshow_fromasearchengine()) return "referrer";
+	if ($_COOKIE["adlogblocked"]==1) {
+		if (adinj_config_debug_mode()){ echo "<!--ADINJ DEBUG: blocked because adlogblocked cookie set-->\n"; }
+		return true;
 	}
-	return true;
+	return false;
 }
 }
 
@@ -253,7 +362,10 @@ function adshow_show_adverts(){
 if (!function_exists('adshow_eval_php')){
 function adshow_eval_php($code)	{
 	ob_start();
-	eval("?>$code<?php ");
+	$return = eval("?>$code<?php ");
+	if ($return === false && function_exists('error_get_last') && ($error = error_get_last())){
+		echo "<!--\nADINJ: Parse error in code\nType: " . $error['type'] . "\nMsg: " . $error['message'] . "\nFile: " . $error['file'] . "\nLine: " . $error['line']  . "\n-->";
+	}
 	$output = ob_get_contents();
 	ob_end_clean();
 	return $output;
