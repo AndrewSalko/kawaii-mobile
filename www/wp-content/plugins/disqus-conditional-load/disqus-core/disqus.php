@@ -524,7 +524,10 @@ function dsq_request_handler() {
                     }
                 } else {
                     $ts = time() + 300;
-                    wp_schedule_single_event($ts, 'dsq_sync_forum');
+                    $next_scheduled = wp_next_scheduled('dsq_sync_forum');
+                    if( ! $next_scheduled ) {
+                        wp_schedule_single_event($ts, 'dsq_sync_forum');
+                    }
                     die('// sync scheduled');
                 }
             break;

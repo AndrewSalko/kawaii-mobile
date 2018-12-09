@@ -1,10 +1,10 @@
 === Disqus Conditional Load ===
 Contributors: joelcj91
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XUVWY8HUBUXY4
+Donate link: paypal.me/JoelCJ
 Tags: disqus, disqus conditional load, comment hide, hide disqus, disqus comments, disqus on click, disqus auto load, disqus, woocommerce comments, edd comments
 Requires at least: 3.0
-Tested up to: 4.7
-Stable tag: 10.2.3
+Tested up to: 4.9
+Stable tag: 10.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,7 @@ Use Disqus comments with advanced features like lazy load, shortcode, widgets et
 DCL is an advanced version of Disqus Commenting System, with which experience the boosted page loading speed difference. This free plugin adds advanced features like lazy loading and SHORTCODE, comment widgets, script disabling etc to your Disqus powered website.
 
 > - **This plugin doesn't require jQuery. We use pure JavaScript**
+> - **This is an unofficial version**
 
 **Disqus Conditional Load, popular features..**
 
@@ -154,6 +155,12 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 
 
 == Changelog ==
+
+= 10.2.4 =
+
+**Bug Fixes**
+
+- Fixed dsq_sync_forum cronjob errors.
 
 = 10.2.3 =
 
@@ -410,9 +417,8 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 
 == Upgrade Notice ==
 
-= 10.2.3 =
+= 10.2.4 =
 
-**No code changes**
+**Bug Fixes**
 
-- Tested with WordPress 4.7 (upcoming version).
-- Started working on code revamp.
+- Fixed dsq_sync_forum cronjob errors.

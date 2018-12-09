@@ -3,9 +3,9 @@
  * Plugin Name:       Disqus Conditional Load
  * Plugin URI:        https://dclwp.com
  * Description:       Advanced version of Disqus plugin with much more features like <strong>lazy load, shortcode</strong> etc.
- * Version:           10.2.3
+ * Version:           10.2.4
  * Author:            Joel James
- * Author URI:        http://www.joelsays.com/
+ * Author URI:        http://www.thefoxe.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       disqus-conditional-load
@@ -18,7 +18,7 @@ if (!defined('WPINC')) {
 
 // Defines plugin constants
 if (!defined('DCL_VERSION')) {
-    define('DCL_VERSION', '10.2.3');
+    define('DCL_VERSION', '10.2.4');
 }
 if (!defined('DCLPATH')) {
     define('DCLPATH', plugins_url( '', __FILE__ ));
