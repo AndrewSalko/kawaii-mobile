@@ -108,17 +108,58 @@ if (!class_exists("KawaiiAddThis"))
 			}
 		}
 
+		const	TR_CLOSE_NODE="</tr>";
+		const	TR_STUB_NODE="kawaiitr";
+		const	TR_REAL_NODE="tr";
+
 		function do_content($content)
 		{
-			$addContent="";
-			
-			//add standart bar to content
-			if(!is_attachment())
+			if(is_attachment() || is_feed() || is_home() || !is_single())
 			{
-				//$addContent=KawaiiAddThis::GetSharingHtml();
+				return $content;//do nothing
 			}
 
-			return  $content . $addContent;
+
+			//check if we have 'table' in content? we need find first </tr>
+
+			$startInd=0;
+			$firstInd=stripos($content, KawaiiAddThis::TR_CLOSE_NODE, $startInd);
+
+			if ($firstInd===FALSE)
+			{
+				return $content;
+			}
+
+			$adsCount=0;
+
+			$contentModified=$content;
+
+			$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . 'banner1.htm');
+
+			while($adsCount<3)
+			{
+				if ($firstInd===FALSE)
+				{
+					break;	//not found
+				}
+
+				$str_to_insert="<kawaiitr><td>".$adContent."</td></kawaiitr>";
+
+				$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
+				$startInd=$firstInd + 5; //len tr
+				$adsCount++;
+				
+				$firstInd=stripos($contentModified, KawaiiAddThis::TR_CLOSE_NODE, $startInd);
+			}
+
+			if($adsCount==0)
+			{
+				return $content;
+			}
+
+			$contentModified=str_replace(KawaiiAddThis::TR_STUB_NODE, KawaiiAddThis::TR_REAL_NODE, $contentModified);
+
+			return $contentModified;
 		}
 
 		function do_image_sitemap()
