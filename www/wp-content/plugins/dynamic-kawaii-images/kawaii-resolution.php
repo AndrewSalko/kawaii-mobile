@@ -54,52 +54,6 @@ class KawaiiResolutionDetector
 							'title'=>'iPhone 4',
 							'description'=>'iPhone 4, iPod touch 4'),
 
-		'640x480' => array('width' =>640, 'height'=>480, 
-							'title'=>'android',
-							'description'=>'Android Wallpaper 640x480'),
-                                                                         
-
-		'540x960' => array('width' =>540, 'height'=>960,
-							'description'=>'Acer Liquid, LG P765, HTC One S',
-							'mobilephones'=>'Magic W710 Socrat, ZTE V970, Texet TM-4504, Acer Liquid Gallant Duo E350, Fly IQ443, Huawei U8836D-1 Ascend G500, Acer Liquid E1 Duo V360, Huawei U8950-1 Ascend Honor Pro G600, LG P765 Optimus L9, Sony LT22i Xperia P, HTC One S'
-							),
-
-
-		'480x854' => array('width' =>480, 'height'=>854,
-							'description'=>'Fly IQ450, Sony Xperia Sola',
-							'mobilephones'=>'Fly IQ450 Horizon, Gigabyte GSmart G1362, Sony ST26i Xperia J, Sony ST25i Xperia U, Sony MT27i Xperia Sola'
-							),
-
-
-		'480x800' => array('width' =>480, 'height'=>800,
-							'description'=>'Nokia Lumia, Samsung Galaxy S II'							
-							),
-
-		'480x640' => array('width' =>480, 'height'=>640, 'description'=>'HTC Touch Diamond'),
-
-		'360x640' => array('width' =>360, 'height'=>640, 
-							'description'=>'Nokia 5800',
-							'title'=>'Nokia',
-							'mobilephones'=>'Nokia 808 PureView, Nokia 5800, Nokia C5, Nokia C6, Nokia C7, Nokia E7, Nokia X6, Nokia N8, Nokia N97, Nokia 5250, Nokia 5228, Nokia 5230.'
-							),
-
-		'360x480' => array('width' =>360, 'height'=>480, 'description'=>'BlackBerry'),
-
-		
-		'320x480' => array('width' =>320, 'height'=>480, 
-							'description'=>'iPhone 3G, iPod touch 3',
-							'title'=>'iPhone 3G',
-							'mobilephones'=>'iPhone 3G, iPod, HTC Desire C, HTC Gratia, HTC Wildfire, HTC Cha-Cha,  HTC Salsa, Samsung S5830 Galaxy Ace, Samsung S5660 Galaxy Gio,  Sony Ericsson E15i Xperia X8,  LG GT540 Optimus, LG P500 Optimus One, LG C550 Optimus, LG Optimus L5, Fly E154, Fly IQ256, Fly IQ245, Gigabyte GSmart G1310, Samsung GT-S5380, Samsung GT-S6802 Galaxy Ace,Samsung GT-S7500 Galaxy Ace, Samsung GT-S5690 Galaxy Xcover, Magic THL A1, Magic W660, Huawei U8655-1 Ascend Y200,LG P698 Optimus, LG E510 Optimus, LG E612 Optimus L5, LG E615 Optimus L5,Sony ST21i Xperia, Sony Ericsson ST15i Xperia, Sony Ericsson WT19i,Sony ST23i Xperia, Sony ST27i Xperia, Acer Liquid E320, Seals TS3.'
-							),
-
-
-		'320x455' => array('width' =>320, 'height'=>455, 'description'=>'Samsung Galaxy Ace, Sony Xperia Arc'),
-		'320x401' => array('width' =>320, 'height'=>401),
-		'320x240' => array('width' =>320, 'height'=>240, 'description'=>'Nokia E5, Nokia C3'),
-
-        '240x400' => array('width' =>240, 'height'=>400, 'description'=>'Sony Ericsson, Samsung, LG'),
-
-		'240x320' => array('width' =>240, 'height'=>320, 'description'=>'Fly, Nokia Asha'),
 		);
 
 

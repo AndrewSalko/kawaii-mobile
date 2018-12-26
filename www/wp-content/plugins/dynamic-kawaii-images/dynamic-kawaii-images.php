@@ -115,6 +115,18 @@ if (!class_exists("DynamicKawaiiImages"))
 				return FALSE;
 			}
 
+			$availResolutions=$resDetector->GetAvailableResolutions($attWidth, $attHeight);
+			if(count($availResolutions)==0)
+			{
+				return FALSE;	//простой случай - когда изображение слишком маленькое чтобы его обрезать
+			}
+
+			//более сложный случай когда оно большое, но нельзя "резать" его в то что нас попросили			
+			if (array_key_exists($resolution, $availResolutions)==FALSE) 
+			{
+				return FALSE;
+			}
+
 			$imgURL=wp_get_attachment_url($imageID);
 
 			//full URL to attach page
@@ -187,6 +199,9 @@ if (!class_exists("DynamicKawaiiImages"))
 				if(count($splittedValues)<3)
 				{
 					//assume 3 items at least:custom-image,attachID,320x240
+					$wp_query->set_404();
+					status_header(404);
+					include(get_query_template('404'));
 					return;
 				}
 
@@ -198,6 +213,9 @@ if (!class_exists("DynamicKawaiiImages"))
 				$testPermLink=post_permalink($attachID);
 				if($testPermLink===FALSE)
 				{
+					$wp_query->set_404();
+					status_header(404);
+					include(get_query_template('404'));
 					return;
 				}
 
@@ -205,6 +223,9 @@ if (!class_exists("DynamicKawaiiImages"))
 				$imgNode=DynamicKawaiiImages::CreateImageElement($attachID, $resolution, $characters);
 				if($imgNode===FALSE)
 				{
+					$wp_query->set_404();
+					status_header(404);	
+					include(get_query_template('404'));
 					return;
 				}
 
@@ -467,6 +488,11 @@ if (!class_exists("DynamicKawaiiImages"))
 			//get available resolutions for this size:
 			$resDetector=new KawaiiResolutionDetector();
 			$resArr=$resDetector->GetAvailableResolutions($attWidth, $attHeight);
+			if(count($resArr)==0)
+			{
+				return $content;	//для данного разрешения нет вариантов более маленьких чем оно, обычное содержание на выходе	
+			}
+
 			$resName=sprintf("%sx%s", $attWidth, $attHeight);
 			$uniqTitle=$resDetector->GetUniqTitleOnAttachID($resName,$imageID);
 
@@ -496,8 +522,6 @@ if (!class_exists("DynamicKawaiiImages"))
 				$descriptiveContent=$charactersNames ." ". $uniqTitle;
 			}
 
-			//$cont2=sprintf("Click on the links below to download the best suitable size images for your smartphone, and download the appropriate %s wallpaper. You may use this anime wallpaper for lock screen, or home screen background.",$mainPostTitle);
-			//$content.="<p>".$descriptiveContent.". ".$cont2." ". $addContent ."</p>";
 			$content.="<p>".$descriptiveContent."</p>";
 			$content.="<p>";
 				
@@ -532,6 +556,8 @@ if (!class_exists("DynamicKawaiiImages"))
 
 		static function _AdSense($content)
 		{
+			//NOT working because no wptouch_ 
+/*
 			global $wptouch_plugin;
 
 			$mobileMode=false;
@@ -553,7 +579,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				$content.=' data-ad-format="auto"></ins>';
 				$content.='<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 			}
-
+*/
 			return $content;
 		}
 
