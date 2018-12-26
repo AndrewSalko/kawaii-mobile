@@ -44,7 +44,7 @@ function publishable_lite_setup() {
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 150, 150, true );
 	add_image_size('publishable-mag-related', 200, 125, true ); //related
-	add_image_size('publishable-mag-featured', 550, 400, true);
+	add_image_size('publishable-mag-featured', 450, 400, true);
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
