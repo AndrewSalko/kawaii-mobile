@@ -41,10 +41,16 @@ function publishable_lite_setup() {
 	 *
 	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 	 */
-	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size( 150, 150, true );
-	add_image_size('publishable-mag-related', 200, 125, true ); //related
-	add_image_size('publishable-mag-featured', 450, 400, true);
+	add_theme_support('post-thumbnails');
+	set_post_thumbnail_size(150, 150, true);
+
+	add_image_size('kawaii-thumb-168x300', 168, 300);
+	add_image_size('kawaii-thumb-225x400', 225, 400);
+	add_image_size('kawaii-thumb-340x604', 340, 604);
+	add_image_size('kawaii-thumb-300x266', 300, 266);
+	add_image_size('kawaii-thumb-450x400', 450, 400);
+	add_image_size('kawaii-thumb-576x1024', 576, 1024);
+
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
@@ -700,7 +706,7 @@ if ( ! function_exists( 'publishable_lite_archive_post' ) ) {
     			<a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>" id="featured-thumbnail">
     				<div class="featured-thumbnail">
 						<!-- publishable-mag-featured -->
-    					<?php the_post_thumbnail('publishable-mag-featured',array('title' => '')); ?>
+    					<?php the_post_thumbnail('medium',array('title' => '')); ?>
     					<?php if (function_exists('wp_review_show_total')) wp_review_show_total(true, 'latestPost-review-wrapper'); ?>
     				</div>
     			</a>
