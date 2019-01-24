@@ -305,15 +305,13 @@ if (!class_exists("DynamicKawaiiImages"))
 			}//if custom-image - special fake page
 			
 
-			//another check method for our special URL
+			//another check method for our special URL - for images
 			if (strpos($url,'/custom/') == false) 
 			{
 				return;
 			}
 
-			if(array_key_exists('newsize', $_GET)===FALSE ||
-				array_key_exists('id', $_GET)===FALSE
-					)
+			if(array_key_exists('newsize', $_GET)===FALSE || array_key_exists('id', $_GET)===FALSE)
 			{
 				return;
 			}
@@ -321,17 +319,48 @@ if (!class_exists("DynamicKawaiiImages"))
 			$newsize=$_GET['newsize'];
 			$imageID=$_GET['id'];
 		
-			$imageCacheDirBase=WP_CONTENT_DIR . '/imagescache';
-			//check this directory, if need - create it			
-			if(! (is_dir($imageCacheDirBase) || mkdir($imageCacheDirBase)) )
-			{
-				return;
-			}
+			//нужно проверить поддерживается ли это разрешение (ресайз) если нет вернуть 404
 
 			//post perma link looks like:
 			//http://kawaii-mobile.org/2012/11/hagure-yuusha-no-estetica/aesthetica-of-a-rogue-hero-hagure-yuusha-no-estetica-miu-myuu-ousawa-haruka-nanase-320x480/
 			$postPermLink=post_permalink($imageID);
 			if($postPermLink===FALSE)
+			{
+				return;
+			}
+
+			//определим реальный размер изображения
+			$attMeta=wp_get_attachment_metadata($imageID);
+            if($attMeta===FALSE)
+			{
+				return;
+			}
+
+			$attWidth=(int)$attMeta['width'];
+			$attHeight=(int)$attMeta['height'];
+
+			//разбираем новый размер, который запросили
+			$destWidth=0;
+			$destHeight=0;
+
+			$sizeParts=explode('x', $newsize);
+			$destWidth=(int)$sizeParts[0];
+			$destHeight=(int)$sizeParts[1];
+                        
+			//check parameters (for bad users)
+			$resDetector=new KawaiiResolutionDetector();
+			if($resDetector->IsResolutionAvailable($attWidth, $attHeight, $destWidth, $destHeight)==FALSE)
+			{
+				//если разрешение не поддерживается - выброс 404 и все
+				$wp_query->set_404();
+				status_header(404);	
+				include(get_query_template('404'));
+				return;
+			}
+
+			$imageCacheDirBase=WP_CONTENT_DIR . '/imagescache';
+			//check this directory, if need - create it
+			if(! (is_dir($imageCacheDirBase) || mkdir($imageCacheDirBase)) )
 			{
 				return;
 			}
@@ -348,7 +377,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			if(! (is_dir($imageCacheDir) || mkdir($imageCacheDir)) )
 			{
 				return;
-			}			
+			}
 
 			//все файлы именуются в стиле id_320x480 , чтобы их легче найти
 			$filePrefix=$imageID.'_'.$newsize;
@@ -367,38 +396,10 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 			}
            
-			$attMeta=wp_get_attachment_metadata($imageID);
-            if($attMeta===FALSE)
-			{
-				return;
-			}
-					
-			$attWidth=(int)$attMeta['width'];
-			$attHeight=(int)$attMeta['height'];
 			$attFileName=$attMeta['file'];
 			$fileExt=pathinfo($attFileName, PATHINFO_EXTENSION);
 
 			$contentType=DynamicKawaiiImages::GetContentType($attFileName);
-
-			//parse new size:
-			$destWidth=0;
-			$destHeight=0;
-			
-			//$newsize
-			$sizeParts=explode('x', $newsize);		
-			$destWidth=(int)$sizeParts[0];
-			$destHeight=(int)$sizeParts[1];
-                        
-			//check parameters (for bad users)
-		
-			$resDetector=new KawaiiResolutionDetector();
-			if($resDetector->IsResolutionAvailable($attWidth, $attHeight, $destWidth, $destHeight)==FALSE)
-			{
-				//if we have un-supported resolution, redirect to attach post.
-				//this possible if 'smart' users want from us something...
-				header("location:".$postPermLink);
-				return;
-			}
 
 			$upload_dir = wp_upload_dir();
 			$fullFileName=$upload_dir['basedir'] . '/' . $attFileName;
@@ -808,11 +809,13 @@ if (!class_exists("DynamicKawaiiImages"))
 		// WordPress добавляет к каждому посту набор "классов" (стилей)
 		// некоторые могут быть НЕ нужны (так мы отрубим hentry класс
 		// в случае если хотим убрать микроданные
-		function do_post_class($classes, $class, $postID)
+		/*
+		function do_post_class($kawclasses, $kawclass, $postID)
 		{
-			$classes = array_diff($classes, array('hentry','entry-title','entry-summary','entry-comments'));
-			return $classes;
-		}
+			$arrTest=array("hentry","entry-title","entry-summary","entry-comments");
+			$resclasses = array_diff($kawclasses, $arrTest);
+			return $resclasses;
+		}*/
 
 	}//class
 
@@ -827,6 +830,7 @@ if (!class_exists("DynamicKawaiiImages"))
 if (isset($pluginDynamicKawaiiImages)) 
 {
 	//Actions   template_redirect  wp
+
 	add_action('wp', array('DynamicKawaiiImages', 'do_template_redirect'));
 
 	add_filter('the_content', array('DynamicKawaiiImages', 'do_content'),1);
@@ -839,7 +843,8 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('wp_footer', array('DynamicKawaiiImages', 'do_wp_footer'),1);
 
-	add_filter('post_class', array('DynamicKawaiiImages', 'do_post_class'),1);
+	//add_filter('post_class', array('DynamicKawaiiImages', 'do_post_class'),1);
+
 }
 
 
