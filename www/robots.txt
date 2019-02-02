@@ -42,6 +42,12 @@ User-agent: grapeshot
 Disallow: /
 
 
+User-agent: Qwantify
+Disallow: /
+
+User-agent: Qwantify/2.4w
+Disallow: /
+
 
 User-agent: *
 Disallow: /wp-admin/

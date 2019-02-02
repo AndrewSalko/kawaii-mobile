@@ -274,7 +274,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				//Banner-adaptive (for custom attach) - только для кастом-аттача
 				//вещь весьма результативная, 2018.12.02 поменял место проверим как оно будет
-				include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
+				//include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
 
 				//добавить персонажа (типа Saber image size:) но если там два слова
 				$sizePrefix="Image";
