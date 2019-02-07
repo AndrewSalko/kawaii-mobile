@@ -49,6 +49,10 @@ User-agent: Qwantify/2.4w
 Disallow: /
 
 
+User-agent: ZumBot
+Disallow: /
+
+
 User-agent: *
 Disallow: /wp-admin/
 Disallow: */trackback/
