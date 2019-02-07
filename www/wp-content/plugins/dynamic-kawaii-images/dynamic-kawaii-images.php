@@ -27,10 +27,10 @@ if (!class_exists("DynamicKawaiiImages"))
 		public static function SendBaseImageHeaders($fileName)
 		{
 			header("HTTP/1.0 200 OK");
-			$timeOffset = 60 * 60;//1 hour
+			$timeOffset = 60 * 60 * 24 * 30 * 6;//6 months
 			header("Expires: " . gmdate("D, d M Y H:i:s", time() + $timeOffset) . " GMT");
 			header("Cache-Control: max-age=".$timeOffset.", must-revalidate"); 
-			header("Pragma:");
+			
 
 			$fileExt=pathinfo($fileName, PATHINFO_EXTENSION);
 			if($fileExt=='jpg' || $fileExt=='jpeg')
