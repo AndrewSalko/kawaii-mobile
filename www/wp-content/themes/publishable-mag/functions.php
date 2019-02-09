@@ -371,33 +371,59 @@ if ( ! function_exists( 'publishable_lite_readmore' ) ) {
 /**
  * Breadcrumbs
  */
-if (!function_exists('publishable_lite_the_breadcrumb')) {
-	function publishable_lite_the_breadcrumb() {
-		if ( is_front_page() ) {
+if (!function_exists('publishable_lite_the_breadcrumb')) 
+{
+	function publishable_lite_the_breadcrumb() 
+	{
+		if (is_front_page()) 
+		{
 			return;
 		}
+
 		echo '<span typeof="v:Breadcrumb" class="root"><a rel="v:url" property="v:title" href="';
 		echo esc_url( home_url() );
 		echo '">'.esc_html(sprintf( __( "Home", 'publishable-mag' )));
 		echo '</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
-		if (is_single()) {
+
+		if (is_attachment())
+		{
+			//страница аттача - здесь у нас важно указать в бредкрамс родительский пост, иначе человеку трудно вернуться
+			$attPage=get_post(get_the_ID());
+			$parent_id  = $attPage->post_parent;
+			if($parent_id)
+			{
+				$breadToParentPost='<span typeof="v:Breadcrumb"><a href="'.esc_url( get_permalink( $parent_id ) ).'" rel="v:url" property="v:title">'.esc_html( get_the_title($parent_id)). '</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				echo $breadToParentPost;
+			}
+			echo "<span><span>";
+			the_title();
+			echo "</span></span>";
+		}
+		elseif (is_single()) 
+		{
 			$categories = get_the_category();
-			if ( $categories ) {
+			if ( $categories ) 
+			{
 				$level = 0;
 				$hierarchy_arr = array();
-				foreach ( $categories as $cat ) {
+				foreach ( $categories as $cat ) 
+				{
 					$anc = get_ancestors( $cat->term_id, 'category' );
 					$count_anc = count( $anc );
-					if (  0 < $count_anc && $level < $count_anc ) {
+					if (  0 < $count_anc && $level < $count_anc ) 
+					{
 						$level = $count_anc;
 						$hierarchy_arr = array_reverse( $anc );
 						array_push( $hierarchy_arr, $cat->term_id );
 					}
 				}
-				if ( empty( $hierarchy_arr ) ) {
+				if ( empty( $hierarchy_arr ) ) 
+				{
 					$category = $categories[0];
 					echo '<span typeof="v:Breadcrumb"><a href="'. esc_url( get_category_link( $category->term_id ) ).'" rel="v:url" property="v:title">'.esc_html( $category->name ).'</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
-				} else {
+				} 
+				else 
+				{
 					foreach ( $hierarchy_arr as $cat_id ) {
 						$category = get_term_by( 'id', $cat_id, 'category' );
 						echo '<span typeof="v:Breadcrumb"><a href="'. esc_url( get_category_link( $category->term_id ) ).'" rel="v:url" property="v:title">'.esc_html( $category->name ).'</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
@@ -407,9 +433,12 @@ if (!function_exists('publishable_lite_the_breadcrumb')) {
 			echo "<span><span>";
 			the_title();
 			echo "</span></span>";
-		} elseif (is_page()) {
+		}
+		elseif (is_page()) 
+		{
 			$parent_id  = wp_get_post_parent_id( get_the_ID() );
-			if ( $parent_id ) {
+			if ( $parent_id ) 
+			{
 				$breadcrumbs = array();
 				while ( $parent_id ) {
 					$page = get_page( $parent_id );
@@ -422,7 +451,9 @@ if (!function_exists('publishable_lite_the_breadcrumb')) {
 			echo "<span><span>";
 			the_title();
 			echo "</span></span>";
-		} elseif (is_category()) {
+		} 
+		elseif (is_category()) 
+		{
 			global $wp_query;
 			$cat_obj = $wp_query->get_queried_object();
 			$this_cat_id = $cat_obj->term_id;
@@ -437,7 +468,9 @@ if (!function_exists('publishable_lite_the_breadcrumb')) {
 			echo "<span><span>";
 			single_cat_title();
 			echo "</span></span>";
-		} elseif (is_author()) {
+		} 
+		elseif (is_author()) 
+		{
 			echo "<span><span>";
 			if(get_query_var('author_name')) :
 				$curauth = get_user_by('slug', get_query_var('author_name'));
@@ -446,11 +479,13 @@ if (!function_exists('publishable_lite_the_breadcrumb')) {
 			endif;
 			echo esc_html( $curauth->nickname );
 			echo "</span></span>";
-		} elseif (is_search()) {
+		} elseif (is_search()) 
+		{
 			echo "<span><span>";
 			the_search_query();
 			echo "</span></span>";
-		} elseif (is_tag()) {
+		} elseif (is_tag()) 
+		{
 			echo "<span><span>";
 			single_tag_title();
 			echo "</span></span>";
@@ -739,7 +774,7 @@ if ( ! function_exists( 'publishable_lite_archive_post' ) ) {
 
 
 /**
- * Copyright and License for Upsell button by Justin Tadlock - 2016 В© Justin Tadlock. Customizer button https://gitblogily.com/justintadlock/trt-customizer-pro
+ * Copyright and License for Upsell button by Justin Tadlock - 2016 ?© Justin Tadlock. Customizer button https://gitblogily.com/justintadlock/trt-customizer-pro
  */
 require_once( trailingslashit( get_template_directory() ) . 'justinadlock-customizer-button/class-customize.php' );
 
