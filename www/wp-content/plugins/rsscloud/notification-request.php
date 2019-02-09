@@ -42,9 +42,9 @@ function rsscloud_hub_process_notification_request( ) {
 
 		$challenge = rsscloud_generate_challenge( );
 
-		$result = wp_remote_get( $notify_url . '?url=' . esc_url( $_POST['url1'] ) . '&challenge=' . $challenge, array( 'method' => 'GET', 'timeout' => RSSCLOUD_HTTP_TIMEOUT, 'user-agent' => RSSCLOUD_USER_AGENT, 'port' => $port, ) );
+		$result = wp_safe_remote_get( $notify_url . '?url=' . esc_url( $_POST['url1'] ) . '&challenge=' . $challenge, array( 'method' => 'GET', 'timeout' => RSSCLOUD_HTTP_TIMEOUT, 'user-agent' => RSSCLOUD_USER_AGENT, 'port' => $port, ) );
 	} else {
-		$result = wp_remote_post( $notify_url, array( 'method' => 'POST', 'timeout' => RSSCLOUD_HTTP_TIMEOUT, 'user-agent' => RSSCLOUD_USER_AGENT, 'port' => $port, 'body' => array( 'url' => $_POST['url1'] ) ) );
+		$result = wp_safe_remote_post( $notify_url, array( 'method' => 'POST', 'timeout' => RSSCLOUD_HTTP_TIMEOUT, 'user-agent' => RSSCLOUD_USER_AGENT, 'port' => $port, 'body' => array( 'url' => $_POST['url1'] ) ) );
 	}
 
 	if ( isset( $result->errors['http_request_failed'][0] ) )

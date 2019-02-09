@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: josephscott
+Contributors: josephscott, automattic
 Tags: rss
 Requires at least: 2.8
-Tested up to: 2.8
-Stable tag: 0.4.1
+Tested up to: 4.5
+Stable tag: 0.4.2
 
 Adds RSSCloud ( http://rsscloud.org/ ) capabilities to your RSS feed.
 
@@ -12,6 +12,10 @@ Adds RSSCloud ( http://rsscloud.org/ ) capabilities to your RSS feed.
 Adds RSSCloud ( http://rsscloud.org/ ) capabilities to your RSS feed.
 
 == Changelog ==
+
+= 0.4.2 =
+* Use wp_safe_remote_*() functions for HTTP requests
+* Use openssl_random_pseudo_bytes() ( when available ) instead of mt_rand() when generating tokens
 
 = 0.4.1 =
 * Limit domain characters

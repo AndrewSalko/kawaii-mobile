@@ -1,10 +1,11 @@
 === Disqus Conditional Load ===
-Contributors: joelcj91
-Donate link: paypal.me/JoelCJ
+Contributors: joelcj91,duckdev
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XUVWY8HUBUXY4
 Tags: disqus, disqus conditional load, comment hide, hide disqus, disqus comments, disqus on click, disqus auto load, disqus, woocommerce comments, edd comments
 Requires at least: 3.0
-Tested up to: 4.9
-Stable tag: 10.2.4
+Tested up to: 5.0
+Requires PHP: 5.6
+Stable tag: 11.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +16,6 @@ Use Disqus comments with advanced features like lazy load, shortcode, widgets et
 DCL is an advanced version of Disqus Commenting System, with which experience the boosted page loading speed difference. This free plugin adds advanced features like lazy loading and SHORTCODE, comment widgets, script disabling etc to your Disqus powered website.
 
 > - **This plugin doesn't require jQuery. We use pure JavaScript**
-> - **This is an unofficial version**
 
 **Disqus Conditional Load, popular features..**
 
@@ -149,37 +149,33 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 1. Comments Moderation Dashboard
 2. Disqus Comments UI
 3. General Settings ( Some options are Pro only ).
-4. Sample Buton when On Click lazy load enabled.
-5. **Pro only:** Integration Settings.
-6. **Pro only:** Widget Settings.
+4. Sample Button when On Click lazy load enabled.
 
 
 == Changelog ==
 
-= 10.2.4 =
+= 11.0.1 =
 
-**Bug Fixes**
+**👌 Improvements**
 
-- Fixed dsq_sync_forum cronjob errors.
+- Replace comments anchor link with Disqus thread link.
 
-= 10.2.3 =
+= 11.0.0 =
 
-**No code changes**
+**📦 New Features**
 
-- Tested with WordPress 4.7 (upcoming version).
-- Started working on code revamp.
+- Complete rewrite based on Disqus 3.0..
+- Tested with WordPress 5.0
 
-= 10.2.2 =
+**👌 Improvements**
 
-**Bug Fixes**
+- Improvements in UI.
+- Improvements in speed.
+- Fixed cron related bugs.
 
-- Reverted diqsus JavaScript variable configs addition.
-- Fixed comments syncing issue.
-- Tested with WordPress 4.5.2
+= 10.2.0 =
 
-= 10.2.1 =
-
-**Improvements**
+**👌 Improvements**
 
 - Added diqsus JavaScript variable configs to the page.
 - Broken respond link fixed.
@@ -187,11 +183,11 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 
 = 10.1.9 =
 
-**New Features**
+**📦 New Features**
 
 - Option to remove disqus scripts from post types.
 
-**Bug Fixes**
+**🐛 Bug Fixes**
 
 - Issues with custom post types fixed.
 - Deprecated usage fixed.
@@ -199,20 +195,20 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 
 = 10.1.8 =
 
-**Bug Fixes**
+**🐛 Bug Fixes**
 
 - Fixed issue when # found in url.
 
 = 10.1.7 =
 
-**Bug Fixes**
+**🐛 Bug Fixes**
 
 - Fixed issues in caching plugins - Thanks to [jackennils](https://wordpress.org/support/topic/dcl-wont-load-in-some-posts?replies=26#post-7875726)
 - Tested with WordPress 4.4.1
 
 = 10.1.6 =
 
-**Bug Fixes**
+**🐛 Bug Fixes**
 
 - Fixed issues in Internet Explorer after last update
 
@@ -417,8 +413,8 @@ Bug reports for DCL are always welcome. [Report here](https://dclwp.com/bugs/). 
 
 == Upgrade Notice ==
 
-= 10.2.4 =
+= 11.0.1 =
 
-**Bug Fixes**
+**👌 Improvements**
 
-- Fixed dsq_sync_forum cronjob errors.
+- Replace comments anchor link with Disqus thread link.
