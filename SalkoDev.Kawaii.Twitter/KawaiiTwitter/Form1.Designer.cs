@@ -79,7 +79,7 @@
 			this.updateFromSitemapToolStripMenuItem.Name = "updateFromSitemapToolStripMenuItem";
 			this.updateFromSitemapToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
 			this.updateFromSitemapToolStripMenuItem.Text = "Update from sitemap...";
-			this.updateFromSitemapToolStripMenuItem.Click += new System.EventHandler(this.updateFromSitemapToolStripMenuItem_Click);
+			this.updateFromSitemapToolStripMenuItem.Click += new System.EventHandler(this._UpdateFromSitemapToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 

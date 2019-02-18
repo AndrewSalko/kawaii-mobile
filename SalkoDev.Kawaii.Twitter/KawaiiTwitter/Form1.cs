@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -112,12 +112,12 @@ namespace SalkoDev.KawaiiTwitter
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			InitData();
+			_InitData();
 
 			_UpdateControls();
 		}
 
-		public void InitData()
+		void _InitData()
 		{
 			if (DesignMode)
 				return;
@@ -153,18 +153,14 @@ namespace SalkoDev.KawaiiTwitter
 			updateFromSitemapToolStripMenuItem.Enabled = !tweetBusy;
 		}
 
-		private void updateFromSitemapToolStripMenuItem_Click(object sender, EventArgs e)
+		private void _UpdateFromSitemapToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			UpdateSitemapForm upd = new UpdateSitemapForm();
 			upd.Data = _Data;
 
-			DialogResult ask = upd.ShowDialog(this);
-			//TODO@: что с "ОК" на форме обновления?
-			//if (ask == DialogResult.OK)
-			//{
+			upd.ShowDialog(this);
 
-			//}
-
+			_InitData();
 		}
 
 		private void _ButtonStartTweeting_Click(object sender, EventArgs e)

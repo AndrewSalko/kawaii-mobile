@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,11 +22,14 @@ namespace SalkoDev.KawaiiTwitter
 		{
 			get;
 			set;
-		}		
+		}
 
 		private void _BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			string url = (string)e.Argument;
+			UpdateSitemapArgs args = (UpdateSitemapArgs)e.Argument;
+
+			string url = args.URL;
+			int limitCount = args.LimitPagesCount;
 
 			string fileNameSitemap = null;
 			try
@@ -47,6 +50,7 @@ namespace SalkoDev.KawaiiTwitter
 				}
 
 				Sitemap.SitemapLoader loader = new Sitemap.SitemapLoader(fileNameSitemap);
+				loader.LimitCount = limitCount;
 				loader.DelayIntervalTitleRequest = 1000;
 				loader.DoWork(_BackgroundWorker, this);
 
@@ -101,6 +105,11 @@ namespace SalkoDev.KawaiiTwitter
 			{
 				MessageBox.Show(this, e.Error.ToString(), e.Error.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			else
+			{
+				DialogResult = DialogResult.Cancel;
+				Close();
+			}
 		}
 
 		public void Log(string format, params object[] args)
@@ -128,10 +137,27 @@ namespace SalkoDev.KawaiiTwitter
 				return;
 			}
 
+			int limitCount = 0;
+
+			if (_CheckBoxLimit.Checked)
+			{
+				string textLimit = _TextBoxLimitCount.Text;
+				if (!int.TryParse(textLimit, out limitCount))
+				{
+					MessageBox.Show(this, "Невірно вказано ліміт", "Помилка запуску", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					return;
+				}
+			}
+
+			UpdateSitemapArgs args = new UpdateSitemapArgs
+			{
+				URL = _TextBoxURL.Text,
+				LimitPagesCount = limitCount
+			};
+
 			_ButtonOK.Enabled = false;
 
-			string url = _TextBoxURL.Text;
-			_BackgroundWorker.RunWorkerAsync(url);
+			_BackgroundWorker.RunWorkerAsync(args);
 		}
 
 		private void UpdateSitemapForm_FormClosing(object sender, FormClosingEventArgs e)

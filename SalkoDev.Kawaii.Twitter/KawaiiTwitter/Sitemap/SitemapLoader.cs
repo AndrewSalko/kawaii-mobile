@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
@@ -41,81 +41,88 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 			}
 		}
 
+		public int LimitCount
+		{
+			get;
+			set;
+		}
+
 		internal void DoWork(BackgroundWorker worker, ILog log)
 		{
-			using (WebClient client = new WebClient())
+			var xmlDoc = new XmlDocument();
+			xmlDoc.Load(_FileName);
+
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+			nsmgr.AddNamespace("x", "http://www.sitemaps.org/schemas/sitemap/0.9");
+
+			//выбираем все ноды <url>						
+			XmlNodeList urlNodes = xmlDoc.SelectNodes("//x:url", nsmgr);
+			if (urlNodes.Count > 0)
 			{
-				var	xmlDoc = new XmlDocument();
-				xmlDoc.Load(_FileName);
+				int totalNodes = urlNodes.Count;
+				int processed = 0;
 
-				XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
-				nsmgr.AddNamespace("x", "http://www.sitemaps.org/schemas/sitemap/0.9");
-
-				//выбираем все ноды <url>						
-				XmlNodeList urlNodes = xmlDoc.SelectNodes("//x:url", nsmgr);
-				if (urlNodes.Count > 0)
+				for (int i = 0; i < urlNodes.Count; i++)
 				{
-					int totalNodes = urlNodes.Count;
-					int processed = 0;
-
-					for (int i = 0; i < urlNodes.Count; i++)
+					if (worker.CancellationPending)
 					{
-						if (worker.CancellationPending)
-						{
-							log.Log("Загрузка отменена");
-							_ResultPages.Clear();
-							return;
-						}
-																								
-						var node = urlNodes[i];
+						log.Log("Загрузка отменена");
+						_ResultPages.Clear();
+						return;
+					}
 
-						SitePage page = new SitePage();
-												
-						var locNode = node.SelectSingleNode("x:loc", nsmgr);
-						if(locNode!=null)
-						{
-							page.URL = locNode.InnerText;
-						}
+					var node = urlNodes[i];
 
-						var dateNode = node.SelectSingleNode("x:lastmod", nsmgr);
-						if (dateNode != null)
+					SitePage page = new SitePage();
+
+					var locNode = node.SelectSingleNode("x:loc", nsmgr);
+					if (locNode != null)
+					{
+						page.URL = locNode.InnerText;
+					}
+
+					var dateNode = node.SelectSingleNode("x:lastmod", nsmgr);
+					if (dateNode != null)
+					{
+						DateTime dt;
+						string dateVal = dateNode.InnerText;
+						if (!string.IsNullOrWhiteSpace(dateVal))
 						{
-							DateTime dt;
-							string dateVal = dateNode.InnerText;
-							if (!string.IsNullOrWhiteSpace(dateVal))
+							if (DateTime.TryParse(dateVal, out dt))
 							{
-								if (DateTime.TryParse(dateVal, out dt))
-								{
-									page.LastModified = dt;
-								}
+								page.LastModified = dt;
 							}
 						}
+					}
 
-						if (page.URL != null && page.LastModified != DateTime.MinValue)
+					if (page.URL != null && page.LastModified != DateTime.MinValue)
+					{
+						//получить тайтл
+						string title = _GetTitle(page.URL);
+						if (title != null)
 						{
-							//получить тайтл
-							string title = _GetTitle(page.URL);
-							if(title!=null)
-							{
-								page.Title = title;
-							}
-
-							_ResultPages.Add(page);
-
-							processed++;
-							log.Log("Загружено {0} из {1} страниц", processed, totalNodes);
-
-							if (DelayIntervalTitleRequest!=0)
-							{
-								System.Threading.Thread.Sleep(DelayIntervalTitleRequest);
-							}
+							page.Title = title;
 						}
 
-					}//for
-				}//if
+						_ResultPages.Add(page);
 
-			}//using web client
+						processed++;
+						log.Log("Загружено {0} из {1} страниц ({2})", processed, totalNodes, page.Title);
 
+						if (DelayIntervalTitleRequest != 0)
+						{
+							System.Threading.Thread.Sleep(DelayIntervalTitleRequest);
+						}
+					}
+
+					//если лимит равен 0, то условие не выполнится никогда и цикл идет целиком
+					if (i + 1 == LimitCount)
+					{
+						break;
+					}
+
+				}//for
+			}//if
 		}
 
 		string _GetTitle(string url)

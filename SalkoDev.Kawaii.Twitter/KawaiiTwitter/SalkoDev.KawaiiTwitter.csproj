@@ -97,6 +97,7 @@
     <Compile Include="Sitemap\SitemapLoader.cs" />
     <Compile Include="Sitemap\SitePage.cs" />
     <Compile Include="Sitemap\SitePageData.cs" />
+    <Compile Include="UpdateSitemapArgs.cs" />
     <Compile Include="UpdateSitemapForm.cs">
       <SubType>Form</SubType>
     </Compile>
