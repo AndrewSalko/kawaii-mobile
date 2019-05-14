@@ -806,6 +806,37 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $defaultTags;
 		}
 
+		function do_exclude_widget_categories($args)
+		{
+			//1672	//2019 
+			//1673	//2018 
+			//1674	//2017 
+			//1675	//2016 
+			//1676	//2015 
+			//1677	//2014 
+			//1678	//2013 
+			//1679	//2012 
+			//1680	//2011 
+			//1681	//2010 
+			//1682	//2009 
+			//1683	//2008 
+			//1684	//2007 
+			//1685	//2006
+			//1686	//2005
+			//1687	//2004
+			//1688	//2003
+			//1689	//2002
+			//1690	//2001 
+			//1691	//2000 
+			//1692	//anime1995
+			//1693	//1998
+			//1694	//1999 
+
+		    $exclude = "1672,1673,1674,1675,1676,1677,1678,1679,1680,1681,1682,1683,1684,1685,1686,1687,1688,1689,1690,1691,1692,1693,1694";
+		    $args["exclude"] = $exclude;
+	    	return $args;
+		}
+
 		// WordPress добавляет к каждому посту набор "классов" (стилей)
 		// некоторые могут быть НЕ нужны (так мы отрубим hentry класс
 		// в случае если хотим убрать микроданные
@@ -842,6 +873,8 @@ if (isset($pluginDynamicKawaiiImages))
 	add_action('wp_head',array('DynamicKawaiiImages', 'do_wp_head'), 70);
 
 	add_filter('wp_footer', array('DynamicKawaiiImages', 'do_wp_footer'),1);
+
+	add_filter('widget_categories_args', array('DynamicKawaiiImages', 'do_exclude_widget_categories'),1);
 
 	//add_filter('post_class', array('DynamicKawaiiImages', 'do_post_class'),1);
 

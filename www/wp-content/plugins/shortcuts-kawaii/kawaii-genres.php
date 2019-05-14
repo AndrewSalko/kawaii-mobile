@@ -69,7 +69,7 @@ class KawaiiGenres
 	'romance',
 	'romantic-comedy',
 
-	'sci-fi',
+	//'sci-fi',
 
 	'science-fiction',	// !!!
 	'sci-fi-noir',
