@@ -316,6 +316,17 @@ if (!class_exists("DynamicKawaiiImages"))
 				return;
 			}
 
+			$refURL = $_SERVER['HTTP_REFERER'];
+			if (!empty($refURL))
+			{
+				//проверим если это хотлинкер 
+				if(strpos($refURL,'.blogspot.com')!==false)
+				{
+					wp_redirect('http://i.imgur.com/KnWGUkI.jpg', 301);
+					exit;
+				}
+			}
+
 			$newsize=$_GET['newsize'];
 			$imageID=$_GET['id'];
 		
