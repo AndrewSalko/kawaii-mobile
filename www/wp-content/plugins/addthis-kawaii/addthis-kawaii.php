@@ -103,7 +103,7 @@ if (!class_exists("KawaiiAddThis"))
 		{		  
 			if(!is_attachment())
 			{
-				wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing2.css', __FILE__) );
+				wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing3.css', __FILE__) );
 				wp_enqueue_style( 'kawaiisharing' );
 			}
 		}
