@@ -320,7 +320,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			if (!empty($refURL))
 			{
 				//проверим если это хотлинкер 
-				if(strpos($refURL,'.blogspot.com')!==false)
+				if(strpos($refURL,'.blogspot.com')!==false || strpos($refURL,'anime-spin.net')!==false)
 				{
 					wp_redirect('http://i.imgur.com/KnWGUkI.jpg', 301);
 					exit;
