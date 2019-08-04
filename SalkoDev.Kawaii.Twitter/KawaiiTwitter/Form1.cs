@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TweetSharp;
 using System.IO;
 using System.Data.SQLite;
 using System.Reflection;
+using System.Configuration;
+using LinqToTwitter;
 
 namespace SalkoDev.KawaiiTwitter
 {
@@ -38,7 +39,6 @@ namespace SalkoDev.KawaiiTwitter
 			Close();
 		}
 
-		#region _Auth
 		bool _Auth()
 		{
 			bool result = false;
@@ -48,43 +48,20 @@ namespace SalkoDev.KawaiiTwitter
 				if (_Service != null)
 					return true;//уже подключены
 
-				TwitterService service = new TwitterService("TWsI4KPPYv8wWwhYBcw", "960jnQYjQo5oSW4aPrUxYhEJZg8yGHzXo5OBzQk3Ig");
 
-				// Step 1 - Retrieve an OAuth Request Token
-				OAuthRequestToken requestToken = service.GetRequestToken();
-
-				// Step 2 - Redirect to the OAuth Authorization URL
-				Uri uri = service.GetAuthorizationUri(requestToken);
-
-				string url = uri.ToString();
-				AuthForm authForm = new AuthForm();
-				authForm.AuthURL = url;
-				authForm.ShowDialog(this);
-
-				string verifier = authForm.AuthCode;
-
-				OAuthAccessToken access = service.GetAccessToken(requestToken, verifier);
-				if (access.UserId == 0)
-				{
-					MessageBox.Show(this, "Authorization failed!", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return result;
-				}
-
-				// Step 4 - User authenticates using the Access Token
-				service.AuthenticateWith(access.Token, access.TokenSecret);
-				_Service = new Service(service);
+				_Service = new Service();
 
 				result = true;
 			}
 			catch (Exception ex)
 			{
 				_Service = null;
+				Log(ex.Message);
 				MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			return result;
 		}
-		#endregion
 
 		public void Log(string format, params object[] args)
 		{
@@ -107,7 +84,10 @@ namespace SalkoDev.KawaiiTwitter
 
 		private void _ConnectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			_Auth();
+			if (_Auth())
+			{
+				Log("Авторизовано успішно");
+			}
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -218,19 +198,9 @@ namespace SalkoDev.KawaiiTwitter
 
 				//делаем твит...
 				string tweetText = page.CreateTwitterText();
-				using (var stream1 = File.OpenRead(fileImgName))
-				{
-					SendTweetWithMediaOptions ops = new SendTweetWithMediaOptions();
-					if (ops.Images == null)
-					{
-						ops.Images = new Dictionary<string, Stream>();
-					}
 
-					string shortFileName = Path.GetFileName(fileImgName);
-					ops.Images.Add(shortFileName, stream1);
-					ops.Status = tweetText;
-					var statusResult = TwitterService.API.SendTweetWithMedia(ops);
-				}
+				//твит с медиа и текстом
+				_Service.TweetWithMedia(tweetText, fileImgName);
 
 				page.TweetDate = dt;
 
@@ -250,8 +220,8 @@ namespace SalkoDev.KawaiiTwitter
 				}
 
 				//спим 1 час, но делаем вызовы по 1 секунде чтобы можно было прервать
-				int secondsSleep = 1 * 60 * 60;//3600 сек в одном часе
-											   //int secondsSleep = 10;
+				int secondsSleep = 1 * 60 * 60;
+
 				for (int q = 0; q < secondsSleep; q++)
 				{
 					System.Threading.Thread.Sleep(1000);
