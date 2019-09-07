@@ -91,12 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AuthForm.Designer.cs">
-      <DependentUpon>AuthForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="AttachPagesLoader.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +111,7 @@
     <Compile Include="Sitemap\SitemapLoader.cs" />
     <Compile Include="Sitemap\SitePage.cs" />
     <Compile Include="Sitemap\SitePageData.cs" />
+    <Compile Include="TwitterImageExtractor.cs" />
     <Compile Include="UpdateSitemapArgs.cs" />
     <Compile Include="UpdateSitemapForm.cs">
       <SubType>Form</SubType>
@@ -123,9 +119,6 @@
     <Compile Include="UpdateSitemapForm.Designer.cs">
       <DependentUpon>UpdateSitemapForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AuthForm.resx">
-      <DependentUpon>AuthForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

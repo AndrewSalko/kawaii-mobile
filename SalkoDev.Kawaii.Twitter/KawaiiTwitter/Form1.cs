@@ -26,14 +26,6 @@ namespace SalkoDev.KawaiiTwitter
 		Sitemap.SitePageData _Data;
 		Images.ImageData _DataImages;
 
-		public Service TwitterService
-		{
-			get
-			{
-				return _Service;
-			}
-		}
-				
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Close();
@@ -169,10 +161,10 @@ namespace SalkoDev.KawaiiTwitter
 		private void _BackgroundWorkerTweeting_DoWork(object sender, DoWorkEventArgs e)
 		{
 			//запускаем процесс "фейк-твитинга" чтобы видеть как все идет
-			if (TwitterService == null)
+			if (_Service == null)
 				throw new ApplicationException("Немає підключення до сервісу Twitter");
 
-			int maxTweets = 5;
+			int maxTweets = 7;
 			int doneTweets = 0;
 			do
 			{
@@ -219,8 +211,8 @@ namespace SalkoDev.KawaiiTwitter
 					break;
 				}
 
-				//спим 1 час, но делаем вызовы по 1 секунде чтобы можно было прервать
-				int secondsSleep = 1 * 60 * 60;
+				//спим 40 мин, но делаем вызовы по 1 секунде чтобы можно было прервать
+				int secondsSleep = 1 * 60 * 40;
 
 				for (int q = 0; q < secondsSleep; q++)
 				{

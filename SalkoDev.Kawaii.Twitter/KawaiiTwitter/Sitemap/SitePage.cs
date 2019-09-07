@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq.Mapping;
 using System.Linq;
@@ -73,24 +73,35 @@ namespace SalkoDev.KawaiiTwitter.Sitemap
 			string result = null;
 			try
 			{
+				TwitterImageExtractor extractor = new TwitterImageExtractor();
+
 				using (WebClient client = new WebClient())
 				{
 					string htmlBody = client.DownloadString(URL);
-					string twiImage = "twitter:image";
-					string contentEq = "content=\"";
 
-					int twImgStart = htmlBody.IndexOf(twiImage);
-					if(twImgStart>=0)
+					//Здесь мы проведем анализ - соберем все ссылки на аттачи-изображения на этой странице
+					AttachPagesLoader attachPagesLoader = new AttachPagesLoader(URL, htmlBody);
+					string[] imagePagesURLs = attachPagesLoader.GetAttachImagePagesURLs();
+
+					if (imagePagesURLs != null && imagePagesURLs.Length > 0)
 					{
-						int contentEqStart = htmlBody.IndexOf(contentEq, twImgStart + twiImage.Length);
-						if(contentEqStart>=0)
-						{
-							int lastQuoteInd=htmlBody.IndexOf("\"", contentEqStart + contentEq.Length);
+						//извлечем случайно одну из них, и у нее пробуем взять твиттер-изображение
+						Random r = new Random();
+						int indexOfURL = r.Next(0, imagePagesURLs.Length);
+						string urlToGetImage = imagePagesURLs[indexOfURL];
 
-							string resultURL = htmlBody.Substring(contentEqStart + contentEq.Length, lastQuoteInd - (contentEqStart + contentEq.Length));
-							return resultURL;
+						//теперь извлечем оттуда тело html и его изображение
+						string htmlBodySubPage = client.DownloadString(urlToGetImage);
+						string subPageImageURL = extractor.ExtractImageURL(htmlBodySubPage);
+						if (!string.IsNullOrEmpty(subPageImageURL))
+						{
+							result = subPageImageURL;
+							return result;
 						}
-					}								
+					}
+
+					//если что-то пошло не так - берем уже по-старому
+					result = extractor.ExtractImageURL(htmlBody);
 				}
 			}
 			catch (Exception)
