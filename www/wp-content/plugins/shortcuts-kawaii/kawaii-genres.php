@@ -34,6 +34,8 @@ class KawaiiGenres
 	'historical',
 	'horror',
 
+	'isekai',
+
 	'japanese-idol',
 
 
@@ -94,7 +96,9 @@ class KawaiiGenres
 
 	'visual-novel',
 
-	'war-drama'
+	'war-drama',
+
+	'yuri'
 	);
 
 
