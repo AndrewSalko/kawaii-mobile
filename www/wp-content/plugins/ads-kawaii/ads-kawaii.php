@@ -1,23 +1,21 @@
 <?php
 /* 
-Plugin Name: Kawaii AddThis
-Plugin URI: http://www.salkodev.com/
+Plugin Name: Kawaii Ads
+Plugin URI: https://kawaii-mobile.com/
 Version: v1.00
 Author: <a href="http://www.salkodev.com/">Andrew Salko</a>
-Description: A helper AddThis plugin for a <a href="http://kawaii-mobile.com">http://kawaii-mobile.com</a>
+Description: A helper Advert plugin for a <a href="https://kawaii-mobile.com">https://kawaii-mobile.com</a>
 */
 
 require_once(plugin_dir_path( __FILE__ ) . 'kawaii-sitemap.php');
 
-if (!class_exists("KawaiiAddThis")) 
+if (!class_exists("KawaiiAds")) 
 {
-	class KawaiiAddThis
+	class KawaiiAds
 	{
-
-		function KawaiiAddThis() 
-		{ //constructor
-			
-		}
+		const	TR_CLOSE_NODE="</tr>";
+		const	TR_STUB_NODE="kawaiitr";
+		const	TR_REAL_NODE="tr";
 
 		public static function GetSharingHtml()
 		{
@@ -62,19 +60,77 @@ if (!class_exists("KawaiiAddThis"))
 			return $addContent;
 		}
 
+		function _IsPageLevelAdsEnabledOnHome()
+		{
+			return false;
+		}
+
+		function _IsPageLevelAdsEnabledOnSingle()
+		{
+			return false; 	//page level on POST
+		}
+
+		function _IsPageLevelAdsEnabledOnAttach()
+		{
+			return true;    //page level on Attach
+		}
+
+		//Ads in post table (special banner)
+		function _IsAdsEnabledInPostTable()
+		{
+			return false;
+		}
 
 
 		function do_wp_head()
 		{
+			//google analytics always included
 ?>
 <script type="text/javascript">
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
 </script>
+<?php
+
+			$pageLevelAdsEnabled="true";
+
+			if(is_home())
+			{
+				if(!KawaiiAds::_IsPageLevelAdsEnabledOnHome())
+				{
+					return;	//on home no ads, only page-level ads possible
+				}
+			}
+			else
+			{
+				if(is_attachment())
+				{
+					if(!KawaiiAds::_IsPageLevelAdsEnabledOnAttach())
+					{
+						return;
+					}
+				}
+				else
+				{
+					if(is_single())
+					{
+						//post and other single but not attach
+						if(!KawaiiAds::_IsPageLevelAdsEnabledOnSingle() && !KawaiiAds::_IsAdsEnabledInPostTable())
+						{
+							return;
+						}
+
+						$pageLevelAdsEnabled=KawaiiAds::_IsPageLevelAdsEnabledOnSingle() ? "true" : "false";
+					}
+				}
+			}
+
+
+?>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
   (adsbygoogle = window.adsbygoogle || []).push({
     google_ad_client: "ca-pub-2908292943805064",
-    enable_page_level_ads: true
+    enable_page_level_ads: <?php echo $pageLevelAdsEnabled ?>
   });
 </script>
 <?php
@@ -86,17 +142,17 @@ if (!class_exists("KawaiiAddThis"))
 			//if it's main page, load script because do_content not used in such case
 			if(is_home())
 			{
-				//echo KawaiiAddThis::GetSharingHtml();
+				//echo KawaiiAds::GetSharingHtml();
 			}
 
 			if(!is_attachment())
 			{
 				//add sharing script (at bottom)
-				//echo KawaiiAddThis::GetSocialScriptLoader();
+				//echo KawaiiAds::GetSocialScriptLoader();
 			}
 
 			//add Google Analytics event tracking on custom images
-			echo KawaiiAddThis::GetEventsScriptLoader();
+			echo KawaiiAds::GetEventsScriptLoader();
 		}
 
 		function do_add_stylesheet()
@@ -108,10 +164,6 @@ if (!class_exists("KawaiiAddThis"))
 			}
 		}
 
-		const	TR_CLOSE_NODE="</tr>";
-		const	TR_STUB_NODE="kawaiitr";
-		const	TR_REAL_NODE="tr";
-
 		function do_content($content)
 		{
 			if(is_attachment() || is_feed() || is_home() || !is_single())
@@ -119,11 +171,17 @@ if (!class_exists("KawaiiAddThis"))
 				return $content;//do nothing
 			}
 
+			//if spec ad not allowed in table (in post body)
+
+			if(!KawaiiAds::_IsAdsEnabledInPostTable())
+			{
+				return $content;
+			}
 
 			//check if we have 'table' in content? we need find first </tr>
 
 			$startInd=0;
-			$firstInd=stripos($content, KawaiiAddThis::TR_CLOSE_NODE, $startInd);
+			$firstInd=stripos($content, KawaiiAds::TR_CLOSE_NODE, $startInd);
 
 			if ($firstInd===FALSE)
 			{
@@ -149,7 +207,7 @@ if (!class_exists("KawaiiAddThis"))
 				$startInd=$firstInd + 5; //len tr
 				$adsCount++;
 				
-				$firstInd=stripos($contentModified, KawaiiAddThis::TR_CLOSE_NODE, $startInd);
+				$firstInd=stripos($contentModified, KawaiiAds::TR_CLOSE_NODE, $startInd);
 			}
 
 			if($adsCount==0)
@@ -157,7 +215,7 @@ if (!class_exists("KawaiiAddThis"))
 				return $content;
 			}
 
-			$contentModified=str_replace(KawaiiAddThis::TR_STUB_NODE, KawaiiAddThis::TR_REAL_NODE, $contentModified);
+			$contentModified=str_replace(KawaiiAds::TR_STUB_NODE, KawaiiAds::TR_REAL_NODE, $contentModified);
 
 			return $contentModified;
 		}
@@ -166,7 +224,7 @@ if (!class_exists("KawaiiAddThis"))
 		{
     		if(function_exists('add_submenu_page')) 
 			{
-				add_submenu_page('tools.php', 'Image Sitemap Kawaii', 'Image Sitemap Kawaii', 'manage_options', 'image-sitemap-kawaii-uniq-id', array('KawaiiAddThis', 'do_image_sitemap_generate'));
+				add_submenu_page('tools.php', 'Image Sitemap Kawaii', 'Image Sitemap Kawaii', 'manage_options', 'image-sitemap-kawaii-uniq-id', array('KawaiiAds', 'do_image_sitemap_generate'));
 			}
 		}
 
@@ -174,7 +232,7 @@ if (!class_exists("KawaiiAddThis"))
 		{
 			if ($_POST ['submit']) 
 			{
-				$result=KawaiiAddThis::Generate();
+				$result=KawaiiAds::Generate();
 
 			    if (!$result)
 				{
@@ -224,23 +282,23 @@ if (!class_exists("KawaiiAddThis"))
 
 	}//class
 
-	if (class_exists("KawaiiAddThis")) 
+	if (class_exists("KawaiiAds")) 
 	{
-		$pluginKawaiiAddThis = new KawaiiAddThis();
+		$pluginKawaiiAds = new KawaiiAds();
 	}
 
-}//End Class KawaiiAddThis
+}//End Class KawaiiAds
 
 //Actions and Filters	
-if (isset($pluginKawaiiAddThis)) 
+if (isset($pluginKawaiiAds)) 
 {    			
-	add_filter('wp_footer', array('KawaiiAddThis', 'do_wp_footer'),1);
+	add_filter('wp_footer', array('KawaiiAds', 'do_wp_footer'),1);
 
-	add_action('wp_enqueue_scripts', array('KawaiiAddThis','do_add_stylesheet'), 1);
+	add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 1);
 
-	add_filter('the_content', array('KawaiiAddThis', 'do_content'),1);
+	add_filter('the_content', array('KawaiiAds', 'do_content'),1);
 
-	add_action('admin_menu', array('KawaiiAddThis', 'do_image_sitemap'),1);
+	add_action('admin_menu', array('KawaiiAds', 'do_image_sitemap'),1);
 
-	add_action('wp_head', array('KawaiiAddThis', 'do_wp_head'), 9999);
+	add_action('wp_head', array('KawaiiAds', 'do_wp_head'), 9999);
 }
