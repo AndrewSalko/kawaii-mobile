@@ -67,7 +67,7 @@ if (!class_exists("KawaiiAds"))
 
 		function _IsPageLevelAdsEnabledOnSingle()
 		{
-			return false; 	//page level on POST
+			return true; 	//page level on POST
 		}
 
 		function _IsPageLevelAdsEnabledOnAttach()
@@ -279,6 +279,41 @@ if (!class_exists("KawaiiAds"))
 			return true;
 		}//Generate
 
+		const KAWAII_SHORTCODE_FOOTER2="[kawaii-shortcode-footer2]";
+		const FOOTER2_AD_HTML="<a href='https://rocket.exchange'><img alt='ROCKET EXCHANGE - a decentralized peer to peer marketplace for datasets' src='/wp-content/uploads/rocket-exchange-dataset-marketplace.png' style='width:300px;height: 200px;'></a>";
+
+		const KAWAII_SHORTCODE_FOOTER3="[kawaii-shortcode-footer3]";
+		const FOOTER3_AD_HTML="<a href='https://analyther.com'><img src='/wp-content/uploads/analyther-smart-contract-analytics.png' alt='Ethereum smart contract analytics and insights' style='width:300px;height: 200px;' /></a>";
+
+		function do_widget_text($content) 
+		{
+			$ad2=KawaiiAds::FOOTER2_AD_HTML;
+			$ad3=KawaiiAds::FOOTER3_AD_HTML;
+
+			if((!is_home()) || is_paged())
+			{
+				$ad2="";
+				$ad3="";
+			}		
+
+			$startInd=0;
+			$firstInd=stripos($content, KawaiiAds::KAWAII_SHORTCODE_FOOTER2, $startInd);
+			if ($firstInd!==FALSE)
+			{
+                $content=str_replace(KawaiiAds::KAWAII_SHORTCODE_FOOTER2, $ad2, $content);
+				return $content;
+			}
+
+			$firstInd=stripos($content, KawaiiAds::KAWAII_SHORTCODE_FOOTER3, $startInd);
+			if ($firstInd!==FALSE)
+			{
+                $content=str_replace(KawaiiAds::KAWAII_SHORTCODE_FOOTER3, $ad3, $content);
+				return $content;
+			}
+
+			return $content;
+		}
+
 
 	}//class
 
@@ -301,4 +336,7 @@ if (isset($pluginKawaiiAds))
 	add_action('admin_menu', array('KawaiiAds', 'do_image_sitemap'),1);
 
 	add_action('wp_head', array('KawaiiAds', 'do_wp_head'), 9999);
+
+	add_filter('widget_text', array('KawaiiAds', 'do_widget_text'), 100);
+
 }
