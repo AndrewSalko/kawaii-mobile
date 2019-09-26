@@ -116,7 +116,7 @@ class KawaiiContent
 		//10  hd anime iphone wallpaper
 
 		//<Персонажи> <iPhone> <640x960> (<идентиф.поста>)
-		$fullTitle=sprintf("%s %s %s %s (%s)", $postTitle, $phoneTitle, $resolutionName, $wallpaperText, $attID);
+		$fullTitle=sprintf("%s %s %s %s", $postTitle, $phoneTitle, $resolutionName, $wallpaperText);
 
 		return $fullTitle;
 

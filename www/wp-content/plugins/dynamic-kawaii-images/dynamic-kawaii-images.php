@@ -595,7 +595,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $content;
 		}
 
-		function do_get_title($elements)
+		function do_get_title($title)
 		{
 			$url = $_SERVER['REQUEST_URI'];					
 			if (strpos($url,'/custom-image/') == true) 
@@ -608,7 +608,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				if(count($splittedValues)<3)
 				{
 					//assume 3 items at least:custom-image,attachID,320x240
-					return $elements;
+					return $title;
 				}
 
 				//take last portion - this is resolution:
@@ -627,7 +627,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 
 			//do nothing,default
-			return $elements;
+			return $title;
 		}//do_get_title
 
 		// Получить изображение для поста
@@ -877,7 +877,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	add_filter('the_content', array('DynamicKawaiiImages', 'do_content'),1);
 
-	add_filter('arras_doctitle', array('DynamicKawaiiImages', 'do_get_title'));
+	add_filter('pre_get_document_title', array('DynamicKawaiiImages', 'do_get_title'));
 
 	add_filter('no_texturize_tags', array('DynamicKawaiiImages', 'do_no_texturize_tags'));
 
