@@ -7,7 +7,7 @@ class KawaiiCharacters
 	//Returns: char names from imageID
 	//Out: $parentTitle - parent post title
 	//Out: $charactersCount - how many characters was found
-	public static function GetCharacters($imageID, &$parentTitle, &$charactersCount)
+	public static function GetCharacters($imageID, &$parentTitle, &$charactersCount, &$firstCharacterName, &$firstCharacterTagURL)
 	{
 		$charactersCount=0;
 		$itPost=get_post($imageID);
@@ -15,6 +15,9 @@ class KawaiiCharacters
 		$parentTitle=get_the_title($itPostMainID);
 
 		$imgTitle=$itPost->post_title;
+
+		$firstCharacterName="";
+		$firstCharacterTagURL="";
 
 		//получаем у поста его "теги" - там будут имена персонажей
 		$imgAlt="";//подставить сюда имена персонажей
@@ -50,9 +53,15 @@ class KawaiiCharacters
 				if($skipThis===true)
 					continue;
 
-
 				$foundCharacters[$foundCharCount]=$itName->name;
 				$foundCharCount++;
+
+				if($foundCharCount==1)
+				{
+					$firstCharacterName=$itName->name;
+					$firstCharacterTagURL=get_tag_link($itName->term_id);
+				}
+
 			}//foreach
 
 			//теперь сформируем красиво надпись. Если 1 - то его сразу и все,

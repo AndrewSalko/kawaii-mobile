@@ -28,13 +28,38 @@ class KawaiiContent
 		return $addText[$lastID];
 	}
 
+	public function GetCustomAttachMetas($url, &$title, &$metaDescription, &$attachID)
+	{
+		$title="";
+		$metaDescription="";
+		$attachID="";
+
+		$trimmedURL=trim($url,'/');
+		$splittedValues=explode('/',$trimmedURL);
+		if(count($splittedValues)<3)
+		{
+			//assume 3 items at least:custom-image,attachID,320x240
+			return false;
+		}
+
+		//take last portion - this is resolution:
+		$resolution=end($splittedValues);
+		$attachID=prev($splittedValues);
+		
+		$title=$this->GetAttachTitleAndDescription($resolution, $attachID, $metaDescription);
+
+		return true;
+	}
+
 	public function GetAttachTitleAndDescription($resolutionName, $attID, &$description)
 	{
 		//получить персонажей, если таковые есть, или тайтл главного поста
 		$description="";
 		$mainTitle="";
 		$charactersCount=0;
-		$charactersNames=KawaiiCharacters::GetCharacters($attID,$mainTitle,$charactersCount);
+		$firstCharacterName="";
+		$firstCharacterTagURL="";
+		$charactersNames=KawaiiCharacters::GetCharacters($attID,$mainTitle,$charactersCount,$firstCharacterName,$firstCharacterTagURL);
 
 		//в зависимости от разрешения получить описание на аттач
 		//Тайтл - это будет 'android' или 'iPhone 5'
@@ -58,9 +83,14 @@ class KawaiiContent
 		);
 
 		//Если есть имена персонажей - берем сразу их, это лучше
+		
+		$addContent="";
 		if($charactersNames!="")
 		{
 			$postTitle=$charactersNames;
+
+			//если есть персонажи - после них добавим доп.контент
+			$addContent=$charactersNames. " ".$this->GetAttachAdditionalDescription($attID).".";
 		}
 
 		//теперь добавим случайно ключевые слова - они войдут и в тайтл, и в контент
@@ -69,8 +99,6 @@ class KawaiiContent
 		$strID=strval($attID);
 		$lastChar=substr($strID, -1);
 		$lastID=intval($lastChar);
-		
-		$addContent=$mainTitle." ".$this->GetAttachAdditionalDescription($attID).".";
 
 		if($phoneTitle!="")
 		{

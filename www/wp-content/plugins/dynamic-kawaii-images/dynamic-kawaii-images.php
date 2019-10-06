@@ -86,7 +86,7 @@ if (!class_exists("DynamicKawaiiImages"))
 		// Creates fake attach file name from real post ID
 		// Returns FALSE if failed
 		// Out params: $characters - имена персонажей
-		public static function CreateImageElement($imageID, $resolution, &$characters)
+		public static function CreateImageElement($imageID, $resolution, &$characters, &$firstCharacterName, &$firstCharacterTagURL)
 		{
 			$characters="";
 
@@ -162,7 +162,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$mainTitle="";
 			$charactersCount=0;
-			$imgAlt=KawaiiCharacters::GetCharacters($imageID, $mainTitle, $charactersCount);//подставить сюда имена персонажей
+			$imgAlt=KawaiiCharacters::GetCharacters($imageID, $mainTitle, $charactersCount,$firstCharacterName,$firstCharacterTagURL);//подставить сюда имена персонажей
 
 			//если не получии теги, или не нашлось, даем тайтл главного поста
 			if($imgAlt=="")
@@ -189,7 +189,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 						
 			if (strpos($url,'/custom-image/') == true) 
-			{												
+			{	
 				//here we extract attach ID from URL, and resolution:
 				//custom-image/(attachID)/(320x240)
 				//Very important: last slash may be!
@@ -220,7 +220,9 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 
 				$characters="";
-				$imgNode=DynamicKawaiiImages::CreateImageElement($attachID, $resolution, $characters);
+				$firstCharacterName="";
+				$firstCharacterTagURL="";
+				$imgNode=DynamicKawaiiImages::CreateImageElement($attachID, $resolution, $characters,$firstCharacterName,$firstCharacterTagURL);
 				if($imgNode===FALSE)
 				{
 					$wp_query->set_404();
@@ -238,17 +240,31 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				get_header();
 
-                $itPost=get_post($attachID);
-				$parentPost=$itPost;
-                
+                $attPost=get_post($attachID);
+				
+				//это тайтл не аттача а основного поста
+				$mainPost=$attPost->post_parent;
+				$titleOfMainPost=get_the_title($mainPost);
+				$urlOfMainPost=get_permalink($mainPost);
+
 				echo '<div id="page" class="single">';
 				echo '<div class="content">';
+				//здесь нужно вывести breadcrumbs (сразу на главный пост)
+				echo '<div class="breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">'; 
 
-				echo '<div class="breadcrumb">'; 
-
-					echo '<span><a href="' . get_permalink( $parentPost ) . '">'. get_the_title($parentPost) .'</a></span>';	
+					echo '<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="' . $urlOfMainPost . '">'. $titleOfMainPost .'</a></span>';
 					echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
-					echo '<span>'. $characters. '</span>';
+
+				//здесь нужно вывести персонажа (первого с url как тег)
+				if($firstCharacterName!="")
+				{
+					echo '<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="' . $firstCharacterTagURL . '">'. $firstCharacterName .'</a></span>';
+				}
+				else
+				{
+					//если нет персонажей - выводим разрешение
+					echo '<span>'. $resolution. '</span>';
+				}
 
 				echo '</div>'; /* breadcrumb */
 
@@ -258,8 +274,16 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<div class="post attachment type-attachment status-inherit">';
 				echo '<div class="single_post">';
 
-				echo '<h1 class="entry-title">'.get_the_title($itPost->post_parent). ' wallpaper ';
-				
+				//главный заголовок - если есть персонажи - берем их и туда разрешение, если их нет - имя главного поста и разрешение
+				$h1ForPage=$titleOfMainPost;
+				if($characters!="")
+				{
+					$h1ForPage=$characters;
+				}
+
+				$h1ForPage=$h1ForPage.' wallpaper '.$resolution;
+
+				echo '<h1 class="entry-title">'.$h1ForPage;
 				echo '</h1>';
 
 				$resDetector=new KawaiiResolutionDetector();
@@ -267,23 +291,23 @@ if (!class_exists("DynamicKawaiiImages"))
 				if($mobilePhones!=NULL)
 				{
 					//описательный текст: персонажи, и прочее
+					//Проверим если там есть полное имя поста - заменим его на ссылку
+					$titleMainIndexStart=stripos($descrText, $titleOfMainPost, 0);
+					if($titleMainIndexStart!==FALSE)
+					{
+						$refToMain='<a href="'.$urlOfMainPost.'">'.$titleOfMainPost.'</a>';
+						//заменить на урл
+						$descrText=str_replace($titleOfMainPost, $refToMain, $descrText);
+					}
+
 					echo '<p>'. $descrText. ' ';
 					//добавить имя персонажей перед словом Wallpaper
-					echo 'This image is best suited to those phone models: ' . $mobilePhones. '</p>';
+					echo 'This image is best suited to : ' . $mobilePhones. '</p>';
 				}
 
 				//Banner-adaptive (for custom attach) - только для кастом-аттача
 				//вещь весьма результативная, 2018.12.02 поменял место проверим как оно будет
 				//include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
-
-				//добавить персонажа (типа Saber image size:) но если там два слова
-				$sizePrefix="Image";
-				if($characters!="")
-				{
-					$sizePrefix=$characters." image";
-				}
-
-				echo '<h2>'.$sizePrefix.' size: ' . $resolution . '</h2>';
 
 				echo $imgNode;
 
@@ -511,14 +535,9 @@ if (!class_exists("DynamicKawaiiImages"))
 			//получаем персонажей
 			$mainPostTitle="";
 			$charactersCount=0;
-			$charactersNames=KawaiiCharacters::GetCharacters($imageID, $mainPostTitle, $charactersCount);
-
-			$singleCharacterName="";//имя персонажа - если он единственный
-			if($charactersCount==1 || $charactersCount==2)
-			{
-				$singleCharacterName=" ". $charactersNames;
-			}
-
+			$firstCharacterName="";
+			$firstCharacterTagURL="";
+			$charactersNames=KawaiiCharacters::GetCharacters($imageID, $mainPostTitle, $charactersCount,$firstCharacterName,$firstCharacterTagURL);
 
 			$kawCont=new KawaiiContent();
 			$descrText=$kawCont->GetAttachAdditionalDescription($imageID);//доп.текст, случайный для лучшей индексации
@@ -600,28 +619,15 @@ if (!class_exists("DynamicKawaiiImages"))
 			$url = $_SERVER['REQUEST_URI'];					
 			if (strpos($url,'/custom-image/') == true) 
 			{					
-				//We have our special custom page. Must setup title tag.
-				//$mainTitle=get_the_title($post->post_parent);	
-
-				$trimmedURL=trim($url,'/');
-				$splittedValues=explode('/',$trimmedURL);
-				if(count($splittedValues)<3)
-				{
-					//assume 3 items at least:custom-image,attachID,320x240
-					return $title;
-				}
-
-				//take last portion - this is resolution:
-				$resolution=end($splittedValues);
-				$attachID=prev($splittedValues);
-                $itPost=get_post($attachID);
-				$parentTitle=get_the_title($itPost);//->post_parent
-				//split title with dots.
-				$splValues=explode('.',$parentTitle);
-
 				$kawCont=new KawaiiContent();
-				$descrText="";//описательный текст для страницы
-				$attTitle=$kawCont->GetAttachTitleAndDescription($resolution, $attachID, $descrText);
+				$attTitle="";
+				$attMetaDescr="";
+				$attachID="";
+
+				if($kawCont->GetCustomAttachMetas($url,$attTitle,$attMetaDescr,$attachID)!==true)
+				{
+					return $title;	//ошибка, генерация не удалась
+				}
 
 				return $attTitle;
 			}
@@ -682,13 +688,16 @@ if (!class_exists("DynamicKawaiiImages"))
 			echo '<link rel="manifest" href="/manifest.json">';
 			echo '<meta name="theme-color" content="#212121">';
 
-
 			global $post;
 			$imgURL='';//картинка для og:image
 
 			$tc_title = get_the_title();//тайтл для твиттер-кард
 			$tc_description ='';//описание для твиттер-кард
 
+			//мета-описание будет применено на обычной странице аттача и на кастом-изображении
+			$metaDescription=$tc_title;
+			$needAddMetaDescr=false;
+			
 			$url = $_SERVER['REQUEST_URI'];
 			if (strpos($url,'/custom-image/') == true) 
 			{
@@ -697,19 +706,15 @@ if (!class_exists("DynamicKawaiiImages"))
 					return;
 				}
 
-				//TODO@: duplicate code for attachid extraction!
-				$trimmedURL=trim($url,'/');
+				$kawCont=new KawaiiContent();
+				$attTitle="";
+				$attMetaDescr="";
+				$attachID="";
 
-				$splittedValues=explode('/',$trimmedURL);
-				if(count($splittedValues)<3)
+				if($kawCont->GetCustomAttachMetas($url,$attTitle,$attMetaDescr,$attachID)!==true)
 				{
 					return;
 				}
-
-				//assume 3 items at least:custom-image,attachID,320x240
-				//take last portion - this is resolution:
-				$resolution=end($splittedValues);
-				$attachID=prev($splittedValues);
 
 				//check if we have such attachID in our base:
 				$testPermLink=post_permalink($attachID);
@@ -718,7 +723,6 @@ if (!class_exists("DynamicKawaiiImages"))
 					return;
 				}
 
-				echo '<!-- canonical url for custom page -->';
 				//need validate full url for this page
 				$fullCanonicalURL=get_site_url().$url;
 				//url must end with '/' slash
@@ -729,10 +733,15 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 
 				echo "\n".'<link rel="canonical" href="'.$fullCanonicalURL.'"/>'."\n";
+
+				//у кастом-изображения нет явного условия что это "аттач"
+				$needAddMetaDescr=true;
+				$metaDescription=$attMetaDescr;
 			}
 
 			if( is_attachment())
 			{
+				$needAddMetaDescr=true;
 				//страница файла-изображения. Картинка для него - он сам
 				$imageID=$post->ID;
 				$imgURL=wp_get_attachment_url($imageID);
@@ -785,25 +794,17 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<meta name="twitter:description" content="'. $tc_description .'" />'."\n";
 				echo '<meta name="twitter:title" content="'. $tc_title .'" />'."\n";
 			}
+
+			if($needAddMetaDescr===true)
+			{
+				echo '<meta name="description" content="'.$metaDescription.'" />'."\n";
+			}
 		}
 
 		function do_wp_footer()
 		{
 			//добавляем рекламные ссылки и кастом-баннеры
 			KawaiiAdvert::Footer();
-		}
-
-		public static function _HasResolutionPart($testLine)
-		{
-			$rDetect=new KawaiiResolutionDetector();
-			$hasRes=$rDetect->HasResolutionInLine($testLine);
-			if($hasRes===true)
-				return true;
-
-			if(strpos($testLine, 'wallpaper')!==false)
-			    return true;
-
-			return false;
 		}
 
 		// WordPress changes text (for example, 1080x1920 - char 'x'
