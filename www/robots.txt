@@ -48,6 +48,11 @@ Disallow: /
 User-agent: Qwantify/2.4w
 Disallow: /
 
+User-agent: DAUM 
+Disallow: /
+
+User-agent: Pinterest
+Disallow: /
 
 User-agent: ZumBot
 Disallow: /
