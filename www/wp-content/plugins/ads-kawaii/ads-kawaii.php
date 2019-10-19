@@ -81,6 +81,31 @@ if (!class_exists("KawaiiAds"))
 			return false;
 		}
 
+		function _EndsWith($text, $subString)
+		{
+			$length = strlen($subString);
+			if ($length == 0) 
+			{
+				return true;
+			}
+		
+			return (substr($text, -$length) === $subString);
+		}
+
+		//Вернет true - скрипт ADSense не включается вообще (блокировка отдельных страниц и постов)
+		function _IsAdsenseDisabledForThisURL()
+		{
+			$url = $_SERVER['REQUEST_URI'];
+
+			/*
+			if (KawaiiAds::_EndsWith($url,'/sora-no-otoshimono-iphone-4/') == true) 
+			{
+				return true;
+			}
+			*/
+
+			return false;
+		}
 
 		function do_wp_head()
 		{
@@ -90,6 +115,11 @@ if (!class_exists("KawaiiAds"))
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
 </script>
 <?php
+
+			if(KawaiiAds::_IsAdsenseDisabledForThisURL())
+			{
+				return;
+			}
 
 			$pageLevelAdsEnabled="true";
 
