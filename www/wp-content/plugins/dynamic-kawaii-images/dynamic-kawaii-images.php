@@ -15,6 +15,7 @@ if (!class_exists("DynamicKawaiiImages"))
 	include ('kawaii-characters.php');
 	include ('advert.php');
 	include ('kawaii-content.php');
+	include ('schemaorg-kawaii.php');
 
 	class DynamicKawaiiImages
 	{
@@ -668,7 +669,15 @@ if (!class_exists("DynamicKawaiiImages"))
 		{
 			$splittedValues=explode(PHP_EOL, $rawDescription);
 
-			return $splittedValues[0];
+			$descr=$splittedValues[0];
+
+			$descr=str_replace("<p>", "", $descr);
+			$descr=str_replace("</p>", "", $descr);
+			$descr=str_replace("</br>", "", $descr);
+			$descr=str_replace("<br />", "", $descr);
+			
+
+			return $descr;
 		}
 
 		static function EndsWith($haystack, $needle)
@@ -793,6 +802,18 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				echo '<meta name="twitter:description" content="'. $tc_description .'" />'."\n";
 				echo '<meta name="twitter:title" content="'. $tc_title .'" />'."\n";
+
+				//подключим схема-орг разметку
+				$postURL=wp_get_canonical_url();
+
+				$postAuthorName=get_the_author_meta("display_name");
+
+				$datePublishedStr=get_the_date('c');
+				$dateUpdatedStr=get_the_modified_time('c');
+
+				$scriptArticle=SchemaOrgKawaii::GetStructuredDataScriptBlock($postURL, $tc_title, $tc_description, $imgURL, $postAuthorName, $datePublishedStr, $dateUpdatedStr);
+				echo $scriptArticle;
+
 			}
 
 			if($needAddMetaDescr===true)
