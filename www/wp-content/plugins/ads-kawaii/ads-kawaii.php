@@ -96,13 +96,19 @@ if (!class_exists("KawaiiAds"))
 		function _IsAdsenseDisabledForThisURL()
 		{
 			$url = $_SERVER['REQUEST_URI'];
+			
 
-			/*
-			if (KawaiiAds::_EndsWith($url,'/sora-no-otoshimono-iphone-4/') == true) 
+			if (KawaiiAds::_EndsWith($url,'/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/') == true) 
 			{
 				return true;
 			}
-			*/
+
+			
+			if (KawaiiAds::_EndsWith($url,'/highschool-of-the-dead-android-and-iphone/highschool-of-the-dead-1080x1920/') == true) 
+			{
+				return true;
+			}
+			
 
 			return false;
 		}
@@ -187,11 +193,8 @@ if (!class_exists("KawaiiAds"))
 
 		function do_add_stylesheet()
 		{		  
-			if(!is_attachment())
-			{
-				wp_register_style( 'kawaiisharing', plugins_url('kawaiisharing3.css', __FILE__) );
-				wp_enqueue_style( 'kawaiisharing' );
-			}
+			wp_register_style( 'kawaiiads1', plugins_url('kawaiiads1.css', __FILE__) );
+			wp_enqueue_style( 'kawaiiads1' );
 		}
 
 		function do_content($content)
