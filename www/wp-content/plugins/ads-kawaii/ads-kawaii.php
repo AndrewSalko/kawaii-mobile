@@ -42,6 +42,7 @@ if (!class_exists("KawaiiAds"))
 
 		function GetSocialScriptLoader()
 		{
+			$nl="\n";
 			$addContent=''.$nl;
 			$sharing_script=plugins_url('kawaiisharing.js', __FILE__);
 			$addContent .= $nl.'<script type="text/javascript" src="'. $sharing_script .'" async defer></script>'.$nl;
@@ -96,7 +97,11 @@ if (!class_exists("KawaiiAds"))
 		function _IsAdsenseDisabledForThisURL()
 		{
 			$url = $_SERVER['REQUEST_URI'];
-			
+		
+			if(is_category() || is_tag())
+			{
+				return true;	//общая блокировка рекламы - архив по категориям (например: kawaii-mobile.com/category/android/) и тегам
+			}
 
 			if (KawaiiAds::_EndsWith($url,'/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/') == true) 
 			{
