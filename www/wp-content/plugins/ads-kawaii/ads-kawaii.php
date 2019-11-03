@@ -68,7 +68,7 @@ if (!class_exists("KawaiiAds"))
 
 		function _IsPageLevelAdsEnabledOnSingle()
 		{
-			return true; 	//page level on POST
+			return false; 	//page level on POST
 		}
 
 		function _IsPageLevelAdsEnabledOnAttach()
@@ -79,7 +79,7 @@ if (!class_exists("KawaiiAds"))
 		//Ads in post table (special banner)
 		function _IsAdsEnabledInPostTable()
 		{
-			return false;
+			return true;
 		}
 
 		function _EndsWith($text, $subString)
@@ -216,6 +216,11 @@ if (!class_exists("KawaiiAds"))
 				return $content;
 			}
 
+			if(KawaiiAds::_IsAdsenseDisabledForThisURL())
+			{
+				return $content;
+			}
+
 			//check if we have 'table' in content? we need find first </tr>
 
 			$startInd=0;
@@ -230,14 +235,20 @@ if (!class_exists("KawaiiAds"))
 
 			$contentModified=$content;
 
-			$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . 'banner1.htm');
+			$adsFileIndex=0;
+			$adsFilesArr=array('banner1-post.htm','banner2-post.htm','banner3-post.htm');
 
-			while($adsCount<3)
+			//$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . 'banner1-post.htm');
+
+			while($adsCount < count($adsFilesArr))
 			{
 				if ($firstInd===FALSE)
 				{
 					break;	//not found
 				}
+
+				$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . $adsFilesArr[$adsFileIndex]);
+				$adsFileIndex++;
 
 				$str_to_insert="<kawaiitr><td>".$adContent."</td></kawaiitr>";
 
