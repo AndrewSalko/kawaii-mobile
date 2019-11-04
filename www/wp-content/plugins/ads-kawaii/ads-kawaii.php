@@ -103,17 +103,17 @@ if (!class_exists("KawaiiAds"))
 				return true;	//общая блокировка рекламы - архив по категориям (например: kawaii-mobile.com/category/android/) и тегам
 			}
 
-			if (KawaiiAds::_EndsWith($url,'/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/') == true) 
-			{
-				return true;
-			}
-
+			$arrDisabled=array('/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/',
+								'/highschool-of-the-dead-android-and-iphone/highschool-of-the-dead-1080x1920/',
+								'/sora-no-otoshimono-iphone-4/');
 			
-			if (KawaiiAds::_EndsWith($url,'/highschool-of-the-dead-android-and-iphone/highschool-of-the-dead-1080x1920/') == true) 
+			foreach($arrDisabled as $urlPart)
 			{
-				return true;
+				if (KawaiiAds::_EndsWith($url, $urlPart) == true) 
+				{
+					return true;
+				}
 			}
-			
 
 			return false;
 		}
