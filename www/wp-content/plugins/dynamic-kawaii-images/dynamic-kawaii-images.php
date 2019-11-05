@@ -695,6 +695,8 @@ if (!class_exists("DynamicKawaiiImages"))
 			echo "\n".'<meta name="pinterest" content="nopin" />'. "\n";
 
 			echo '<link rel="manifest" href="/manifest.json">';
+			echo '<link rel="apple-touch-icon" href="/mao-192.png">';
+			echo '<link rel="apple-touch-startup-image" href="/mao-192.png">';
 			echo '<meta name="theme-color" content="#212121">';
 
 			global $post;
