@@ -132,8 +132,6 @@ if (!class_exists("KawaiiAds"))
 				return;
 			}
 
-			$pageLevelAdsEnabled="true";
-
 			if(is_home())
 			{
 				if(!KawaiiAds::_IsPageLevelAdsEnabledOnHome())
@@ -159,22 +157,14 @@ if (!class_exists("KawaiiAds"))
 						{
 							return;
 						}
-
-						$pageLevelAdsEnabled=KawaiiAds::_IsPageLevelAdsEnabledOnSingle() ? "true" : "false";
 					}
 				}
 			}
 
-
-?>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-2908292943805064",
-    enable_page_level_ads: <?php echo $pageLevelAdsEnabled ?>
-  });
-</script>
-<?php
+			echo '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+			echo '<script>';
+  			echo '(adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-2908292943805064", enable_page_level_ads: true });';
+			echo '</script>';
 		}
 
 
@@ -200,6 +190,18 @@ if (!class_exists("KawaiiAds"))
 		{		  
 			wp_register_style( 'kawaiiads1', plugins_url('kawaiiads1.css', __FILE__) );
 			wp_enqueue_style( 'kawaiiads1' );
+		}
+
+		function GetBannerCode($bannerInfoArr)
+		{
+			$slot=$bannerInfoArr["slot"];
+			$comment=$bannerInfoArr["comment"];
+
+			$bannerHtmlCode="<!-- ".$comment." -->";
+			$bannerHtmlCode.= "<ins class=\"adsbygoogle\" style=\"display:block\" data-ad-client=\"ca-pub-2908292943805064\" data-ad-slot=\"".$slot."\" data-ad-format=\"auto\" data-full-width-responsive=\"false\"></ins>";
+			$bannerHtmlCode.= "<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>";
+
+			return $bannerHtmlCode;
 		}
 
 		function do_content($content)
@@ -236,18 +238,24 @@ if (!class_exists("KawaiiAds"))
 			$contentModified=$content;
 
 			$adsFileIndex=0;
-			$adsFilesArr=array('banner1-post.htm','banner2-post.htm','banner3-post.htm');
 
-			//$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . 'banner1-post.htm');
+			$banners = array(0 => array("slot" => "7273236631", 
+										"comment" => "Banner-adaptive-in-post-table-1"),
+							1 => array("slot" => "7171099150",
+										"comment" => "Banner-adaptive-in-post-table-2"),
+							2 => array("slot" => "3910016153",
+										"comment" => "Banner-adaptive-in-post-table-3"));
 
-			while($adsCount < count($adsFilesArr))
+
+			while($adsCount < count($banners))
 			{
 				if ($firstInd===FALSE)
 				{
 					break;	//not found
 				}
 
-				$adContent=file_get_contents(plugin_dir_path( __FILE__ ) . $adsFilesArr[$adsFileIndex]);
+				$bannerArrItem=$banners[$adsFileIndex];
+				$adContent=KawaiiAds::GetBannerCode($bannerArrItem);
 				$adsFileIndex++;
 
 				$str_to_insert="<kawaiitr><td>".$adContent."</td></kawaiitr>";
