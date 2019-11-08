@@ -559,11 +559,18 @@ if (!class_exists("DynamicKawaiiImages"))
 				
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
 
-			//AD part
-			$content = DynamicKawaiiImages::_AdSense($content);
+			$nl="\n";
+			$content .="<script type=\"text/javascript\">".$nl;
+			$content .="function KawaiiCustomSelectorChange(selectObj)".$nl;
+			$content .="{".$nl;
+			$content .="var resID=selectObj.options[selectObj.selectedIndex].getAttribute(\"data-id\");".$nl;
+			$content .="var resURL=selectObj.options[selectObj.selectedIndex].value;".$nl;
+			$content .="gtag('event', resURL, {	'event_category': resID });".$nl;
+			$content .="location = resURL;".$nl;
+			$content .="}".$nl;
+			$content .="</script>".$nl;
 
-
-			$content .= '<select id="screenResolutionSelectorID" style="width:100%;max-width:90%;" onchange="location = this.options[this.selectedIndex].value;">';
+			$content .= '<select id="screenResolutionSelectorID" style="width:100%;max-width:90%;" onchange="KawaiiCustomSelectorChange(this)">';
     		$content .= '<option disabled selected>Select wallpaper size</option>';
 
 			//добавим основную ссылку тоже, для общности
@@ -585,35 +592,6 @@ if (!class_exists("DynamicKawaiiImages"))
 			$content.="</p>";
 			return $content;
 		}//do_content
-
-		static function _AdSense($content)
-		{
-			//NOT working because no wptouch_ 
-/*
-			global $wptouch_plugin;
-
-			$mobileMode=false;
-			if(isset ($wptouch_plugin))
-			{
-				//$mobileMode=true;
-
-				if (bnc_is_iphone() && $wptouch_plugin->desired_view == 'mobile')
-				{
-					$mobileMode=true;
-				}
-			}
-
-			if($mobileMode)
-			{
-				$content.='<!-- Banner-adaptive (for custom attach) -->';
-				$content.='<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2908292943805064"';
-				$content.=' data-ad-slot="2563835433"';
-				$content.=' data-ad-format="auto"></ins>';
-				$content.='<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
-			}
-*/
-			return $content;
-		}
 
 		function do_get_title($title)
 		{

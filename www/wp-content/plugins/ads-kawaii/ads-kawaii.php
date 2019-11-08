@@ -50,17 +50,6 @@ if (!class_exists("KawaiiAds"))
 			return $addContent;
 		}
 
-
-		function GetEventsScriptLoader()
-		{
-			$nl="\n";
-			$addContent=''.$nl;
-			$events_script=plugins_url('kawaii-events.js', __FILE__);
-			$addContent .= '<script type="text/javascript" src="'. $events_script .'" async defer></script>'.$nl;
-
-			return $addContent;
-		}
-
 		function _IsPageLevelAdsEnabledOnHome()
 		{
 			return false;
@@ -122,9 +111,9 @@ if (!class_exists("KawaiiAds"))
 		{
 			//google analytics always included
 ?>
-<script type="text/javascript">
+
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
-</script>
+
 <?php
 
 			if(KawaiiAds::_IsAdsenseDisabledForThisURL())
@@ -181,9 +170,6 @@ if (!class_exists("KawaiiAds"))
 				//add sharing script (at bottom)
 				//echo KawaiiAds::GetSocialScriptLoader();
 			}
-
-			//add Google Analytics event tracking on custom images
-			echo KawaiiAds::GetEventsScriptLoader();
 		}
 
 		function do_add_stylesheet()
