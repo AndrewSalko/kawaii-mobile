@@ -582,13 +582,6 @@ span.sticky-post {
     display: block;  /* salko crlf needed */
 }
 
-/* salko1 not helps */
-/*
-div.post-content 
-{
-	display: block;
-}
-*/
 
 
 .related-posts .post.excerpt.last { margin-right: 0 }
@@ -1635,6 +1628,7 @@ embed, iframe, object { max-width: 100% }
     padding: 10px 14px;
     margin-right: 8px;
     transition: all 0.25s ease;
+	font-size: 18px;	/* salko font increased */
 }
 .single .pagination a {
     padding: 0;
@@ -1657,12 +1651,12 @@ embed, iframe, object { max-width: 100% }
 .nav-previous { float: left }
 .nav-next { float: right }
 .nav-previous a, .nav-next a {
-    color: #979494;
+    color: #E2E2E2;
     padding: 10px 15px;
-    background: #fff;
+    background: #1B1B1B;
 }
 .nav-previous a:hover, .nav-next a:hover {
-    color: #fff !important;
+    color: #00FF00 !important;
     border-color: transparent;
 }
 .comment_text_area { overflow: hidden }

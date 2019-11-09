@@ -35,12 +35,12 @@ function publishable_lite_post_navigation() {
         } else { ?>
 			<h2 class="screen-reader-text"><?php esc_html_e( 'Posts navigation', 'publishable-mag' ); ?></h2>
 			<div class="pagination nav-links">
-				<?php if ( get_next_posts_link() ) : ?>
-					<div class="nav-previous"><?php next_posts_link( '<i class="publishable-icon icon-angle-left"></i>'.__( ' Older posts', 'publishable-mag' ) ); ?></div>
+				<?php if ( get_previous_posts_link() ) : ?>
+					<div class="nav-previous"><?php previous_posts_link( '<i class="publishable-icon icon-angle-left"></i>'.__( ' Newer posts', 'publishable-mag' ) ); ?></div>
 				<?php endif; ?>
 
-				<?php if ( get_previous_posts_link() ) : ?>
-					<div class="nav-next"><?php previous_posts_link( __( 'Newer posts ', 'publishable-mag' ).' <i class="publishable-icon icon-angle-right"></i>' ); ?></div>
+				<?php if ( get_next_posts_link() ) : ?>
+					<div class="nav-next"><?php next_posts_link( __( ' Older posts', 'publishable-mag' ).' <i class="publishable-icon icon-angle-right"></i>' ); ?></div>
 				<?php endif; ?>
 			</div>
 		<?php } ?>
