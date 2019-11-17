@@ -11,6 +11,9 @@ Disallow: /
 User-agent: SemrushBot-SA
 Disallow: / 
 
+User-agent: MegaIndex
+Disallow: /
+
 User-agent: MegaIndex.ru/2.0
 Disallow: /
 
@@ -55,6 +58,9 @@ User-agent: Pinterest
 Disallow: /
 
 User-agent: ZumBot
+Disallow: /
+
+User-agent: serpstatbot
 Disallow: /
 
 
