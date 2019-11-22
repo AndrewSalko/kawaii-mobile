@@ -16,15 +16,22 @@ namespace SalkoDev.KawaiiTwitter
 
 		const string _GIF_EXT = "gif";
 
+		const string _ENV_PREFIX = "env:";
+
+		const string _ENV_API_KEY = "env:kawaii_twitter_api_key";
+		const string _ENV_API_SECRET = "env:kawaii_twitter_api_secret";
+		const string _ENV_API_TOKEN = "env:kawaii_twitter_api_token";
+		const string _ENV_API_TOKEN_SECRET = "env:kawaii_twitter_api_token_secret";
+
 		TwitterContext _Context;
 
 		public Service()
 		{
-			string twitterAPIKey = ConfigurationManager.AppSettings["TwitterAPIKey"];
-			string twitterAPISecret = ConfigurationManager.AppSettings["TwitterAPISecret"];
+			string twitterAPIKey = _GetRealConfigValue(ConfigurationManager.AppSettings["TwitterAPIKey"]);
+			string twitterAPISecret = _GetRealConfigValue(ConfigurationManager.AppSettings["TwitterAPISecret"]);
 
-			string twitterAccessToken = ConfigurationManager.AppSettings["TwitterAccessToken"];
-			string twitterAccessTokenSecret = ConfigurationManager.AppSettings["TwitterAccessTokenSecret"];
+			string twitterAccessToken = _GetRealConfigValue(ConfigurationManager.AppSettings["TwitterAccessToken"]);
+			string twitterAccessTokenSecret = _GetRealConfigValue(ConfigurationManager.AppSettings["TwitterAccessTokenSecret"]);
 
 			IAuthorizer auth = new SingleUserAuthorizer
 			{
@@ -40,6 +47,21 @@ namespace SalkoDev.KawaiiTwitter
 			auth.AuthorizeAsync().Wait();
 
 			_Context = new TwitterContext(auth);
+		}
+
+		string _GetRealConfigValue(string valueToParse)
+		{
+			if (string.IsNullOrEmpty(valueToParse))
+				throw new ArgumentException("valueToParse IsNullOrEmpty", nameof(valueToParse));
+
+			//если строка значения начинается с текста env: то значит надо брать переменную среды
+			if (valueToParse.StartsWith(_ENV_PREFIX))
+			{
+				string envName = valueToParse.Replace(_ENV_PREFIX, string.Empty);
+				return	Environment.GetEnvironmentVariable(envName);
+			}
+
+			return valueToParse;
 		}
 
 
