@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 Plugin Name: Dynamic Kawaii Images
 Plugin URI: http://www.salkodev.com/
 Version: v1.00
@@ -7,7 +7,7 @@ Author: <a href="http://www.salkodev.com/">Andrew Salko</a>
 Description: A helper plugin for a <a href="http://kawaii-mobile.com">http://kawaii-mobile.com</a>
 */
 
-if (!class_exists("DynamicKawaiiImages")) 
+if (!class_exists("DynamicKawaiiImages"))
 {
 	include ('kawaii-resolution.php');
 	include ('encryptor-kawaii.php');
@@ -20,9 +20,9 @@ if (!class_exists("DynamicKawaiiImages"))
 	class DynamicKawaiiImages
 	{
 
-		function DynamicKawaiiImages() 
+		function DynamicKawaiiImages()
 		{ //constructor
-			
+
 		}
 
 		public static function SendBaseImageHeaders($fileName)
@@ -30,8 +30,8 @@ if (!class_exists("DynamicKawaiiImages"))
 			header("HTTP/1.0 200 OK");
 			$timeOffset = 60 * 60 * 24 * 30 * 12;//12 months
 			header("Expires: " . gmdate("D, d M Y H:i:s", time() + $timeOffset) . " GMT");
-			header("Cache-Control: public, max-age=".$timeOffset.", must-revalidate"); 
-			
+			header("Cache-Control: public, max-age=".$timeOffset.", must-revalidate");
+
 
 			$fileExt=pathinfo($fileName, PATHINFO_EXTENSION);
 			if($fileExt=='jpg' || $fileExt=='jpeg')
@@ -50,14 +50,14 @@ if (!class_exists("DynamicKawaiiImages"))
 			$fileExt=pathinfo($fileName, PATHINFO_EXTENSION);
 			if($fileExt=='jpg' || $fileExt=='jpeg')
 			{
-				return 'Content-Type: image/jpeg';				
+				return 'Content-Type: image/jpeg';
 			}
 
 			if($fileExt=='png')
 			{
-				return 'Content-Type: image/png';				
-			}	
-			return '';				
+				return 'Content-Type: image/png';
+			}
+			return '';
 		}
 
 		// Save file to cache-dir and output it to browser.
@@ -73,16 +73,16 @@ if (!class_exists("DynamicKawaiiImages"))
 			if($fileExt=='png')
 			{
 				$image->save($fileNameForSave, IMAGETYPE_PNG);
-			}	
-        	
+			}
+
 			$image->free();
 
         	//вывод в поток браузера того что сохранилось:
 			ob_end_clean();
 			readfile($fileNameForSave);
-			flush(); 			
-	        exit();			
-		}		
+			flush();
+	        exit();
+		}
 
 		// Creates fake attach file name from real post ID
 		// Returns FALSE if failed
@@ -97,10 +97,10 @@ if (!class_exists("DynamicKawaiiImages"))
 			{
 				return FALSE;
 			}
-					
+
 			$attWidth=(int)$attMeta['width'];
 			$attHeight=(int)$attMeta['height'];
-						                       					
+
 			$resParts=explode('x',$resolution);
 			if(count($resParts)!=2)
 			{
@@ -122,8 +122,8 @@ if (!class_exists("DynamicKawaiiImages"))
 				return FALSE;	//простой случай - когда изображение слишком маленькое чтобы его обрезать
 			}
 
-			//более сложный случай когда оно большое, но нельзя "резать" его в то что нас попросили			
-			if (array_key_exists($resolution, $availResolutions)==FALSE) 
+			//более сложный случай когда оно большое, но нельзя "резать" его в то что нас попросили
+			if (array_key_exists($resolution, $availResolutions)==FALSE)
 			{
 				return FALSE;
 			}
@@ -131,12 +131,12 @@ if (!class_exists("DynamicKawaiiImages"))
 			$imgURL=wp_get_attachment_url($imageID);
 
 			//full URL to attach page
-			$postPermLink=post_permalink($imageID);			
+			$postPermLink=post_permalink($imageID);
 			$fileName = basename($imgURL);
 
 			//parts of file name..we need it later
 			//Madlax.Margaret-Burton.Elenore-Baker.Madlax-HTC-Cha-Cha-wallpaper.Vanessa-Rene.320x480.jpg
-			$nameParts=explode('.', $fileName);			
+			$nameParts=explode('.', $fileName);
 			$shortFileName=$nameParts[0];
 
 			$namePartsCount=count($nameParts);
@@ -151,14 +151,14 @@ if (!class_exists("DynamicKawaiiImages"))
 						$shortFileName.= '.';
 					}
 
-					$shortFileName.=$nameParts[$q];					
-				}				
+					$shortFileName.=$nameParts[$q];
+				}
 			}
-			
+
 			$fileExt=end($nameParts);//extension (jpg)
 
 			$fileNameGood='kawaii-mobile.com.'.$shortFileName.'.'.$resolution.'.'.$fileExt;
-            			
+
 			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID;
 
 			$mainTitle="";
@@ -183,14 +183,14 @@ if (!class_exists("DynamicKawaiiImages"))
 
 
 		function do_template_redirect()
-		{	
+		{
 			global $wp_query;
 
 			$url = $_SERVER['REQUEST_URI'];
 
-						
-			if (strpos($url,'/custom-image/') == true) 
-			{	
+
+			if (strpos($url,'/custom-image/') == true)
+			{
 				//here we extract attach ID from URL, and resolution:
 				//custom-image/(attachID)/(320x240)
 				//Very important: last slash may be!
@@ -227,7 +227,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				if($imgNode===FALSE)
 				{
 					$wp_query->set_404();
-					status_header(404);	
+					status_header(404);
 					include(get_query_template('404'));
 					return;
 				}
@@ -242,7 +242,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				get_header();
 
                 $attPost=get_post($attachID);
-				
+
 				//это тайтл не аттача а основного поста
 				$mainPost=$attPost->post_parent;
 				$titleOfMainPost=get_the_title($mainPost);
@@ -251,7 +251,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<div id="page" class="single">';
 				echo '<div class="content">';
 				//здесь нужно вывести breadcrumbs (сразу на главный пост)
-				echo '<div class="breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">'; 
+				echo '<div class="breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">';
 
 					echo '<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="' . $urlOfMainPost . '">'. $titleOfMainPost .'</a></span>';
 					echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
@@ -314,7 +314,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
                 echo '</div>';    //single_post
 				echo '</div>';    //attachment
-	
+
 				echo '</article>';
 
 				get_sidebar();
@@ -322,16 +322,16 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '</div>';// div content
 				echo '</div>';// div page single
 
-				
+
 				get_footer();
 
 
 				return;
 			}//if custom-image - special fake page
-			
+
 
 			//another check method for our special URL - for images
-			if (strpos($url,'/custom/') == false) 
+			if (strpos($url,'/custom/') == false)
 			{
 				return;
 			}
@@ -344,7 +344,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$refURL = $_SERVER['HTTP_REFERER'];
 			if (!empty($refURL))
 			{
-				//проверим если это хотлинкер 
+				//проверим если это хотлинкер
 				if(strpos($refURL,'.blogspot.com')!==false || strpos($refURL,'anime-spin.net')!==false)
 				{
 					wp_redirect('http://i.imgur.com/KnWGUkI.jpg', 301);
@@ -354,7 +354,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$newsize=$_GET['newsize'];
 			$imageID=$_GET['id'];
-		
+
 			//нужно проверить поддерживается ли это разрешение (ресайз) если нет вернуть 404
 
 			//post perma link looks like:
@@ -382,14 +382,14 @@ if (!class_exists("DynamicKawaiiImages"))
 			$sizeParts=explode('x', $newsize);
 			$destWidth=(int)$sizeParts[0];
 			$destHeight=(int)$sizeParts[1];
-                        
+
 			//check parameters (for bad users)
 			$resDetector=new KawaiiResolutionDetector();
 			if($resDetector->IsResolutionAvailable($attWidth, $attHeight, $destWidth, $destHeight)==FALSE)
 			{
 				//если разрешение не поддерживается - выброс 404 и все
 				$wp_query->set_404();
-				status_header(404);	
+				status_header(404);
 				include(get_query_template('404'));
 				return;
 			}
@@ -406,10 +406,10 @@ if (!class_exists("DynamicKawaiiImages"))
 			end($urlParts);//прыгнули в конец массива
 			prev($urlParts);
 			$realPostName=prev($urlParts);//и взяли пред-последнюю часть (hagure-yuusha-no-estetica)
-            
+
 			//это будет под-папка в кеше:
 			$imageCacheDir=$imageCacheDirBase . '/' . $realPostName;
-			//check this directory, if need - create it			
+			//check this directory, if need - create it
 			if(! (is_dir($imageCacheDir) || mkdir($imageCacheDir)) )
 			{
 				return;
@@ -431,7 +431,7 @@ if (!class_exists("DynamicKawaiiImages"))
 					return;
 				}
 			}
-           
+
 			$attFileName=$attMeta['file'];
 			$fileExt=pathinfo($attFileName, PATHINFO_EXTENSION);
 
@@ -472,7 +472,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			//выдержать пропорции
 			$image->CutByWidthAndResize($destWidth, $destHeight);
 			DynamicKawaiiImages::OutputFileToBrowser($image, $fileNameForSave);
-					    
+
 		}//do_template_redirect
 
 		function do_content($content)
@@ -483,17 +483,17 @@ if (!class_exists("DynamicKawaiiImages"))
 			{
 				return $content;//do nothing
 			}
-			
+
 			$imageID=$post->ID;
 			$imgURL=wp_get_attachment_url($imageID);
-		
+
 			//full URL to attach page
-			$postPermLink=post_permalink($imageID);			
+			$postPermLink=post_permalink($imageID);
 			$fileName = basename($imgURL);
 
 			//parts of file name..we need it later
 			//Madlax.Margaret-Burton.Elenore-Baker.Madlax-HTC-Cha-Cha-wallpaper.Vanessa-Rene.320x480.jpg
-			$nameParts=explode('.', $fileName);			
+			$nameParts=explode('.', $fileName);
 			$shortFileName=$nameParts[0];
 
 			$namePartsCount=count($nameParts);
@@ -509,8 +509,8 @@ if (!class_exists("DynamicKawaiiImages"))
 						$shortFileName.= '.';
 					}
 
-					$shortFileName.=$nameParts[$q];					
-				}				
+					$shortFileName.=$nameParts[$q];
+				}
 			}//if
 
 			$attMeta=wp_get_attachment_metadata($imageID);
@@ -527,7 +527,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$resArr=$resDetector->GetAvailableResolutions($attWidth, $attHeight);
 			if(count($resArr)==0)
 			{
-				return $content;	//для данного разрешения нет вариантов более маленьких чем оно, обычное содержание на выходе	
+				return $content;	//для данного разрешения нет вариантов более маленьких чем оно, обычное содержание на выходе
 			}
 
 			$resName=sprintf("%sx%s", $attWidth, $attHeight);
@@ -555,8 +555,11 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 
 			$content.="<p>".$descriptiveContent."</p>";
+
+			$content.="<!--ATTACH_AD_REPLACEMENT-->";
+
 			$content.="<p>";
-				
+
 			$linkNameCurrent=$resDetector->GetResolutionDescription($attWidth, $attHeight);
 
 			$nl="\n";
@@ -590,14 +593,16 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$content .= '</select>';
 			$content.="</p>";
+
+
 			return $content;
 		}//do_content
 
 		function do_get_title($title)
 		{
-			$url = $_SERVER['REQUEST_URI'];					
-			if (strpos($url,'/custom-image/') == true) 
-			{					
+			$url = $_SERVER['REQUEST_URI'];
+			if (strpos($url,'/custom-image/') == true)
+			{
 				$kawCont=new KawaiiContent();
 				$attTitle="";
 				$attMetaDescr="";
@@ -653,7 +658,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$descr=str_replace("</p>", "", $descr);
 			$descr=str_replace("</br>", "", $descr);
 			$descr=str_replace("<br />", "", $descr);
-			
+
 
 			return $descr;
 		}
@@ -661,8 +666,8 @@ if (!class_exists("DynamicKawaiiImages"))
 		static function EndsWith($haystack, $needle)
 		{
 			$length = strlen($needle);
-		
-			return $length === 0 || 
+
+			return $length === 0 ||
 			(substr($haystack, -$length) === $needle);
 		}
 
@@ -686,9 +691,9 @@ if (!class_exists("DynamicKawaiiImages"))
 			//мета-описание будет применено на обычной странице аттача и на кастом-изображении
 			$metaDescription=$tc_title;
 			$needAddMetaDescr=false;
-			
+
 			$url = $_SERVER['REQUEST_URI'];
-			if (strpos($url,'/custom-image/') == true) 
+			if (strpos($url,'/custom-image/') == true)
 			{
 				if(is_404())
 				{
@@ -771,7 +776,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<meta name="twitter:card" content="summary_large_image" />'."\n";
 				echo '<meta name="twitter:site" content="@KawaiiMobile" />'."\n";
 				echo '<meta name="twitter:creator" content="@KawaiiMobile" />'."\n";
-                				
+
 
 				if($tc_description=='')
 				{
@@ -821,29 +826,29 @@ if (!class_exists("DynamicKawaiiImages"))
 
 		function do_exclude_widget_categories($args)
 		{
-			//1672	//2019 
-			//1673	//2018 
-			//1674	//2017 
-			//1675	//2016 
-			//1676	//2015 
-			//1677	//2014 
-			//1678	//2013 
-			//1679	//2012 
-			//1680	//2011 
-			//1681	//2010 
-			//1682	//2009 
-			//1683	//2008 
-			//1684	//2007 
+			//1672	//2019
+			//1673	//2018
+			//1674	//2017
+			//1675	//2016
+			//1676	//2015
+			//1677	//2014
+			//1678	//2013
+			//1679	//2012
+			//1680	//2011
+			//1681	//2010
+			//1682	//2009
+			//1683	//2008
+			//1684	//2007
 			//1685	//2006
 			//1686	//2005
 			//1687	//2004
 			//1688	//2003
 			//1689	//2002
-			//1690	//2001 
-			//1691	//2000 
+			//1690	//2001
+			//1691	//2000
 			//1692	//anime1995
 			//1693	//1998
-			//1694	//1999 
+			//1694	//1999
 
 		    $exclude = "1672,1673,1674,1675,1676,1677,1678,1679,1680,1681,1682,1683,1684,1685,1686,1687,1688,1689,1690,1691,1692,1693,1694";
 		    $args["exclude"] = $exclude;
@@ -863,15 +868,15 @@ if (!class_exists("DynamicKawaiiImages"))
 
 	}//class
 
-	if (class_exists("DynamicKawaiiImages")) 
+	if (class_exists("DynamicKawaiiImages"))
 	{
 		$pluginDynamicKawaiiImages = new DynamicKawaiiImages();
 	}
 
 } //End Class DynamicKawaiiImages
 
-//Actions and Filters	
-if (isset($pluginDynamicKawaiiImages)) 
+//Actions and Filters
+if (isset($pluginDynamicKawaiiImages))
 {
 	//Actions   template_redirect  wp
 

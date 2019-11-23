@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 Plugin Name: Kawaii Ads
 Plugin URI: https://kawaii-mobile.com/
 Version: v1.00
@@ -9,25 +9,26 @@ Description: A helper Advert plugin for a <a href="https://kawaii-mobile.com">ht
 
 require_once(plugin_dir_path( __FILE__ ) . 'kawaii-sitemap.php');
 
-if (!class_exists("KawaiiAds")) 
+if (!class_exists("KawaiiAds"))
 {
 	class KawaiiAds
 	{
 		const	TR_CLOSE_NODE="</tr>";
 		const	TR_STUB_NODE="kawaiitr";
 		const	TR_REAL_NODE="tr";
+		const   ATTACH_AD_REPLACEMENT="<!--ATTACH_AD_REPLACEMENT-->";
 
 		public static function GetSharingHtml()
 		{
-			$addContent='';	
+			$addContent='';
 			$nl="\n";
 
 			$addContent .='<div id="fb-root"></div>';
             $addContent .='<div class="sharing-bar">';
             $addContent .='<div><g:plusone width="60" size="tall"></g:plusone></div>';
 			$addContent .='<div class="fb-like" data-layout="box_count" data-action="like" data-show-faces="false" data-share="true"></div>';
-			
-			
+
+
 			$addContent .='<script type="text/javascript">' .$nl;
 			$addContent .='var write_string="<iframe height=\"69\" width=\"51\" scrolling=\'no\' frameborder=\'0\' src=\"//www.redditstatic.com/button/button2.html?url="+encodeURIComponent(window.location.href)+"\"></iframe>";' .$nl;
 			$addContent .='document.write(write_string);' .$nl;
@@ -74,31 +75,40 @@ if (!class_exists("KawaiiAds"))
 		function _EndsWith($text, $subString)
 		{
 			$length = strlen($subString);
-			if ($length == 0) 
+			if ($length == 0)
 			{
 				return true;
 			}
-		
+
 			return (substr($text, -$length) === $subString);
 		}
 
 		//Вернет true - скрипт ADSense не включается вообще (блокировка отдельных страниц и постов)
 		function _IsAdsenseDisabledForThisURL()
 		{
+			global $post;
 			$url = $_SERVER['REQUEST_URI'];
-		
-			if(is_category() || is_tag())
+
+			if(is_category() || is_tag() || is_search())
 			{
 				return true;	//общая блокировка рекламы - архив по категориям (например: kawaii-mobile.com/category/android/) и тегам
 			}
 
+			//"_DisableADSense" is post meta. Since v.v3.5 we can call directly from $post var
+			$disableAds=$post->_DisableADSense;
+			if($disableAds == 'on')
+			{
+				return true;
+			}
+
+
 			$arrDisabled=array('/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/',
 								'/highschool-of-the-dead-android-and-iphone/highschool-of-the-dead-1080x1920/',
 								'/sora-no-otoshimono-iphone-4/');
-			
+
 			foreach($arrDisabled as $urlPart)
 			{
-				if (KawaiiAds::_EndsWith($url, $urlPart) == true) 
+				if (KawaiiAds::_EndsWith($url, $urlPart) == true)
 				{
 					return true;
 				}
@@ -158,7 +168,7 @@ if (!class_exists("KawaiiAds"))
 
 
 		function do_wp_footer()
-		{	
+		{
 			//if it's main page, load script because do_content not used in such case
 			if(is_home())
 			{
@@ -173,7 +183,7 @@ if (!class_exists("KawaiiAds"))
 		}
 
 		function do_add_stylesheet()
-		{		  
+		{
 			wp_register_style( 'kawaiiads1', plugins_url('kawaiiads1.css', __FILE__) );
 			wp_enqueue_style( 'kawaiiads1' );
 		}
@@ -192,7 +202,7 @@ if (!class_exists("KawaiiAds"))
 
 		function do_content($content)
 		{
-			if(is_attachment() || is_feed() || is_home() || !is_single())
+			if(is_feed() || is_home() || !is_single())
 			{
 				return $content;//do nothing
 			}
@@ -209,6 +219,25 @@ if (!class_exists("KawaiiAds"))
 				return $content;
 			}
 
+			if(is_attachment())
+			{
+				//аттач-страница - показ баннера
+				//"<!--ATTACH_AD_REPLACEMENT-->" ATTACH_AD_REPLACEMENT
+				$firstIndAttRepl=stripos($content, KawaiiAds::ATTACH_AD_REPLACEMENT, 0);
+				if ($firstIndAttRepl===FALSE)
+				{
+					return $content;
+				}
+
+				$bannerProps=array("slot" => "7317963459",	"comment" => "Banner-attach-1");
+				$adContentForAttachPage=KawaiiAds::GetBannerCode($bannerProps);
+
+				$contentModified = substr_replace($content, $adContentForAttachPage, $firstIndAttRepl, 0);
+
+				return $contentModified;
+			}
+
+			//Ниже случай поста
 			//check if we have 'table' in content? we need find first </tr>
 
 			$startInd=0;
@@ -225,7 +254,7 @@ if (!class_exists("KawaiiAds"))
 
 			$adsFileIndex=0;
 
-			$banners = array(0 => array("slot" => "7273236631", 
+			$banners = array(0 => array("slot" => "7273236631",
 										"comment" => "Banner-adaptive-in-post-table-1"),
 							1 => array("slot" => "7171099150",
 										"comment" => "Banner-adaptive-in-post-table-2"),
@@ -249,7 +278,7 @@ if (!class_exists("KawaiiAds"))
 				$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
 				$startInd=$firstInd + 5; //len tr
 				$adsCount++;
-				
+
 				$firstInd=stripos($contentModified, KawaiiAds::TR_CLOSE_NODE, $startInd);
 			}
 
@@ -265,15 +294,15 @@ if (!class_exists("KawaiiAds"))
 
 		function do_image_sitemap()
 		{
-    		if(function_exists('add_submenu_page')) 
+    		if(function_exists('add_submenu_page'))
 			{
 				add_submenu_page('tools.php', 'Image Sitemap Kawaii', 'Image Sitemap Kawaii', 'manage_options', 'image-sitemap-kawaii-uniq-id', array('KawaiiAds', 'do_image_sitemap_generate'));
 			}
 		}
 
-		function do_image_sitemap_generate() 
+		function do_image_sitemap_generate()
 		{
-			if ($_POST ['submit']) 
+			if ($_POST ['submit'])
 			{
 				$result=KawaiiAds::Generate();
 
@@ -329,7 +358,7 @@ if (!class_exists("KawaiiAds"))
 		//const KAWAII_SHORTCODE_FOOTER3="[kawaii-shortcode-footer3]";
 		//const FOOTER3_AD_HTML="<a href='https://analyther.com'><img src='/wp-content/uploads/analyther-smart-contract-analytics.png' alt='Ethereum smart contract analytics and insights' style='width:300px;height: 200px;' /></a>";
 
-		function do_widget_text($content) 
+		function do_widget_text($content)
 		{
 			$ad2=KawaiiAds::FOOTER2_AD_HTML;
 			//$ad3=KawaiiAds::FOOTER3_AD_HTML;
@@ -338,7 +367,7 @@ if (!class_exists("KawaiiAds"))
 			{
 				$ad2="";
 				//$ad3="";
-			}		
+			}
 
 			$startInd=0;
 			$firstInd=stripos($content, KawaiiAds::KAWAII_SHORTCODE_FOOTER2, $startInd);
@@ -363,23 +392,23 @@ if (!class_exists("KawaiiAds"))
 
 	}//class
 
-	if (class_exists("KawaiiAds")) 
+	if (class_exists("KawaiiAds"))
 	{
 		$pluginKawaiiAds = new KawaiiAds();
 	}
 
 }//End Class KawaiiAds
 
-//Actions and Filters	
-if (isset($pluginKawaiiAds)) 
-{    			
-	add_filter('wp_footer', array('KawaiiAds', 'do_wp_footer'),1);
+//Actions and Filters
+if (isset($pluginKawaiiAds))
+{
+	add_filter('wp_footer', array('KawaiiAds', 'do_wp_footer'),100);
 
-	add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 1);
+	add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 100);
 
-	add_filter('the_content', array('KawaiiAds', 'do_content'),1);
+	add_filter('the_content', array('KawaiiAds', 'do_content'),100);
 
-	add_action('admin_menu', array('KawaiiAds', 'do_image_sitemap'),1);
+	add_action('admin_menu', array('KawaiiAds', 'do_image_sitemap'),100);
 
 	add_action('wp_head', array('KawaiiAds', 'do_wp_head'), 9999);
 
