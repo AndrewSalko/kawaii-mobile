@@ -64,6 +64,11 @@ User-agent: serpstatbot
 Disallow: /
 
 
+User-agent: seoscanners.net
+Disallow: /
+
+
+
 User-agent: *
 Disallow: /wp-admin/
 Disallow: */trackback/
