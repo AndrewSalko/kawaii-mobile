@@ -1187,6 +1187,24 @@ color:#807e7e;
 .footer-widget.last { margin-right: 0 }
 .footer-widget .widget { padding-top: 10px }
 footer .wpt_widget_content a, footer .wp_review_tab_widget_content a { color: #444 }
+
+ul > li.cat-item
+{
+    display: inline-block;
+	margin-right: 20px;
+	padding-right: 5px;
+	
+	/*background-color: #FEFEFE;*/
+
+    /* You can also add some margins here to make it look prettier */
+    zoom:1;
+
+    *display:inline;
+
+    /* this fix is needed for IE7- */
+}
+
+
 /*-[ Related Posts ]---------------------------*/
 .related-posts {
     background-color: #FFF;
