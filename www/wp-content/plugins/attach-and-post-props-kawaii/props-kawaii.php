@@ -94,12 +94,62 @@ class KawaiiAttachAndPostProperties
     		return $post;
 		}
 
+		function AddPostMetaBoxes()
+		{
+			// see https://developer.wordpress.org/reference/functions/add_meta_box for a full explanation of each property
+			add_meta_box(
+				"post_metadata_kawaii", // div id containing rendered fields
+				"Kawaii Mobile additional properties", // section heading displayed as text
+				array($this,"post_meta_box_callback"), // callback function to render fields
+				"post" // name of post type on which to render fields (see: https://wp-kama.ru/function/add_meta_box)
+			);
+		}
+
+		function SavePostMetaBoxes()
+		{
+			global $post;
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			{
+				return;
+			}
+
+			if ( get_post_status( $post->ID ) === 'auto-draft' )
+			{
+				return;
+			}
+
+
+			if (isset($_POST['_DisableADSense'])) 	//isset returns true when checkbox checked
+			{
+		        update_post_meta($post->ID, '_DisableADSense', 'on');	//we save value 'on'
+    		}
+			else
+			{
+        		delete_post_meta($post->ID, '_DisableADSense');
+		    }
+		}
+
+		function post_meta_box_callback($post, $meta)
+		{
+			$disableAds=$post->_DisableADSense;	//'on' - is true
+
+			?>
+
+	        <label><input type="checkbox" value="1" <?php checked($disableAds, 'on', true); ?> name="_DisableADSense" />Disable ADSense</label>
+
+			<?php
+		}
+
 		function __construct( $fields )
 		{
 		    $this->media_fields = $fields;
 
 		    add_filter( 'attachment_fields_to_edit', array( $this, 'ApplyAttachFieldsToEdit' ), 11, 2 );
-		    add_filter( 'attachment_fields_to_save', array( $this, 'AttachSaveFields' ), 11, 2 );
+			add_filter( 'attachment_fields_to_save', array( $this, 'AttachSaveFields' ), 11, 2 );
+
+			//https://www.mugo.ca/Blog/Adding-complex-fields-to-WordPress-custom-post-types
+			add_action( 'admin_init', array( $this, 'AddPostMetaBoxes'), 12, 3 );
+			add_action( 'save_post', array( $this, 'SavePostMetaBoxes'), 12, 3 );
 		}
 
 
