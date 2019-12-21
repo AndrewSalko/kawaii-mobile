@@ -201,6 +201,27 @@ if (!class_exists("KawaiiAds"))
 			return $bannerHtmlCode;
 		}
 
+		// Вычисляет сколько всего потенциальных мест для баннеров есть на посте (по таблице tr)
+		// и вернет массив индексов (найденных элементов </tr>)
+		function GetBannersPlacesCount($content)
+		{
+			$maxAdsCount=0;
+
+			$startInd=0;
+			$firstInd=stripos($content, KawaiiAds::TR_CLOSE_NODE, $startInd);
+
+			while($firstInd!==FALSE)
+			{
+				$maxAdsCount++;
+
+				$startInd=$firstInd + 5; //len tr
+
+				$firstInd=stripos($content, KawaiiAds::TR_CLOSE_NODE, $startInd);
+			}
+
+			return $maxAdsCount;
+		}
+
 		function do_content($content)
 		{
 			if(is_feed() || is_home() || !is_single())
@@ -249,8 +270,6 @@ if (!class_exists("KawaiiAds"))
 				return $content;
 			}
 
-			$adsCount=0;
-
 			$contentModified=$content;
 
 			$adsFileIndex=0;
@@ -262,6 +281,30 @@ if (!class_exists("KawaiiAds"))
 							2 => array("slot" => "3910016153",
 										"comment" => "Banner-adaptive-in-post-table-3"));
 
+			//вначале делаем анализ, чтобы узнать сколько вообще у нас потенциальных место для баннеров,
+			//чтобы разместить их как можно ниже - баннеры вверху кликают намного хуже, чем те что ближе к хвосту поста
+
+			$maxAdsCount=KawaiiAds::GetBannersPlacesCount($content);
+			if($maxAdsCount==0)
+			{
+				return $content;
+			}
+
+			$adsLimit=2;	//лимитируем 2 баннера на пост
+
+			//вычислить с какого индекса нам нужно начинать добавлять баннеры
+			$applyAdsIndex=0;
+			if($maxAdsCount<$adsLimit)
+			{
+				$applyAdsIndex=$maxAdsCount-1;	//одно место для баннера точно должно быть, снизу
+			}
+			else
+			{
+				$applyAdsIndex=$maxAdsCount-$adsLimit;	//снизу отсчитали индекс старт-баннера
+			}
+
+			$adsCount=0;	//сколько уже применили баннеров
+			$currentAdsPlaceIndex=0;	//индекс места где мог бы быть баннер (первые места пропускаем, а ближе к низу добавляем)
 
 			while($adsCount < count($banners))
 			{
@@ -270,15 +313,21 @@ if (!class_exists("KawaiiAds"))
 					break;	//not found
 				}
 
-				$bannerArrItem=$banners[$adsFileIndex];
-				$adContent=KawaiiAds::GetBannerCode($bannerArrItem);
-				$adsFileIndex++;
+				if($currentAdsPlaceIndex>=$applyAdsIndex)
+				{
+					//ставим баннер
+					$bannerArrItem=$banners[$adsFileIndex];
+					$adContent=KawaiiAds::GetBannerCode($bannerArrItem);
+					$adsFileIndex++;
 
-				$str_to_insert="<kawaiitr><td>".$adContent."</td></kawaiitr>";
+					$str_to_insert="<kawaiitr><td>".$adContent."</td></kawaiitr>";
+					$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
 
-				$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
+					$adsCount++;
+				}
+
+				$currentAdsPlaceIndex++;
 				$startInd=$firstInd + 5; //len tr
-				$adsCount++;
 
 				$firstInd=stripos($contentModified, KawaiiAds::TR_CLOSE_NODE, $startInd);
 			}
