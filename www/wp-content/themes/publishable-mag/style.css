@@ -1204,6 +1204,10 @@ ul > li.cat-item
     /* this fix is needed for IE7- */
 }
 
+ins.adsbygoogle 
+{ 
+	background: transparent !important; 
+}
 
 /*-[ Related Posts ]---------------------------*/
 .related-posts {

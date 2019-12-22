@@ -189,13 +189,30 @@ if (!class_exists("KawaiiAds"))
 			wp_enqueue_style( 'kawaiiads1' );
 		}
 
+		// Генерация кода баннера
+		//
 		function GetBannerCode($bannerInfoArr)
 		{
 			$slot=$bannerInfoArr["slot"];
 			$comment=$bannerInfoArr["comment"];
+			$inArticle=false;
+
+			if(array_key_exists("inArticle", $bannerInfoArr))
+			{
+				$inArticle = $bannerInfoArr["inArticle"];
+			}
 
 			$bannerHtmlCode="<!-- ".$comment." -->";
-			$bannerHtmlCode.= "<ins class=\"adsbygoogle\" style=\"display:block\" data-ad-client=\"ca-pub-2908292943805064\" data-ad-slot=\"".$slot."\" data-ad-format=\"auto\" data-full-width-responsive=\"false\"></ins>";
+
+			if($inArticle===true)
+			{
+				$bannerHtmlCode.= "<ins class=\"adsbygoogle\" style=\"display:block; text-align:center;\" data-ad-layout=\"in-article\" data-ad-format=\"fluid\" data-ad-client=\"ca-pub-2908292943805064\" data-ad-slot=\"".$slot."\"></ins>";
+			}
+			else
+			{
+				$bannerHtmlCode.= "<ins class=\"adsbygoogle\" style=\"display:block\" data-ad-client=\"ca-pub-2908292943805064\" data-ad-slot=\"".$slot."\" data-ad-format=\"auto\" data-full-width-responsive=\"false\"></ins>";
+			}
+
 			$bannerHtmlCode.= "<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>";
 
 			return $bannerHtmlCode;
@@ -274,11 +291,19 @@ if (!class_exists("KawaiiAds"))
 
 			$adsFileIndex=0;
 
-			$banners = array(0 => array("slot" => "7273236631",
+			$banners = array(
+							0 => array("slot" => "1339871718",
+										"comment" => "Banner InArticle1",
+										"inArticle"=> true),
+							1 => array("slot" => "9932677605",
+										"comment" => "Banner InArticle2",
+										"inArticle"=> true),
+
+							2 => array("slot" => "7273236631",
 										"comment" => "Banner-adaptive-in-post-table-1"),
-							1 => array("slot" => "7171099150",
+							3 => array("slot" => "7171099150",
 										"comment" => "Banner-adaptive-in-post-table-2"),
-							2 => array("slot" => "3910016153",
+							4 => array("slot" => "3910016153",
 										"comment" => "Banner-adaptive-in-post-table-3"));
 
 			//вначале делаем анализ, чтобы узнать сколько вообще у нас потенциальных место для баннеров,
