@@ -312,6 +312,13 @@ if (!class_exists("DynamicKawaiiImages"))
 
 				echo $imgNode;
 
+				//вывод нового баннера 22.12.2019 для кастом-аттача
+				$disableAdsForAttach=$attPost->_DisableADSense;
+				if($disableAdsForAttach !== 'on')
+				{
+					include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
+				}
+
                 echo '</div>';    //single_post
 				echo '</div>';    //attachment
 

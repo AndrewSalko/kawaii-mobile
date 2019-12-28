@@ -101,20 +101,6 @@ if (!class_exists("KawaiiAds"))
 				return true;
 			}
 
-			/*
-			$arrDisabled=array('/onii-chan-dakedo-ai-sae-areba-kankei-nai-yo-ne/',
-								'/highschool-of-the-dead-android-and-iphone/highschool-of-the-dead-1080x1920/',
-								'/sora-no-otoshimono-iphone-4/');
-
-			foreach($arrDisabled as $urlPart)
-			{
-				if (KawaiiAds::_EndsWith($url, $urlPart) == true)
-				{
-					return true;
-				}
-			}
-			*/
-
 			return false;
 		}
 
