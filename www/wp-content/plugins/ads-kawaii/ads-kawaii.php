@@ -278,18 +278,18 @@ if (!class_exists("KawaiiAds"))
 			$adsFileIndex=0;
 
 			$banners = array(
-							0 => array("slot" => "1339871718",
+							3 => array("slot" => "1339871718",
 										"comment" => "Banner InArticle1",
 										"inArticle"=> true),
-							1 => array("slot" => "9932677605",
+							4 => array("slot" => "9932677605",
 										"comment" => "Banner InArticle2",
 										"inArticle"=> true),
 
-							2 => array("slot" => "7273236631",
+							0 => array("slot" => "7273236631",
 										"comment" => "Banner-adaptive-in-post-table-1"),
-							3 => array("slot" => "7171099150",
+							1 => array("slot" => "7171099150",
 										"comment" => "Banner-adaptive-in-post-table-2"),
-							4 => array("slot" => "3910016153",
+							2 => array("slot" => "3910016153",
 										"comment" => "Banner-adaptive-in-post-table-3"));
 
 			//вначале делаем анализ, чтобы узнать сколько вообще у нас потенциальных место для баннеров,
