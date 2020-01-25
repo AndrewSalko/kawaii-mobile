@@ -113,7 +113,7 @@ function publishable_lite_widgets_init() {
 		'after_title' => '</h3>',
 		));
 
-    // First Footer 
+    // First Footer
 	register_sidebar( array(
 		'name'          => __( 'Footer 1', 'publishable-mag' ),
 		'description'   => __( 'First footer column', 'publishable-mag' ),
@@ -124,7 +124,7 @@ function publishable_lite_widgets_init() {
 		'after_title' => '</h3>',
 		) );
 
-	// Second Footer 
+	// Second Footer
 	register_sidebar( array(
 		'name'          => __( 'Footer 2', 'publishable-mag' ),
 		'description'   => __( 'Second footer column', 'publishable-mag' ),
@@ -135,7 +135,7 @@ function publishable_lite_widgets_init() {
 		'after_title' => '</h3>',
 		) );
 
-	// Third Footer 
+	// Third Footer
 	register_sidebar( array(
 		'name'          => __( 'Footer 3', 'publishable-mag' ),
 		'description'   => __( 'Third footer column', 'publishable-mag' ),
@@ -267,7 +267,7 @@ include_once( "functions/widget-social.php" );
  * Copyrights
  */
 if ( ! function_exists( 'publishable_lite_copyrights_credit' ) ) {
-	function publishable_lite_copyrights_credit() { 
+	function publishable_lite_copyrights_credit() {
 		global $mts_options
 		?>
 		<!--start copyrights-->
@@ -275,9 +275,9 @@ if ( ! function_exists( 'publishable_lite_copyrights_credit' ) ) {
 			<div class="container">
 				<div class="row" id="copyright-note">
 					<span>
-						<?php echo '&copy; '. esc_html(date_i18n(__('Y','publishable-mag'))); ?> <?php bloginfo( 'name' ); ?>	
+						<?php echo '&copy; '. esc_html(date_i18n(__('Y','publishable-mag'))); ?> <?php bloginfo( 'name' ); ?>
 						<?php /* <span class="footer-info-right"> */ ?>
-						<?php /* echo esc_html_e(' | WordPress Theme by', 'publishable-mag') */ ?> 
+						<?php /* echo esc_html_e(' | WordPress Theme by', 'publishable-mag') */ ?>
                         <?php /* salko
 						<a href="<xphp echo esc_url('https://superbthemes.com/', 'publishable-mag'); x>"><xphp echo esc_html_e(' Superb Themes', 'publishable-mag') x></a>
 						*/ ?>
@@ -328,15 +328,15 @@ if ( ! function_exists( 'publishable_lite_comments' ) ) {
 /*
  * Excerpt
  */
-function publishable_lite_excerpt($limit) 
+function publishable_lite_excerpt($limit)
 {
 	$excerpt = explode(' ', get_the_excerpt(), $limit);
-	if (count($excerpt)>=$limit) 
+	if (count($excerpt)>=$limit)
 	{
 		array_pop($excerpt);
 		$excerpt = implode(" ",$excerpt);
-	} 
-	else 
+	}
+	else
 	{
 		$excerpt = implode(" ",$excerpt);
 	}
@@ -364,26 +364,31 @@ if ( ! function_exists( 'publishable_lite_readmore' ) ) {
     			<?php esc_html_e( 'Read More', 'publishable-mag' ); ?>
     		</a>
     	</div>
-    	<?php 
+    	<?php
     }
 }
 
 /**
  * Breadcrumbs
  */
-if (!function_exists('publishable_lite_the_breadcrumb')) 
+if (!function_exists('publishable_lite_the_breadcrumb'))
 {
-	function publishable_lite_the_breadcrumb() 
+	function publishable_lite_the_breadcrumb()
 	{
-		if (is_front_page()) 
+		if (is_front_page())
 		{
 			return;
 		}
 
-		echo '<span typeof="v:Breadcrumb" class="root"><a rel="v:url" property="v:title" href="';
+		echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="root">';
+		echo '<a itemprop="item" href="';
 		echo esc_url( home_url() );
-		echo '">'.esc_html(sprintf( __( "Home", 'publishable-mag' )));
-		echo '</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+		echo '"><span itemprop="name">'.esc_html(sprintf( __( "Home", 'publishable-mag' ))).'</span> ';
+		echo '</a>';
+		echo '<meta itemprop="position" content="1" />';
+		echo '</span>';
+		echo '<span><i class="publishable-icon icon-angle-double-right"></i>';
+		echo '</span>';
 
 		if (is_attachment())
 		{
@@ -392,41 +397,47 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			$parent_id  = $attPage->post_parent;
 			if($parent_id)
 			{
-				$breadToParentPost='<span typeof="v:Breadcrumb"><a href="'.esc_url( get_permalink( $parent_id ) ).'" rel="v:url" property="v:title">'.esc_html( get_the_title($parent_id)). '</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				$breadToParentPost='<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="'.esc_url( get_permalink( $parent_id ) ).'">';
+				$breadToParentPost .='<span itemprop="name">'.esc_html( get_the_title($parent_id)).'</span>';
+				$breadToParentPost .='</a><meta itemprop="position" content="2" /></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
 				echo $breadToParentPost;
 			}
 			echo "<span><span>";
 			the_title();
 			echo "</span></span>";
 		}
-		elseif (is_single()) 
+		elseif (is_single()) //проверяет отображается ли страница записи любого типа записей кроме attachment и page
 		{
-			$categories = get_the_category();
-			if ( $categories ) 
+			$categories = get_the_category();	//получает массив данных о категориях относящихся к указанному посту
+			if ( $categories )
 			{
 				$level = 0;
 				$hierarchy_arr = array();
-				foreach ( $categories as $cat ) 
+				foreach ( $categories as $cat )
 				{
 					$anc = get_ancestors( $cat->term_id, 'category' );
 					$count_anc = count( $anc );
-					if (  0 < $count_anc && $level < $count_anc ) 
+					if (  0 < $count_anc && $level < $count_anc )
 					{
 						$level = $count_anc;
 						$hierarchy_arr = array_reverse( $anc );
 						array_push( $hierarchy_arr, $cat->term_id );
 					}
 				}
-				if ( empty( $hierarchy_arr ) ) 
+				if ( empty( $hierarchy_arr ) )
 				{
 					$category = $categories[0];
-					echo '<span typeof="v:Breadcrumb"><a href="'. esc_url( get_category_link( $category->term_id ) ).'" rel="v:url" property="v:title">'.esc_html( $category->name ).'</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
-				} 
-				else 
+					echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="2" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				}
+				else
 				{
-					foreach ( $hierarchy_arr as $cat_id ) {
+					$catIndex=2; //для бредкрамс
+					foreach ( $hierarchy_arr as $cat_id )
+					{
+						$catIndexStr=strval($catIndex);
 						$category = get_term_by( 'id', $cat_id, 'category' );
-						echo '<span typeof="v:Breadcrumb"><a href="'. esc_url( get_category_link( $category->term_id ) ).'" rel="v:url" property="v:title">'.esc_html( $category->name ).'</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+						echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="'.$catIndexStr.'" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+						$catIndex++;
 					}
 				}
 			}
@@ -434,15 +445,15 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			the_title();
 			echo "</span></span>";
 		}
-		elseif (is_page()) 
+		elseif (is_page())
 		{
 			$parent_id  = wp_get_post_parent_id( get_the_ID() );
-			if ( $parent_id ) 
+			if ( $parent_id )
 			{
 				$breadcrumbs = array();
 				while ( $parent_id ) {
 					$page = get_page( $parent_id );
-					$breadcrumbs[] = '<span typeof="v:Breadcrumb"><a href="'.esc_url( get_permalink( $page->ID ) ).'" rel="v:url" property="v:title">'.esc_html( get_the_title($page->ID) ). '</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+					$breadcrumbs[] = '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="2" /><a itemprop="item" href="'.esc_url( get_permalink( $page->ID ) ).'"><span itemprop="name">'.esc_html( get_the_title($page->ID) ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
 					$parent_id  = $page->post_parent;
 				}
 				$breadcrumbs = array_reverse( $breadcrumbs );
@@ -451,25 +462,31 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			echo "<span><span>";
 			the_title();
 			echo "</span></span>";
-		} 
-		elseif (is_category()) 
+		}
+		elseif (is_category())
 		{
 			global $wp_query;
 			$cat_obj = $wp_query->get_queried_object();
 			$this_cat_id = $cat_obj->term_id;
 			$hierarchy_arr = get_ancestors( $this_cat_id, 'category' );
-			if ( $hierarchy_arr ) {
+			if ( $hierarchy_arr )
+			{
+				$catIndex=2; //для бредкрамс
+
 				$hierarchy_arr = array_reverse( $hierarchy_arr );
-				foreach ( $hierarchy_arr as $cat_id ) {
+				foreach ( $hierarchy_arr as $cat_id )
+				{
+					$catIndexStr=strval($catIndex);
 					$category = get_term_by( 'id', $cat_id, 'category' );
-					echo '<span typeof="v:Breadcrumb"><a href="'.esc_url( get_category_link( $category->term_id ) ).'" rel="v:url" property="v:title">'.esc_html( $category->name ).'</a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+					echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="'.$catIndexStr.'" /><a itemprop="item" href="'.esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+					$catIndex++;
 				}
 			}
 			echo "<span><span>";
 			single_cat_title();
 			echo "</span></span>";
-		} 
-		elseif (is_author()) 
+		}
+		elseif (is_author())
 		{
 			echo "<span><span>";
 			if(get_query_var('author_name')) :
@@ -479,12 +496,12 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			endif;
 			echo esc_html( $curauth->nickname );
 			echo "</span></span>";
-		} elseif (is_search()) 
+		} elseif (is_search())
 		{
 			echo "<span><span>";
 			the_search_query();
 			echo "</span></span>";
-		} elseif (is_tag()) 
+		} elseif (is_tag())
 		{
 			echo "<span><span>";
 			single_tag_title();
@@ -526,7 +543,7 @@ function publishable_lite_fonts_url() {
 
 // salko
 // Change the excerpt length
-function kawaii_excerpt_length( $length ) 
+function kawaii_excerpt_length( $length )
 {
   return 15;
 }
@@ -534,16 +551,16 @@ function kawaii_excerpt_length( $length )
 
 
 // salko - detect real post excerpt
-function kawaii_wp_trim_excerpt( $text ) 
+function kawaii_wp_trim_excerpt( $text )
 {
-	if( is_admin() ) 
+	if( is_admin() )
 	{
 		return $text;
 	}
 
 	// Fetch the content with filters applied to get <p> tags
 	$content = apply_filters( 'the_content', get_the_content() );
-	
+
 	// Stop after the first </p> tag
 	$text = substr( $content, 0, strpos( $content, '</p>' ) + 4 );
 	return $text;
@@ -607,7 +624,7 @@ if ( publishable_lite_is_wc_active() ) {
     		);
         woocommerce_related_products($args); // Display 3 products in rows of 1
     }
-    
+
     global $pagenow;
     if ( is_admin() && isset( $_GET['activated'] ) && $pagenow == 'themes.php' ) {
         /**
@@ -704,10 +721,10 @@ if ( publishable_lite_is_wc_active() ) {
 if ( ! function_exists( 'publishable_lite_archive_post' ) ) {
     /**
      * Display a post of specific layout.
-     * 
+     *
      * @param string $layout
      */
-    function publishable_lite_archive_post( $layout = '' ) { 
+    function publishable_lite_archive_post( $layout = '' ) {
     	$publishable_lite_full_posts = get_theme_mod('publishable_lite_full_posts', '0'); ?>
     	<article class="post excerpt">
     		<?php
@@ -717,14 +734,14 @@ if ( ! function_exists( 'publishable_lite_archive_post' ) ) {
 
 
     		<?php if ( is_single() ) : ?>
-				
+
     			<div class="post-date-publishable">
 					<?php /* the_time( get_option( 'date_format' ) );*/ ?>
 					<?php echo get_the_date(); ?>
 				</div>
     		<?php endif; ?>
 
-    		<header>                        
+    		<header>
     			<h2 class="title">
     				<a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
     			</h2>
@@ -745,13 +762,13 @@ if ( ! function_exists( 'publishable_lite_archive_post' ) ) {
     					<?php if (function_exists('wp_review_show_total')) wp_review_show_total(true, 'latestPost-review-wrapper'); ?>
     				</div>
     			</a>
-    			<?php } 
+    			<?php }
 				else  { ?>
     			<?php } ?>
 
 
     			<div class="post-content">
-    				<?php echo publishable_lite_excerpt(46); /* 56 */ ?> 
+    				<?php echo publishable_lite_excerpt(46); /* 56 */ ?>
     			</div>
     			<!-- <xphp publishable_lite_readmore(); x> -->
 
@@ -962,7 +979,7 @@ function publishable_mag_info_page() {
 					<td><?php echo esc_html_e("Hide/Show Author Box", "publishable-mag"); ?></td>
 					<td><span class="cross"><img src="<?php echo esc_url( get_template_directory_uri() . '/icons/cross.png' ); ?>" alt="<?php echo esc_html_e("No", "publishable-mag"); ?>" /></span></td>
 					<td><span class="checkmark"><img src="<?php echo esc_url( get_template_directory_uri() . '/icons/check.png' ); ?>" alt="<?php echo esc_html_e("Yes", "publishable-mag"); ?>" /></span></td>
-				</tr> 
+				</tr>
 			</tbody>
 		</table>
 

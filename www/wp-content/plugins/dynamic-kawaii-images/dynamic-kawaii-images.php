@@ -251,15 +251,15 @@ if (!class_exists("DynamicKawaiiImages"))
 				echo '<div id="page" class="single">';
 				echo '<div class="content">';
 				//здесь нужно вывести breadcrumbs (сразу на главный пост)
-				echo '<div class="breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">';
+				echo '<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
-					echo '<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="' . $urlOfMainPost . '">'. $titleOfMainPost .'</a></span>';
-					echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="1" /><a itemprop="item" href="' . $urlOfMainPost . '"><span itemprop="name">'. $titleOfMainPost .'</span></a></span>';
+				echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
 
 				//здесь нужно вывести персонажа (первого с url как тег)
 				if($firstCharacterName!="")
 				{
-					echo '<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="' . $firstCharacterTagURL . '">'. $firstCharacterName .'</a></span>';
+					echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="2" /><a itemprop="item" href="' . $firstCharacterTagURL . '"><span itemprop="name">'. $firstCharacterName .'</span></a></span>';
 				}
 				else
 				{
@@ -799,6 +799,11 @@ if (!class_exists("DynamicKawaiiImages"))
 				$postURL=wp_get_canonical_url();
 
 				$postAuthorName=get_the_author_meta("display_name");
+				//может быть что автора не вернут - например у аттача или других вещей, если так вернем зашитое имя
+				if($postAuthorName=="")
+				{
+					$postAuthorName="Andrew";
+				}
 
 				$datePublishedStr=get_the_date('c');
 				$dateUpdatedStr=get_the_modified_time('c');

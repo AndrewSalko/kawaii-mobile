@@ -17,7 +17,7 @@ get_header(); ?>
 	<div class="content">
 		<!-- Start Article -->
 	    <?php if($publishable_lite_single_breadcrumb_section == '1') { ?>
-							<div class="breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#"><?php publishable_lite_the_breadcrumb(); ?></div>
+							<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"><?php publishable_lite_the_breadcrumb(); ?></div>
 						<?php } ?>
 		<article class="article">		
 			<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
