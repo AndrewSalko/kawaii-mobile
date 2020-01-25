@@ -24,7 +24,7 @@
 		<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'publishable-mag' ); ?></a>
 		<header id="site-header" role="banner">
 			<div class="container clear">
-				<div class="site-branding">
+				<div id="brandlogo" class="site-branding">
 					<?php if (has_custom_logo()) { ?>
 						<?php if( is_front_page() || is_home() || is_404() ) { ?>
 							<h1 id="logo" class="image-logo" itemprop="headline">
@@ -51,7 +51,7 @@
 				</div><!-- .site-branding -->
 				<?php dynamic_sidebar('widget-header'); ?>
 			</div>
-			<div class="primary-navigation">
+			<div id="primnav" class="primary-navigation">
 				<a href="#" id="pull" class="toggle-mobile-menu"><?php esc_html_e('Menu', 'publishable-mag'); ?></a>
 				<div class="container clear">
 					<nav id="navigation" class="primary-navigation mobile-menu-wrapper" role="navigation">
