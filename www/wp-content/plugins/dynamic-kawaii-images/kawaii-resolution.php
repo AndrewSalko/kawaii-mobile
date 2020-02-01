@@ -38,6 +38,11 @@ class KawaiiResolutionDetector
 							'description'=>'iPhone 7 Plus, HTC, Xperia',
 							'mobilephones'=>'Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
 
+		'828x1792'  => array('width' =>828, 'height'=>1792, 
+							'title'=>'iPhone 11',
+							'description'=>'iPhone 11 resolution'),
+
+
 		'750x1334'  => array('width' =>750, 'height'=>1334, 
 							'title'=>'iPhone 7',
 							'description'=>'iPhone 7, iPhone 6'),
