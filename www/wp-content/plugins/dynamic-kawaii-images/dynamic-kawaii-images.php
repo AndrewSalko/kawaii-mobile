@@ -159,7 +159,12 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$fileNameGood='kawaii-mobile.com.'.$shortFileName.'.'.$resolution.'.'.$fileExt;
 
-			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID;
+			$nowTime = date("Y.m");  //2020.02 - год и месяц
+			$encryptor=new EncryptorKawaii();
+			$secretCode=$encryptor->Encode($nowTime);
+			//$secretCode=$nowTime;
+
+			$imgLink=$postPermLink.'custom/'.$fileNameGood.'?newsize='.$resolution.'&amp;id='.$imageID.'&amp;code='.$secretCode;
 
 			$mainTitle="";
 			$charactersCount=0;
@@ -343,8 +348,11 @@ if (!class_exists("DynamicKawaiiImages"))
 				return;
 			}
 
-			if(array_key_exists('newsize', $_GET)===FALSE || array_key_exists('id', $_GET)===FALSE)
+			if(array_key_exists('newsize', $_GET)===FALSE || array_key_exists('id', $_GET)===FALSE || array_key_exists('code', $_GET)===FALSE)
 			{
+				$wp_query->set_404();
+				status_header(404);
+				include(get_query_template('404'));
 				return;
 			}
 
@@ -361,6 +369,21 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$newsize=$_GET['newsize'];
 			$imageID=$_GET['id'];
+			$code=$_GET['code'];
+
+			//код содержит год.месяц , и защищает от перманентной ссылки. Каждый месяц фактически она устаревает, но для нас это
+			//не проблема, гугл все индексирует а хотлинкеры пойдут далеко и получат 404
+			$nowTime = date("Y.m");  //2020.02 - год и месяц
+			$encryptor=new EncryptorKawaii();
+			$secretCode=$encryptor->Encode($nowTime);
+
+			if(strcasecmp($code, $secretCode) != 0)
+			{
+				$wp_query->set_404();
+				status_header(404);
+				include(get_query_template('404'));
+				return;
+			}
 
 			//нужно проверить поддерживается ли это разрешение (ресайз) если нет вернуть 404
 
