@@ -192,7 +192,19 @@ namespace SalkoDev.KawaiiTwitter
 				string tweetText = page.CreateTwitterText();
 
 				//твит с медиа и текстом
-				_Service.TweetWithMedia(tweetText, fileImgName);
+				try
+				{
+					_Service.TweetWithMedia(tweetText, fileImgName);
+				}
+				catch (Exception ex)
+				{
+					Log("Помилка для {0}: {1}", page, ex.Message);
+
+					//спим 1 минуту, и пробуем еще раз
+					System.Threading.Thread.Sleep(6000);
+
+					continue;
+				}
 
 				page.TweetDate = dt;
 
