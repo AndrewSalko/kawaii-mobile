@@ -116,23 +116,23 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', 'helvetica neue', helvetica, arial, sans-serif;
 }
 h1 {
-    font-size: 28px;
-    line-height: 1.4;
-}
-h2 {
     font-size: 26px;
     line-height: 1.4;
 }
+h2 {
+    font-size: 16px;
+    line-height: 1.4;
+}
 h3 {
-    font-size: 22px;
+    font-size: 16px;
     line-height: 1.4;
 }
 h4 {
-    font-size: 20px;
+    font-size: 16px;
     line-height: 1.4;
 }
 h5 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.4;
 }
 h6 {
@@ -528,8 +528,8 @@ a#pull { display: none }
 }
 .woocommerce .single_page, .woocommerce-page .single_page { padding-bottom: 0px }
 .post-single-content {
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 16px;
+    line-height: 24px;
     float: left;
     width: 100%;
 }
@@ -629,21 +629,27 @@ span.sticky-post {
 .title {
     margin-bottom: 5px;
     margin-top: 15px;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 28px;
     clear: both;
 }
-h1.title {
+
+/*
+h1.title 
+{
     line-height:150%;
-    font-size:30px;
+    font-size:24px;
 }
+*/
+
 .single-title {
     float: left;
     padding: 0 0 0 0;
-    font-size: 32px;
+    /*font-size: 32px;*/
     line-height: 1.4;
     margin:0;
 }
+
 .title a { color: #000 }
 .page h1.title {
     margin-bottom: 0;

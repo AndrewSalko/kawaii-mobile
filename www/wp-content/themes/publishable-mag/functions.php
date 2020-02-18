@@ -191,7 +191,7 @@ function publishable_lite_custom_sidebar() {
  * Enqueue scripts and styles.
  */
 function publishable_lite_scripts() {
-	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "21.12.2019");
+	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "15.02.2020");
 
 	$handle = 'publishable-mag-style';
 
