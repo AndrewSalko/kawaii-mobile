@@ -262,6 +262,12 @@ if (!class_exists("KawaiiAds"))
 				return $contentModified;
 			}
 
+			//===========
+			//01.03.2020 - вернул обратно показ ин-табл.баннеров
+			//18.02.2020 - временно отключаем ручные баннеры на постах. Проверим что умеет сами авто-показы
+			//return $content;
+			//===========
+
 			//Ниже случай поста
 			//check if we have 'table' in content? we need find first </tr>
 
