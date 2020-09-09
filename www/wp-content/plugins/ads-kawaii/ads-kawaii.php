@@ -100,6 +100,17 @@ if (!class_exists("KawaiiAds"))
 			{
 				return true;
 			}
+			
+			$arrDisabled=array('/library/','/anime-by-genres/','/archives/');
+
+			foreach($arrDisabled as $urlPart)
+			{
+				if (KawaiiAds::_EndsWith($url, $urlPart) == true)
+				{
+					return true;
+				}
+			}	
+
 
 			return false;
 		}
