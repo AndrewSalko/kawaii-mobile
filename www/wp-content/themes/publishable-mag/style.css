@@ -106,6 +106,12 @@ td, th { padding: 0 }
 .breadcrumb i { padding: 0 0 }
 .breadcrumb> span { overflow: visible }
 .no-results h2 { font-size: 16px }
+
+.space-customresolution
+{
+	padding-bottom: 50px;
+}
+
 /*--------------------------------------------------------------
 # Typography
 --------------------------------------------------------------*/

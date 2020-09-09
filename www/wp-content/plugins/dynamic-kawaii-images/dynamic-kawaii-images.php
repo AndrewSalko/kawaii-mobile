@@ -316,6 +316,8 @@ if (!class_exists("DynamicKawaiiImages"))
 				//include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
 
 				echo $imgNode;
+				//для адсенса нужно пространство (чтобы юзер не мог случайно кликнуть) space-customresolution - дает спец.пустое место
+				echo '<div class="space-customresolution"></div>';
 
 				//вывод нового баннера 22.12.2019 для кастом-аттача
 				$disableAdsForAttach=$attPost->_DisableADSense;
