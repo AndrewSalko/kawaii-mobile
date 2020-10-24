@@ -278,7 +278,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 
 				echo '<div class="post attachment type-attachment status-inherit">';
-				echo '<div class="single_post">';
+				echo '<div class="single_post post-single-content">';
 
 				//главный заголовок - если есть персонажи - берем их и туда разрешение, если их нет - имя главного поста и разрешение
 				$h1ForPage=$titleOfMainPost;
@@ -316,6 +316,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				//include( plugin_dir_path( __FILE__ ) . 'kawaii-adsense.php');
 
 				echo $imgNode;
+				echo '<p>See main post <a href="'.$urlOfMainPost.'">'.$titleOfMainPost.'</a> for more wallpapers.</p>';
 				//для адсенса нужно пространство (чтобы юзер не мог случайно кликнуть) space-customresolution - дает спец.пустое место
 				echo '<div class="space-customresolution"></div>';
 
