@@ -43,8 +43,11 @@ get_header(); ?>
 						</div><!-- End Content -->
 
 						<!-- salko related posts block was here  -->
-
-
+						<?php
+						if($publishable_lite_relatedposts_section == '1')
+						{
+				        	get_template_part('partials/single/related-posts');
+						}?>
 
 						<?php /* salko remove author   if($publishable_lite_authorbox_section == '1') { ?>
 							<!-- Start Author Box -->
