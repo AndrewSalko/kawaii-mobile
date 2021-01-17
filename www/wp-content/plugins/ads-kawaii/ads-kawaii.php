@@ -122,6 +122,10 @@ if (!class_exists("KawaiiAds"))
 
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
 
+<?php ?>
+
+<?php include( plugin_dir_path( __FILE__ ) . 'kawaiiads2.php'); ?>
+
 <?php
 
 			if(KawaiiAds::_IsAdsenseDisabledForThisURL())
@@ -481,7 +485,7 @@ if (isset($pluginKawaiiAds))
 {
 	add_filter('wp_footer', array('KawaiiAds', 'do_wp_footer'),100);
 
-	add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 100);
+	//add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 100);
 
 	add_filter('the_content', array('KawaiiAds', 'do_content'),100);
 
