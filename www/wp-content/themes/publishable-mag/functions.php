@@ -191,7 +191,7 @@ function publishable_lite_custom_sidebar() {
  * Enqueue scripts and styles.
  */
 function publishable_lite_scripts() {
-	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "14.11.2020");
+	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "17.01.2021");
 
 	$handle = 'publishable-mag-style';
 
@@ -399,12 +399,13 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			{
 				$breadToParentPost='<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="'.esc_url( get_permalink( $parent_id ) ).'">';
 				$breadToParentPost .='<span itemprop="name">'.esc_html( get_the_title($parent_id)).'</span>';
-				$breadToParentPost .='</a><meta itemprop="position" content="2" /></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				//$breadToParentPost .='</a><meta itemprop="position" content="2" /></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
 				echo $breadToParentPost;
 			}
+			/*
 			echo "<span><span>";
 			the_title();
-			echo "</span></span>";
+			echo "</span></span>";*/
 		}
 		elseif (is_single()) //проверяет отображается ли страница записи любого типа записей кроме attachment и page
 		{
@@ -427,7 +428,8 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 				if ( empty( $hierarchy_arr ) )
 				{
 					$category = $categories[0];
-					echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="2" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+					echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="2" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span>';
+					//echo '<span><i class="publishable-icon icon-angle-double-right"></i></span>';
 				}
 				else
 				{
@@ -436,14 +438,15 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 					{
 						$catIndexStr=strval($catIndex);
 						$category = get_term_by( 'id', $cat_id, 'category' );
-						echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="'.$catIndexStr.'" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+						echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><meta itemprop="position" content="'.$catIndexStr.'" /><a itemprop="item" href="'. esc_url( get_category_link( $category->term_id ) ).'"><span itemprop="name">'.esc_html( $category->name ).'</span></a></span>';
+						//<span><i class="publishable-icon icon-angle-double-right"></i></span>';
 						$catIndex++;
 					}
 				}
 			}
-			echo "<span><span>";
-			the_title();
-			echo "</span></span>";
+			//echo "<span><span>";
+			//the_title();
+			//echo "</span></span>";
 		}
 		elseif (is_page())
 		{
@@ -459,9 +462,9 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 				$breadcrumbs = array_reverse( $breadcrumbs );
 				foreach ( $breadcrumbs as $crumb ) { echo $crumb; }
 			}
-			echo "<span><span>";
-			the_title();
-			echo "</span></span>";
+			//echo "<span><span>";
+			//the_title();
+			//echo "</span></span>";
 		}
 		elseif (is_category())
 		{
