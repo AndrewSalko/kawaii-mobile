@@ -397,9 +397,10 @@ if (!function_exists('publishable_lite_the_breadcrumb'))
 			$parent_id  = $attPage->post_parent;
 			if($parent_id)
 			{
-				$breadToParentPost='<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="'.esc_url( get_permalink( $parent_id ) ).'">';
-				$breadToParentPost .='<span itemprop="name">'.esc_html( get_the_title($parent_id)).'</span>';
-				//$breadToParentPost .='</a><meta itemprop="position" content="2" /></span><span><i class="publishable-icon icon-angle-double-right"></i></span>';
+				$breadToParentPost='<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+				$breadToParentPost .='<a itemprop="item" href="'.esc_url( get_permalink( $parent_id ) ).'">';
+				$breadToParentPost .='<span itemprop="name">'.esc_html( get_the_title($parent_id)).'</span></a>';
+				$breadToParentPost .='<meta itemprop="position" content="2" /></span>';//<span><i class="publishable-icon icon-angle-double-right"></i></span>';
 				echo $breadToParentPost;
 			}
 			/*
