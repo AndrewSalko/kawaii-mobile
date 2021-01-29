@@ -191,7 +191,7 @@ function publishable_lite_custom_sidebar() {
  * Enqueue scripts and styles.
  */
 function publishable_lite_scripts() {
-	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "17.01.2021");
+	wp_enqueue_style( 'publishable-mag-style', get_stylesheet_uri(), array(), "29.01.2021");
 
 	$handle = 'publishable-mag-style';
 
@@ -216,7 +216,7 @@ function publishable_lite_scripts() {
 	/* .top a:hover, */
 	/* .copyrights a:hover */
 	$custom_css = "
-        #site-header { background-image: url('$header_image'); }
+
         #tabber .inside li .meta b,.fn a,.reply a,#tabber .inside li div.info .entry-title a:hover, #navigation ul ul a:hover,.single_post a, a:hover, .sidebar.c-4-12 .textwidget a, #site-footer .textwidget a, #commentform a, #tabber .inside li a, a, .sidebar.c-4-12 a:hover, footer .tagcloud a:hover { color: $publishable_lite_color_scheme; }
 
 	span.sticky-post, #commentform input#submit, #searchform input[type='submit'], .home_menu_item, .primary-navigation, .currenttext, .readMore a, .mts-subscribe input[type='submit'], .pagination .current, .woocommerce nav.woocommerce-pagination ul li a:focus, .woocommerce nav.woocommerce-pagination ul li a:hover, .woocommerce nav.woocommerce-pagination ul li span.current, .woocommerce-product-search input[type=\"submit\"], .woocommerce a.button, .woocommerce-page a.button, .woocommerce button.button, .woocommerce-page button.button, .woocommerce input.button, .woocommerce-page input.button, .woocommerce #respond input#submit, .woocommerce-page #respond input#submit, .woocommerce #content input.button, .woocommerce-page #content input.button { background-color: $publishable_lite_color_scheme; }

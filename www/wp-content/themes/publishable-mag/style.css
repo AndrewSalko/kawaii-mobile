@@ -312,7 +312,7 @@ body > header {
     float: left;
     width: 100%;
     z-index: 99;
-        background: #181818;
+    background: #181818;
     padding: 20px 0 0 0;
 }
 .site-branding {
@@ -1754,13 +1754,19 @@ embed, iframe, object { max-width: 100% }
 .widget.woocommerce ul li { margin-left: 0; list-style-type: none; float: left; width: 100%; }
 .rtl_on { direction: rtl; }
 .rtl_off { direction: ltr; }
+
+#site-header { background-image: url('header/header1920.jpg'); }
+
 @media screen and (max-width:1100px) { 
     #page, .container, .site-branding { max-width: 96% }
+	#site-header { background-image: url('header/header1077.jpg'); }
 }
 @media screen and (min-width:865px) { 
     .navigation.mobile-only { display: none }
 }
 @media screen and (max-width:865px) {
+
+	#site-header { background-image: url('header/header805.jpg'); }
 
 	.single_post 
 	{
@@ -1784,21 +1790,6 @@ embed, iframe, object { max-width: 100% }
     	max-width: none;
     	line-height: 150%
 	}
-
-/*
-	.site-description
-	{
-		display: none;
-	}
-*/
-
-/*
-	#site-header
-	{
-		background-image: none;
-		padding: none;
-	}
-*/
 
 	#page 
 	{ 
@@ -1987,6 +1978,9 @@ embed, iframe, object { max-width: 100% }
     }
 }
 @media screen and (max-width: 720px) { 
+
+	#site-header { background-image: url('header/header720.jpg'); }
+
     .site-branding h1, .site-branding h2 {
         font-size:35px;
     }
@@ -2017,6 +2011,8 @@ embed, iframe, object { max-width: 100% }
 }
 @media screen and (max-width: 640px) { 
 
+	#site-header { background-image: url('header/header640.jpg'); }
+
     .footer-widget {
         width: 48%;
         margin-right: 4%;
@@ -2025,6 +2021,9 @@ embed, iframe, object { max-width: 100% }
     .single-title { font-size: 24px }
 }
 @media screen and (max-width: 550px) { 
+
+	#site-header { background-image: url('header/header640.jpg'); }
+	
     .related-posts .post.excerpt {
         width: 48%;
         margin-right: 4%;
@@ -2034,7 +2033,10 @@ embed, iframe, object { max-width: 100% }
     .related-posts .post.excerpt:nth-of-type(2n) { margin-right: 0 }
     .related-posts #featured-thumbnail { max-width: 100% }
 }
-@media screen and (max-width: 480px) { 
+@media screen and (max-width: 480px) {
+
+	#site-header { background-image: url('header/header640.jpg'); }
+ 
     .footer-widget { width: 100% }
     #copyright-note, .top {
         width: 100%;
