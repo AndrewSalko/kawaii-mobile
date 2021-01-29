@@ -326,6 +326,10 @@ if (!class_exists("KawaiiAds"))
 
 			//вычислить с какого индекса нам нужно начинать добавлять баннеры
 			$applyAdsIndex=0;
+
+			//25.01.2021 - баннеры ставим с позиции 0
+			//убрать коммент чтобы вернуть как было ранее
+			/*
 			if($maxAdsCount<$adsLimit)
 			{
 				$applyAdsIndex=$maxAdsCount-1;	//одно место для баннера точно должно быть, снизу
@@ -333,7 +337,7 @@ if (!class_exists("KawaiiAds"))
 			else
 			{
 				$applyAdsIndex=$maxAdsCount-$adsLimit;	//снизу отсчитали индекс старт-баннера
-			}
+			}*/
 
 			$adsCount=0;	//сколько уже применили баннеров
 			$currentAdsPlaceIndex=0;	//индекс места где мог бы быть баннер (первые места пропускаем, а ближе к низу добавляем)
@@ -356,6 +360,11 @@ if (!class_exists("KawaiiAds"))
 					$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
 
 					$adsCount++;
+					
+					if($adsCount>=$adsLimit)
+					{
+						break;
+					}
 				}
 
 				$currentAdsPlaceIndex++;
