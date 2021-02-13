@@ -2054,16 +2054,9 @@ embed, iframe, object { max-width: 100% }
     .related-posts .post.excerpt.last { clear: left }
     .related-posts .post.excerpt:nth-of-type(2n) { margin-right: 0 }
 
-
-	
-    .featured-thumbnail, #featured-thumbnail {
-        max-width:100%;
-        width:100%;
-        margin-bottom:10px;
+    .featured-thumbnail, #featured-thumbnail 
+	{
+        max-width:200px;
     }
-	/*
-    .related-posts .post.excerpt {
-        max-width:100%;
-        width:100%;
-    }*/
+
 }
