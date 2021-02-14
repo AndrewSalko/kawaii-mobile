@@ -162,10 +162,7 @@ if (!class_exists("KawaiiAds"))
 				}
 			}
 
-			echo '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-			echo '<script>';
-  			echo '(adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-2908292943805064", enable_page_level_ads: true });';
-			echo '</script>';
+			echo '<script data-ad-client="ca-pub-2908292943805064" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 		}
 
 
