@@ -589,7 +589,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$content.="<p>".$descriptiveContent."</p>";
 
-			$content.="<!--ATTACH_AD_REPLACEMENT-->";
+			//$content.="<!--ATTACH_AD_REPLACEMENT-->";
 
 			$content.="<p>";
 
