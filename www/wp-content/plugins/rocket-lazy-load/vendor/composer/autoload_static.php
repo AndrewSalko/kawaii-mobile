@@ -4,25 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8cab473e8d87c25ebc69a5ad0b41d433
+class ComposerStaticInit7e18abfec3e240d5935b5c01f22c933f
 {
     public static $prefixLengthsPsr4 = array (
         'R' => 
         array (
             'RocketLazyload\\' => 15,
             'RocketLazyLoadPlugin\\' => 21,
-        ),
-        'P' => 
-        array (
-            'Psr\\Container\\' => 14,
-        ),
-        'L' => 
-        array (
-            'League\\Container\\' => 17,
-        ),
-        'I' => 
-        array (
-            'Interop\\Container\\' => 18,
         ),
         'C' => 
         array (
@@ -39,18 +27,6 @@ class ComposerStaticInit8cab473e8d87c25ebc69a5ad0b41d433
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'League\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/league/container/src',
-        ),
-        'Interop\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
-        ),
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
@@ -60,8 +36,8 @@ class ComposerStaticInit8cab473e8d87c25ebc69a5ad0b41d433
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit8cab473e8d87c25ebc69a5ad0b41d433::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit8cab473e8d87c25ebc69a5ad0b41d433::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7e18abfec3e240d5935b5c01f22c933f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7e18abfec3e240d5935b5c01f22c933f::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

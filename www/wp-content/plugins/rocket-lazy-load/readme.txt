@@ -1,24 +1,26 @@
-=== Lazy Load by WP Rocket ===
+=== Lazy Load ===
 Contributors: wp_rocket, wp_media
 Tags: lazyload, lazy load, images, iframes, thumbnail, thumbnails, smiley, smilies, avatar, gravatar, youtube
 Requires at least: 4.7
-Tested up to: 5.2
+Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 2.2.2
+Stable tag: 2.3.4
 
-Lazy Load your images and iframes, replace Youtube videos by a preview thumbnail.
+Lazy load your images and iframes, replace Youtube videos by a preview thumbnail.
 
 == Description ==
 
-Lazy Load by WP Rocket displays images and/or iframes on a page only when they are visible to the user. This reduces the number of HTTP requests mechanism and improves the loading time.
+Lazy Load displays images and/or iframes on a page only when they are visible to the user. This reduces the number of HTTP requests mechanism and improves the loading time.
 
-This plugin works on thumbnails, all images in a post content or in a widget text, avatars, smilies and iframes. No JavaScript library such as jQuery is used and the script weight is less than 10KB.
+You can lazy load thumbnails, all images in a post content or in a widget text, avatars, smilies and iframes. No JavaScript library such as jQuery is used and the script weight is less than 10KB.
 
 You can also replace Youtube iframes by a preview thumbnail to further speed up the loading time of your website.
 
+Turn on lazy load to optimize your images and make your website faster!
+
 = Dependencies =
 
-Lazyload script: [https://github.com/verlok/lazyload](https://github.com/verlok/lazyload)
+Lazy load script: [https://github.com/verlok/lazyload](https://github.com/verlok/lazyload)
 
 = Related Plugins =
 * [Imagify](https://imagify.io/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=LazyLoadPlugin): Best Image Optimizer to speed up your website with lighter images.
@@ -31,6 +33,13 @@ Lazyload script: [https://github.com/verlok/lazyload](https://github.com/verlok/
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
+
+= How can I use native lazyload? =
+To use native lazyload on browsers supporting this feature, you need to use the following line:
+
+`add_filter( 'rocket_use_native_lazyload', '__return_true' );`
+
+Browsers that do not support native lazyload will use the JS-based solution as before.
 
 = How can I deactivate Lazy Load on some pages? = 
 
@@ -72,19 +81,58 @@ add_filter( 'rocket_lazyload_threshold', 'rocket_lazyload_custom_threshold' );
 
 Some plugins are not compatible without lazy loading. Please open a support thread, and we will see how we can solve the issue by excluding lazy loading for this plugin.
 
-= How can I lazyload a background-image? =
+= How can I lazy load a background-image? =
 
-The plugin will automatically lazyload background-images set with a `style` attribute to a `div` element:
+The plugin will automatically lazy load background-images set with a `style` attribute to a `div` element:
 
 `<div style="background-image: url(image.jpg);">`
 
-You can also apply it manually. The element you want to apply lazyload on must have this specific markup:
+You can also apply it manually. The element you want to apply lazy load on must have this specific markup:
 
 `<div class="rocket-lazyload" data-bg="url(../img/image.jpg)"></div>`
 
 The element must have the class `rocket-lazyload`, and a `data-bg` attribute, which value is the CSS url for the image.
 
 == Changelog ==
+= 2.3.4 =
+Enhancement: Allow `<a>` tags to lazyload background images
+Enhancement: Add <noscript> tag to lazyloaded picture elements
+Bugfix: Prevent a Fatal error related to the League Container package conflict with WooCommerce 4.4
+Bugfix: Update lazyload for background images support for new version of lazyload script
+Bugfix: Correctly apply the rocket-lazyload class on elements with a background-image and an empty class value
+Bugfix: Correctly apply the rocket-lazyloadclass on elements with malformed HTML
+Bugfix: Prevent a display issue with background-images when using different types of quotes around the URL 
+Bugfix: Prevent Layout from breaking when <img> alt attribute has any html encoded characters
+
+= 2.3.3 =
+Enhancement: Add data-skip-lazy and skip-lazy class to exclusions list as part of the interoperability initiative between lazyload plugins
+Enhancement: Use native lazyload only if filter `rocket_use_native_lazyload` is true
+Enhancement: Apply lazyload on background images set on `figure` elements
+Bugfix: Correctly add the rocket-lazyload class when class attribute is empty on an element with a background image
+Bugfix: Correctly replace YouTube iframe with preview image when using relative protocol
+Bugfix: Preserve youtube-nocookie.com during LazyLoad
+
+= 2.3.2 =
+Bugfix: Incorrect characters used in Youtube thumbnail HTML code
+
+= 2.3.1 =
+Bugfix: Prevent a conflict with WP Rocket
+Bugfix: apply loading="lazy" on Youtube thumbnail
+Bugfix: Add autoplay attribute on iframe loaded with Youtube thumbnail
+
+= 2.3 =
+Enhancement: Add support for browser native lazyload
+Bugfix: Prevent broken image in some cases for picture element
+Bugfix: Prevent wrong lazy attributes for srcset and sizes on an image inside a picture element
+
+= 2.2.3 =
+* Enhancement: Improve compatibility for the picture element
+* Enhancement: Apply lazyload on background images set on section, span and li elements
+* Enhancement: also pass $width and $height values to the rocket_lazyload_placeholder filter
+* Bugfix: Use 0 instead of 1 for the default placeholder dimensions to improve compatibility
+* Bugfix: Improve infinite scroll support
+* Bugfix: Exclude Enfold avia-background-fixed background images and data-large_image from lazyload
+
 = 2.2.2 =
 * Bugfix: Auto-exclude data-height-percentage attribute to prevent display issues
 * Bugfix: Correctly handle responsive videos using fitVids again
@@ -269,7 +317,7 @@ The element must have the class `rocket-lazyload`, and a `data-bg` attribute, wh
 
 = 1.0.2 =
 * 2014-12-28
-* Improvement: Add « rocket_lazyload_html » filter to manage the output that will be printed. 
+* Improvement: Add « rocket_lazyload_html » filter to manage the output that will be printed. 
 
 = 1.0.1.1 =
 * 2014-07-25
