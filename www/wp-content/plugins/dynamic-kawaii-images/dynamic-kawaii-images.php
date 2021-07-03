@@ -181,7 +181,12 @@ if (!class_exists("DynamicKawaiiImages"))
 				$characters=$imgAlt;
 			}
 
-			$imgNode='<a href="'.$imgLink.'"><img class="image-autosize" src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
+			$thumbImgAttr=array('alt' => $imgAlt);
+			$thumbImg=wp_get_attachment_image($imageID, 'medium', false, $thumbImgAttr); 
+
+			//$imgNode='<a href="'.$imgLink.'"><img class="image-autosize" src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
+			$imgNode='<a href="'.$imgLink.'">'.$thumbImg.'</a>';
+
 			return $imgNode;
 
 		}//CreateImageElement
