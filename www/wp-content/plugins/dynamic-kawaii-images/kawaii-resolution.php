@@ -39,13 +39,13 @@ class KawaiiResolutionDetector
 							'description'=>'iPhone X resolution'),
 
 		'1080x2340'=> array('width' =>1080, 'height'=>2340, 
-							'title'=>'iPhone 12 Mini',
-							'description'=>'iPhone 12 Mini resolution'),
+							'title'=>'iPhone 12 Mini, Xiaomi Redmi 9',
+							'description'=>'iPhone 12 Mini resolution, Xiaomi Redmi 9, Xiaomi Redmi Note'),
 
 
 		'1080x1920' => array('width' =>1080, 'height'=>1920, 
-							'description'=>'iPhone 7 Plus, HTC, Xperia',
-							'mobilephones'=>'Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
+							'description'=>'iPhone 7, Samsung Galaxy, Xiaomi',
+							'mobilephones'=>'iPhone 7, Xiaomi Mi Note 2, Xiaomi Redmi Note 4, Samsung Galaxy Note 3'),
 
 		'828x1792'  => array('width' =>828, 'height'=>1792, 
 							'title'=>'iPhone 11',
