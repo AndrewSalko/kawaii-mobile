@@ -53,6 +53,7 @@ class KawaiiGenres
 	'mystery',
 
 	'murder',
+	'music',
 	'noir',
 
 	'parody',
