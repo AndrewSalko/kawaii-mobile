@@ -69,7 +69,7 @@ if (!class_exists("KawaiiAds"))
 		//Ads in post table (special banner)
 		function _IsAdsEnabledInPostTable()
 		{
-			return true;
+			return false; //2023.03.16 - total disable ADS on posts
 		}
 
 		function _EndsWith($text, $subString)
