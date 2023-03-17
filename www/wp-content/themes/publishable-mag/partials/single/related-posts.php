@@ -64,7 +64,7 @@ if($tax_terms)
 						$permLink=get_permalink($pst);
 						$postTitle=$pst->post_title;
 
-						echo '<a href="'.$permLink.'" title="'.$postTitle.'" id="featured-thumbnail">';
+						echo '<a href="'.$permLink.'" title="'.$postTitle.'" >';
 
 						echo '<div class="featured-thumbnail">';
 						echo get_the_post_thumbnail($pst, 'publishable-mag-related', array('title' => ''));
