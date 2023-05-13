@@ -58,7 +58,7 @@ if (!class_exists("KawaiiAds"))
 
 		function _IsPageLevelAdsEnabledOnSingle()
 		{
-			return false; 	//page level on POST
+			return true; 	//page level on POST
 		}
 
 		function _IsPageLevelAdsEnabledOnAttach()
@@ -69,7 +69,7 @@ if (!class_exists("KawaiiAds"))
 		//Ads in post table (special banner)
 		function _IsAdsEnabledInPostTable()
 		{
-			return false; //2023.03.16 - total disable ADS on posts
+			return true; //2023.05.13 -return ADS on posts
 		}
 
 		function _EndsWith($text, $subString)
