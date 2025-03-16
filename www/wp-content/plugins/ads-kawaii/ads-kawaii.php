@@ -41,7 +41,7 @@ if (!class_exists("KawaiiAds"))
 			return $addContent;
 		}
 
-		function GetSocialScriptLoader()
+		public static function GetSocialScriptLoader()
 		{
 			$nl="\n";
 			$addContent=''.$nl;
@@ -51,28 +51,28 @@ if (!class_exists("KawaiiAds"))
 			return $addContent;
 		}
 
-		function _IsPageLevelAdsEnabledOnHome()
+		public static function _IsPageLevelAdsEnabledOnHome()
 		{
 			return false;
 		}
 
-		function _IsPageLevelAdsEnabledOnSingle()
+		public static function _IsPageLevelAdsEnabledOnSingle()
 		{
-			return true; 	//page level on POST
+			return false; 	//page level on POST
 		}
 
-		function _IsPageLevelAdsEnabledOnAttach()
+		public static function _IsPageLevelAdsEnabledOnAttach()
 		{
 			return true;    //page level on Attach
 		}
 
 		//Ads in post table (special banner)
-		function _IsAdsEnabledInPostTable()
+		public static function _IsAdsEnabledInPostTable()
 		{
-			return true; //2023.05.13 -return ADS on posts
+			return true;
 		}
 
-		function _EndsWith($text, $subString)
+		public static function _EndsWith($text, $subString)
 		{
 			$length = strlen($subString);
 			if ($length == 0)
@@ -84,7 +84,7 @@ if (!class_exists("KawaiiAds"))
 		}
 
 		//Вернет true - скрипт ADSense не включается вообще (блокировка отдельных страниц и постов)
-		function _IsAdsenseDisabledForThisURL()
+		public static function _IsAdsenseDisabledForThisURL()
 		{
 			global $post;
 			$url = $_SERVER['REQUEST_URI'];
@@ -95,10 +95,13 @@ if (!class_exists("KawaiiAds"))
 			}
 
 			//"_DisableADSense" is post meta. Since v.v3.5 we can call directly from $post var
-			$disableAds=$post->_DisableADSense;
-			if($disableAds == 'on')
+			if (isset($post) && isset($post->_DisableADSense))
 			{
-				return true;
+				$disableAds=$post->_DisableADSense;
+				if($disableAds == 'on')
+				{
+					return true;
+				}
 			}
 			
 			$arrDisabled=array('/library/','/anime-by-genres/','/archives/');
@@ -115,16 +118,12 @@ if (!class_exists("KawaiiAds"))
 			return false;
 		}
 
-		function do_wp_head()
+		public static function do_wp_head()
 		{
 			//google analytics always included
 ?>
 
 <?php include( plugin_dir_path( __FILE__ ) . 'kawaii-ga.js.php'); ?>
-
-<?php ?>
-
-<?php include( plugin_dir_path( __FILE__ ) . 'kawaiiads2.php'); ?>
 
 <?php
 
@@ -162,11 +161,14 @@ if (!class_exists("KawaiiAds"))
 				}
 			}
 
-			echo '<script data-ad-client="ca-pub-2908292943805064" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+			echo '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+			echo '<script>';
+  			echo '(adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-2908292943805064", enable_page_level_ads: true });';
+			echo '</script>';
 		}
 
 
-		function do_wp_footer()
+		public static function do_wp_footer()
 		{
 			//if it's main page, load script because do_content not used in such case
 			if(is_home())
@@ -181,7 +183,7 @@ if (!class_exists("KawaiiAds"))
 			}
 		}
 
-		function do_add_stylesheet()
+		public static function do_add_stylesheet()
 		{
 			wp_register_style( 'kawaiiads1', plugins_url('kawaiiads1.css', __FILE__) );
 			wp_enqueue_style( 'kawaiiads1' );
@@ -189,7 +191,7 @@ if (!class_exists("KawaiiAds"))
 
 		// Генерация кода баннера
 		//
-		function GetBannerCode($bannerInfoArr)
+		public static function GetBannerCode($bannerInfoArr)
 		{
 			$slot=$bannerInfoArr["slot"];
 			$comment=$bannerInfoArr["comment"];
@@ -218,7 +220,7 @@ if (!class_exists("KawaiiAds"))
 
 		// Вычисляет сколько всего потенциальных мест для баннеров есть на посте (по таблице tr)
 		// и вернет массив индексов (найденных элементов </tr>)
-		function GetBannersPlacesCount($content)
+		public static function GetBannersPlacesCount($content)
 		{
 			$maxAdsCount=0;
 
@@ -237,7 +239,7 @@ if (!class_exists("KawaiiAds"))
 			return $maxAdsCount;
 		}
 
-		function do_content($content)
+		public static function do_content($content)
 		{
 			if(is_feed() || is_home() || !is_single())
 			{
@@ -323,10 +325,6 @@ if (!class_exists("KawaiiAds"))
 
 			//вычислить с какого индекса нам нужно начинать добавлять баннеры
 			$applyAdsIndex=0;
-
-			//25.01.2021 - баннеры ставим с позиции 0
-			//убрать коммент чтобы вернуть как было ранее
-			/*
 			if($maxAdsCount<$adsLimit)
 			{
 				$applyAdsIndex=$maxAdsCount-1;	//одно место для баннера точно должно быть, снизу
@@ -334,7 +332,7 @@ if (!class_exists("KawaiiAds"))
 			else
 			{
 				$applyAdsIndex=$maxAdsCount-$adsLimit;	//снизу отсчитали индекс старт-баннера
-			}*/
+			}
 
 			$adsCount=0;	//сколько уже применили баннеров
 			$currentAdsPlaceIndex=0;	//индекс места где мог бы быть баннер (первые места пропускаем, а ближе к низу добавляем)
@@ -357,11 +355,6 @@ if (!class_exists("KawaiiAds"))
 					$contentModified = substr_replace($contentModified, $str_to_insert, $firstInd+5, 0);
 
 					$adsCount++;
-					
-					if($adsCount>=$adsLimit)
-					{
-						break;
-					}
 				}
 
 				$currentAdsPlaceIndex++;
@@ -380,7 +373,7 @@ if (!class_exists("KawaiiAds"))
 			return $contentModified;
 		}
 
-		function do_image_sitemap()
+		public static function do_image_sitemap()
 		{
     		if(function_exists('add_submenu_page'))
 			{
@@ -445,7 +438,7 @@ if (!class_exists("KawaiiAds"))
 		const KAWAII_SHORTCODE_FOOTER3="[kawaii-shortcode-footer3]";
 		const FOOTER3_AD_HTML="<a href='https://www.andrewsalko.space' title='.NET developer blog'><img src='/wp-content/uploads/dev-blog300x200.png' alt='.NET developer blog' style='width:300px;height: 200px;' /></a>";
 
-		function do_widget_text($content)
+		public static function do_widget_text($content)
 		{
 			$ad2=KawaiiAds::FOOTER2_AD_HTML;
 			$ad3=KawaiiAds::FOOTER3_AD_HTML;
@@ -491,7 +484,7 @@ if (isset($pluginKawaiiAds))
 {
 	add_filter('wp_footer', array('KawaiiAds', 'do_wp_footer'),100);
 
-	//add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 100);
+	add_action('wp_enqueue_scripts', array('KawaiiAds','do_add_stylesheet'), 100);
 
 	add_filter('the_content', array('KawaiiAds', 'do_content'),100);
 

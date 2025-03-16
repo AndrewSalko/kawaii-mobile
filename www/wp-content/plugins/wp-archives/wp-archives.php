@@ -42,7 +42,7 @@ function wparc_getarchives() {
                          } else {
 						 	$text = $arcresult2->ID;
 						 }
-                         $title_text = wp_specialchars($text, 1);
+                         $title_text =  esc_html($text);
                          echo "<li>" . mysql2date('d', $arcresult2->post_date). ": <a href=\"" . $url . "\" title=\"" . $title_text . "\">" . wptexturize($text) . "</a></li>\n";
                      }
                 }
@@ -56,13 +56,31 @@ function wparc_getarchives() {
 function wparc_setarchive() {
 	add_filter('the_content', 'wparc_findarchives');
 }
-function wparc_findarchives($post) {
-	if (substr_count($post, '<!--wp_archives-->') > 0) {
-		$archives = wparc_getarchives();
-		$post = str_replace('<!--wp_archives-->', $archives, $post);
-	}
+
+
+function wparc_findarchives($post) 
+{
+	if (substr_count($post, '<!--wp_archives-->') > 0) 
+	{
+        $archives = wparc_getarchives();
+
+        if ($archives !== null) 
+		{
+            $post = str_replace('<!--wp_archives-->', $archives, $post);
+        } 
+		else 
+		{
+            // Если archives равен null, заменяем на пустую строку или сообщение об ошибке
+            $post = str_replace('<!--wp_archives-->', '', $post);
+            // Альтернативно можно использовать сообщение об ошибке:
+            // $post = str_replace('<!--wp_archives-->', 'Archives unavailable', $post);
+        }
+    }
+
 	return $post;
 }
+
+
 function wparc_addheader() {
 	echo "<!-- WP-Archives 0.8 by unijimpe -->\n";
 }

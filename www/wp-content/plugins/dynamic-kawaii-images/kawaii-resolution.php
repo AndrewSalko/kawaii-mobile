@@ -28,24 +28,15 @@ class KawaiiResolutionDetector
 		'1440x2560'=> array('width' =>1440, 'height'=>2560, 
 							'title'=>'QHD Quad HD',
 							'description'=>'Quad HD resolution'),
-		
-		'1284x2778'=> array('width' =>1284, 'height'=>2778, 
-							'title'=>'iPhone 12 Pro Max',
-							'description'=>'iPhone 12 resolution'),
-
-		
+				
 		'1125x2436'=> array('width' =>1125, 'height'=>2436, 
 							'title'=>'iPhone X',
 							'description'=>'iPhone X resolution'),
 
-		'1080x2340'=> array('width' =>1080, 'height'=>2340, 
-							'title'=>'iPhone 12 Mini, Xiaomi Redmi 9',
-							'description'=>'iPhone 12 Mini resolution, Xiaomi Redmi 9, Xiaomi Redmi Note'),
-
 
 		'1080x1920' => array('width' =>1080, 'height'=>1920, 
-							'description'=>'iPhone 7, Samsung Galaxy, Xiaomi',
-							'mobilephones'=>'iPhone 7, Xiaomi Mi Note 2, Xiaomi Redmi Note 4, Samsung Galaxy Note 3'),
+							'description'=>'iPhone 7 Plus, HTC, Xperia',
+							'mobilephones'=>'Samsung Galaxy Note 3, HTC One, LG D802, Samsung Galaxy S4, Sony Xperia Z, Lenovo K900, Magic THL W300, Magic THL W9.'),
 
 		'828x1792'  => array('width' =>828, 'height'=>1792, 
 							'title'=>'iPhone 11',
@@ -54,7 +45,7 @@ class KawaiiResolutionDetector
 
 		'750x1334'  => array('width' =>750, 'height'=>1334, 
 							'title'=>'iPhone 7',
-							'description'=>'iPhone 7, iPhone 6, iPhone SE'),
+							'description'=>'iPhone 7, iPhone 6'),
 
 		'720x1280' => array('width' =>720, 'height'=>1280, 
 							'description'=>'Galaxy S3, HTC, Sony Xperia',

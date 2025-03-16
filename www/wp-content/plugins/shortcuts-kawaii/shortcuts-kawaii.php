@@ -20,7 +20,7 @@ if (!class_exists("ShortcutsKawaii"))
 		{ //constructor			
 		}
 
-		function do_shortcode_genres($atts, $content) 
+		public static function do_shortcode_genres($atts, $content) 
 		{
 			$siteURL=get_site_url();
 

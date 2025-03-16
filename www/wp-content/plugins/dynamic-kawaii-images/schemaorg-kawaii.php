@@ -5,7 +5,7 @@
 class SchemaOrgKawaii
 {
 
-	public function GetStructuredDataScriptBlock($url, $tc_title, $tc_description, $mainImageURL, $authorName, $datePublished, $dateUpdated)
+	public static function GetStructuredDataScriptBlock($url, $tc_title, $tc_description, $mainImageURL, $authorName, $datePublished, $dateUpdated)
 	{			
 		$res="
 <script type=\"application/ld+json\">

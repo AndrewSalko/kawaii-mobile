@@ -131,7 +131,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$imgURL=wp_get_attachment_url($imageID);
 
 			//full URL to attach page
-			$postPermLink=post_permalink($imageID);
+			$postPermLink=get_permalink($imageID);
 			$fileName = basename($imgURL);
 
 			//parts of file name..we need it later
@@ -181,18 +181,13 @@ if (!class_exists("DynamicKawaiiImages"))
 				$characters=$imgAlt;
 			}
 
-			$thumbImgAttr=array('alt' => $imgAlt);
-			$thumbImg=wp_get_attachment_image($imageID, 'medium', false, $thumbImgAttr); 
-
-			//$imgNode='<a href="'.$imgLink.'"><img class="image-autosize" src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
-			$imgNode='<a href="'.$imgLink.'">'.$thumbImg.'</a>';
-
+			$imgNode='<a href="'.$imgLink.'"><img class="image-autosize" src="'. $imgLink .'" alt="'. $imgAlt .'" title="'. $imgAlt. '" width="'.$imgWidth.'" height="'.$imgHeight.'"></img></a>';
 			return $imgNode;
 
 		}//CreateImageElement
 
 
-		function do_template_redirect()
+		public static function do_template_redirect()
 		{
 			global $wp_query;
 
@@ -221,7 +216,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				$attachID=prev($splittedValues);
 
 				//check if we have such attachID in our base:
-				$testPermLink=post_permalink($attachID);
+				$testPermLink=get_permalink($attachID);
 				if($testPermLink===FALSE)
 				{
 					$wp_query->set_404();
@@ -397,7 +392,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			//post perma link looks like:
 			//http://kawaii-mobile.org/2012/11/hagure-yuusha-no-estetica/aesthetica-of-a-rogue-hero-hagure-yuusha-no-estetica-miu-myuu-ousawa-haruka-nanase-320x480/
-			$postPermLink=post_permalink($imageID);
+			$postPermLink=get_permalink($imageID);
 			if($postPermLink===FALSE)
 			{
 				return;
@@ -513,7 +508,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 		}//do_template_redirect
 
-		function do_content($content)
+		public static function do_content($content)
 		{
 			global $post;
 
@@ -526,7 +521,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			$imgURL=wp_get_attachment_url($imageID);
 
 			//full URL to attach page
-			$postPermLink=post_permalink($imageID);
+			$postPermLink=get_permalink($imageID);
 			$fileName = basename($imgURL);
 
 			//parts of file name..we need it later
@@ -594,7 +589,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 			$content.="<p>".$descriptiveContent."</p>";
 
-			//$content.="<!--ATTACH_AD_REPLACEMENT-->";
+			$content.="<!--ATTACH_AD_REPLACEMENT-->";
 
 			$content.="<p>";
 
@@ -636,7 +631,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $content;
 		}//do_content
 
-		function do_get_title($title)
+		public static function do_get_title($title)
 		{
 			$url = $_SERVER['REQUEST_URI'];
 			if (strpos($url,'/custom-image/') == true)
@@ -709,7 +704,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			(substr($haystack, -$length) === $needle);
 		}
 
-		function do_wp_head()
+		public static function do_wp_head()
 		{
 			//блокируем пинтерест, так как он находится потом поиском google-images
 			//нам это не нужно (потеря траффика)
@@ -749,7 +744,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				}
 
 				//check if we have such attachID in our base:
-				$testPermLink=post_permalink($attachID);
+				$testPermLink=get_permalink($attachID);
 				if($testPermLink===FALSE)
 				{
 					return;
@@ -850,7 +845,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			}
 		}
 
-		function do_wp_footer()
+		public static function do_wp_footer()
 		{
 			//добавляем рекламные ссылки и кастом-баннеры
 			KawaiiAdvert::Footer();
@@ -858,7 +853,7 @@ if (!class_exists("DynamicKawaiiImages"))
 
 		// WordPress changes text (for example, 1080x1920 - char 'x'
 		// will be converted. We don't need this, so use this filter.
-		function do_no_texturize_tags($defaultTags)
+		public static function do_no_texturize_tags($defaultTags)
 		{
 			$defaultTags['a']='a';
 			$defaultTags['h2']='h2';
@@ -867,7 +862,7 @@ if (!class_exists("DynamicKawaiiImages"))
 			return $defaultTags;
 		}
 
-		function do_exclude_widget_categories($args)
+		public static function do_exclude_widget_categories($args)
 		{
 			//1672	//2019
 			//1673	//2018

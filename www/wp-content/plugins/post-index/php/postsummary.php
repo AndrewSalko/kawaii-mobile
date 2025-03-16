@@ -6,6 +6,7 @@ class PostSummary {
 	private $defaultCategory;
 	private $infoSeparator;
 	private $category;
+	private $showGroupCount;
 	
 	private $groupBy;
 	
@@ -40,14 +41,29 @@ class PostSummary {
 		return $this->postLabel[0];
 	}
 	
-	function parse($category_name, $groupBy, $categoryslug = '') {
-      $category = NULL;
-      if(empty($categoryslug)) {
-         $this->category = empty($category_name) ? $this->defaultCategory : $category_name;	
-         $category = get_category(get_cat_ID($this->category));
-      } else {
-         $category = get_category_by_slug($categoryslug);
-      }
+	function parse($category_name, $groupBy, $categoryslug = '') 
+	{
+		$category = NULL;
+		if(empty($categoryslug)) 
+		{
+        	 $this->category = empty($category_name) ? $this->defaultCategory : $category_name;	
+	         $category = get_category(get_cat_ID($this->category));
+      	}
+		else 
+		{
+			$category = get_category_by_slug($categoryslug);
+		}
+
+		 // Check if $category is a WP_Error or not a valid object before accessing term_id
+	    if (is_wp_error($category) || !is_object($category)) 
+		{
+			echo '$category_name:'.$category_name;
+			echo '$groupBy:'.$groupBy;
+			echo '$categoryslug:'.$categoryslug;
+        	// Handle the error - maybe log it or use a default category
+	        return; // Exit the function or handle appropriately
+	    }   
+
 		$categoryId = $category->term_id;
 		
 		query_posts( array ( 'cat' => $categoryId,
@@ -57,7 +73,7 @@ class PostSummary {
 		                   )
 		           );
 		           
-   	$this->items = NULL;
+	   	$this->items = NULL;
 		$this->groupBy = $groupBy;
 				
 		if($groupBy == 'subcategory') {
