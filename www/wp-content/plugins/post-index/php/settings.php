@@ -57,7 +57,8 @@
 
 		function CreateMenu() {
 
-			add_options_page($this->pluginLabel, $this->pluginLabel, 10, $this->pluginName, array($this, 'OptionsPage'));
+			//add_options_page($this->pluginLabel, $this->pluginLabel, 10, $this->pluginName, array($this, 'OptionsPage'));
+			add_options_page($this->pluginLabel, $this->pluginLabel, 'manage_options', $this->pluginName, array($this, 'OptionsPage'));
 
 		}	
 		
