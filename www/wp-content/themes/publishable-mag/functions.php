@@ -842,6 +842,21 @@ function publishable_mag_comparepage_css($hook) {
 }
 add_action( 'admin_enqueue_scripts', 'publishable_mag_comparepage_css' );
 
+
+
+function debug_has_cap_calls() {
+    add_action('deprecated_argument_run', function($function, $message, $version) {
+        if ($function === 'has_cap' && strpos($message, 'user levels') !== false) {
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+            error_log('Deprecated has_cap call detected. Backtrace: ' . print_r($backtrace, true));
+        }
+    }, 10, 3);
+}
+add_action('init', 'debug_has_cap_calls');
+
+
+
+
 /**
  * Compare page content
  */
