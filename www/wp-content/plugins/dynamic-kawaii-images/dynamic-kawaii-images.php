@@ -934,6 +934,7 @@ if (isset($pluginDynamicKawaiiImages))
 
 	//add_filter('post_class', array('DynamicKawaiiImages', 'do_post_class'),1);
 
+	add_filter( 'big_image_size_threshold', '__return_false' );
 }
 
 
