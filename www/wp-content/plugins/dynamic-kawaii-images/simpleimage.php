@@ -9,12 +9,21 @@ class SimpleImage
  	 
 	function free()
 	{
-		imagedestroy($image);
+		if ($this->image !== null) 
+		{
+			imagedestroy($this->image);
+			$this->image = null;
+		}
 	}
 
 	function load($filename) 
 	{
 		$image_info = getimagesize($filename);
+		if (!$image_info) 
+		{
+			throw new Exception("Unable to getimagesize: $filename");
+		}
+
 		$this->image_type = $image_info[2];
 		if( $this->image_type == IMAGETYPE_JPEG ) 
 		{
