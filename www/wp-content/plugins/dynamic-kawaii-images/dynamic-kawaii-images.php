@@ -359,7 +359,7 @@ if (!class_exists("DynamicKawaiiImages"))
 				return;
 			}
 
-			$refURL = $_SERVER['HTTP_REFERER'];
+			$refURL = $_SERVER['HTTP_REFERER'] ?? '';
 			if (!empty($refURL))
 			{
 				//проверим если это хотлинкер

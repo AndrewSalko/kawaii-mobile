@@ -108,6 +108,12 @@ class KawaiiAttachAndPostProperties
 		function SavePostMetaBoxes()
 		{
 			global $post;
+
+			if (!isset($post) || !is_object($post)) 
+			{
+				return;
+			}
+
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			{
 				return;
